@@ -1,0 +1,571 @@
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background-color: #000;
+}
+
+div {
+  position: absolute;
+}
+
+#container {
+  width: 600px;
+  height: 600px;
+  top: 20px;
+  left: 20px;
+}
+
+.boy {
+  width: 30px;
+  height: 52px;
+  background-image: url(img/sprite/boy.png);
+}
+
+.floor {
+  width: 40px;
+  height: 30px;
+  background-image: url(img/floor/floor.png);
+}
+
+.wall {
+  width: 30px;
+  height: 60px;
+}
+
+.nsw {
+  background-image: url(img/wall/nsWall.png);
+}
+
+.eww {
+  background-image: url(img/wall/ewWall.png);
+}
+
+.new {
+  background-image: url(img/wall/neWall.png);
+}
+
+.nww {
+  background-image: url(img/wall/nwWall.png);
+}
+
+.sew {
+  background-image: url(img/wall/seWall.png);
+}
+
+.sww {
+  background-image: url(img/wall/swWall.png);
+}
+
+.net {
+  background-image: url(img/wall/neWallT.png);
+}
+
+.nwt {
+  background-image: url(img/wall/nwWallT.png);
+}
+
+.set {
+  background-image: url(img/wall/seWallT.png);
+}
+
+.swt {
+  background-image: url(img/wall/swWallT.png);
+}
+
+.crt {
+  background-image: url(img/wall/centerWallT.png);
+}
+
+.swc {
+  background-image: url(img/wall/sWallCap.png);
+}
+
+.ewc {
+  background-image: url(img/wall/eWallCap.png);
+}
+
+.sec {
+  background-image: url(img/wall/seWallCap.png);
+}
+
+#f1-0 {
+  top: 70px;
+  left: 160px;
+  z-index: 0;
+}
+
+#f1-1 {
+  top: 80px;
+  left: 180px;
+  z-index: 1;
+}
+
+#f1-2 {
+  top: 90px;
+  left: 200px;
+  z-index: 2;
+}
+
+#f1-3 {
+  top: 100px;
+  left: 220px;
+  z-index: 3;
+}
+
+#f1-4 {
+  top: 110px;
+  left: 240px;
+  z-index: 4;
+}
+
+#f1-5 {
+  top: 120px;
+  left: 260px;
+  z-index: 5;
+}
+
+#f1-6 {
+  top: 130px;
+  left: 280px;
+  z-index: 6;
+}
+
+#f1-7 {
+  top: 140px;
+  left: 300px;
+  z-index: 7;
+}
+
+#f2-0 {
+  top: 80px;
+  left: 140px;
+  z-index: 1;
+}
+
+#f2-1 {
+  top: 90px;
+  left: 160px;
+  z-index: 2;
+}
+
+#f2-2 {
+  top: 100px;
+  left: 180px;
+  z-index: 3;
+}
+
+#f2-3 {
+  top: 110px;
+  left: 200px;
+  z-index: 4;
+}
+
+#f2-4 {
+  top: 120px;
+  left: 220px;
+  z-index: 5;
+}
+
+#f2-5 {
+  top: 130px;
+  left: 240px;
+  z-index: 6;
+}
+
+#f2-6 {
+  top: 140px;
+  left: 260px;
+  z-index: 7;
+}
+
+#f2-7 {
+  top: 150px;
+  left: 280px;
+  z-index: 8;
+}
+
+#f3-0 {
+  top: 90px;
+  left: 120px;
+  z-index: 2;
+}
+
+#f3-1 {
+  top: 100px;
+  left: 140px;
+  z-index: 3;
+}
+
+#f3-2 {
+  top: 110px;
+  left: 160px;
+  z-index: 4;
+}
+
+#f3-3 {
+  top: 120px;
+  left: 180px;
+  z-index: 5;
+}
+
+#f3-4 {
+  top: 130px;
+  left: 200px;
+  z-index: 6;
+}
+
+#f3-5 {
+  top: 140px;
+  left: 220px;
+  z-index: 7;
+}
+
+#f3-6 {
+  top: 150px;
+  left: 240px;
+  z-index: 8;
+}
+
+#f3-7 {
+  top: 160px;
+  left: 260px;
+  z-index: 9;
+}
+
+#f4-0 {
+  top: 100px;
+  left: 100px;
+  z-index: 3;
+}
+
+#f4-1 {
+  top: 110px;
+  left: 120px;
+  z-index: 4;
+}
+
+#f4-2 {
+  top: 120px;
+  left: 140px;
+  z-index: 5;
+}
+
+#f4-3 {
+  top: 130px;
+  left: 160px;
+  z-index: 6;
+}
+
+#f4-4 {
+  top: 140px;
+  left: 180px;
+  z-index: 7;
+}
+
+#f4-5 {
+  top: 150px;
+  left: 200px;
+  z-index: 8;
+}
+
+#f4-6 {
+  top: 160px;
+  left: 220px;
+  z-index: 9;
+}
+
+#f4-7 {
+  top: 170px;
+  left: 240px;
+  z-index: 10;
+}
+
+#f5-0 {
+  top: 110px;
+  left: 80px;
+  z-index: 4;
+}
+
+#f5-1 {
+  top: 120px;
+  left: 100px;
+  z-index: 5;
+}
+
+#f5-2 {
+  top: 130px;
+  left: 120px;
+  z-index: 6;
+}
+
+#f5-3 {
+  top: 140px;
+  left: 140px;
+  z-index: 7;
+}
+
+#f5-4 {
+  top: 150px;
+  left: 160px;
+  z-index: 8;
+}
+
+#f5-5 {
+  top: 160px;
+  left: 180px;
+  z-index: 9;
+}
+
+#f5-6 {
+  top: 170px;
+  left: 200px;
+  z-index: 10;
+}
+
+#f5-7 {
+  top: 180px;
+  left: 220px;
+  z-index: 11;
+}
+
+#f6-0 {
+  top: 120px;
+  left: 60px;
+  z-index: 5;
+}
+
+#f6-1 {
+  top: 130px;
+  left: 80px;
+  z-index: 6;
+}
+
+#f6-2 {
+  top: 140px;
+  left: 100px;
+  z-index: 7;
+}
+
+#f6-3 {
+  top: 150px;
+  left: 120px;
+  z-index: 8;
+}
+
+#f6-4 {
+  top: 160px;
+  left: 140px;
+  z-index: 9;
+}
+
+#f6-5 {
+  top: 170px;
+  left: 160px;
+  z-index: 10;
+}
+
+#f6-6 {
+  top: 180px;
+  left: 180px;
+  z-index: 11;
+}
+
+#f6-7 {
+  top: 190px;
+  left: 200px;
+  z-index: 12;
+}
+
+#w1-0 {
+  top: 28px;
+  left: 165px;
+  z-index: 1;
+}
+
+#w1-1 {
+  top: 38px;
+  left: 185px;
+  z-index: 2;
+}
+
+#w1-2 {
+  top: 48px;
+  left: 205px;
+  z-index: 3;
+}
+
+#w1-2c {
+  top: 48px;
+  left: 205px;
+  z-index: 3;
+}
+
+#w1-3 {
+  top: 58px;
+  left: 225px;
+  z-index: 4;
+}
+
+#w1-4 {
+  top: 68px;
+  left: 245px;
+  z-index: 5;
+}
+
+#w1-5 {
+  top: 78px;
+  left: 265px;
+  z-index: 6;
+}
+
+#w1-6 {
+  top: 88px;
+  left: 285px;
+  z-index: 7;
+}
+
+#w1-7 {
+  top: 98px;
+  left: 305px;
+  z-index: 8;
+}
+
+#w1-7c {
+  top: 98px;
+  left: 305px;
+  z-index: 8;
+}
+
+#w2-0 {
+  top: 38px;
+  left: 145px;
+  z-index: 2;
+  opacity: 1;
+}
+
+#w2-2 {
+  top: 58px;
+  left: 185px;
+  z-index: 4;
+  opacity: 1;
+}
+
+#w2-2c {
+  top: 58px;
+  left: 185px;
+  z-index: 4;
+  opacity: 1;
+}
+
+#w2-7 {
+  top: 108px;
+  left: 285px;
+  z-index: 9;
+  opacity: 1;
+}
+
+#w3-0 {
+  top: 48px;
+  left: 125px;
+  z-index: 3;
+  opacity: 1;
+}
+
+#w3-7 {
+  top: 118px;
+  left: 265px;
+  z-index: 10;
+  opacity: 1;
+}
+
+#w4-0 {
+  top: 58px;
+  left: 105px;
+  z-index: 4;
+  opacity: 1;
+}
+
+#w4-2 {
+  top: 78px;
+  left: 145px;
+  z-index: 6;
+  opacity: 1;
+}
+
+#w4-7 {
+  top: 128px;
+  left: 245px;
+  z-index: 11;
+  opacity: 1;
+}
+
+#w5-0 {
+  top: 68px;
+  left: 85px;
+  z-index: 5;
+  opacity: 1;
+}
+
+#w5-2 {
+  top: 88px;
+  left: 125px;
+  z-index: 7;
+  opacity: 1;
+}
+
+#w5-2c {
+  top: 88px;
+  left: 125px;
+  z-index: 7;
+  opacity: 1;
+}
+
+#w5-3 {
+  top: 98px;
+  left: 145px;
+  z-index: 8;
+  opacity: 1;
+}
+
+#w5-4 {
+  top: 108px;
+  left: 165px;
+  z-index: 9;
+  opacity: 1;
+}
+
+#w5-5 {
+  top: 118px;
+  left: 185px;
+  z-index: 10;
+  opacity: 1;
+}
+
+#w5-6 {
+  top: 128px;
+  left: 205px;
+  z-index: 11;
+  opacity: 1;
+}
+
+#w5-7 {
+  top: 138px;
+  left: 225px;
+  z-index: 12;
+  opacity: 1;
+}
+
+#w5-7c {
+  top: 138px;
+  left: 225px;
+  z-index: 12;
+  opacity: 1;
+}
+
+#w6-0 {
+  top: 78px;
+  left: 65px;
+  z-index: 6;
+  opacity: 1;
+}
