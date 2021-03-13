@@ -19,13 +19,13 @@ div {
 .boy {
   width: 30px;
   height: 52px;
-  background-image: url(img/sprite/boy.png);
+  background-image: url(../img/sprite/boy.png);
 }
 
 .floor {
   width: 40px;
   height: 30px;
-  background-image: url(img/floor/floor.png);
+  background-image: url(../img/floor/floor.png);
 }
 
 .wall {
@@ -34,59 +34,59 @@ div {
 }
 
 .nsw {
-  background-image: url(img/wall/nsWall.png);
+  background-image: url(../img/wall/nsWall.png);
 }
 
 .eww {
-  background-image: url(img/wall/ewWall.png);
+  background-image: url(../img/wall/ewWall.png);
 }
 
 .new {
-  background-image: url(img/wall/neWall.png);
+  background-image: url(../img/wall/neWall.png);
 }
 
 .nww {
-  background-image: url(img/wall/nwWall.png);
+  background-image: url(../img/wall/nwWall.png);
 }
 
 .sew {
-  background-image: url(img/wall/seWall.png);
+  background-image: url(../img/wall/seWall.png);
 }
 
 .sww {
-  background-image: url(img/wall/swWall.png);
+  background-image: url(../img/wall/swWall.png);
 }
 
 .net {
-  background-image: url(img/wall/neWallT.png);
+  background-image: url(../img/wall/neWallT.png);
 }
 
 .nwt {
-  background-image: url(img/wall/nwWallT.png);
+  background-image: url(../img/wall/nwWallT.png);
 }
 
 .set {
-  background-image: url(img/wall/seWallT.png);
+  background-image: url(../img/wall/seWallT.png);
 }
 
 .swt {
-  background-image: url(img/wall/swWallT.png);
+  background-image: url(../img/wall/swWallT.png);
 }
 
 .crt {
-  background-image: url(img/wall/centerWallT.png);
+  background-image: url(../img/wall/centerWallT.png);
 }
 
 .swc {
-  background-image: url(img/wall/sWallCap.png);
+  background-image: url(../img/wall/sWallCap.png);
 }
 
 .ewc {
-  background-image: url(img/wall/eWallCap.png);
+  background-image: url(../img/wall/eWallCap.png);
 }
 
 .sec {
-  background-image: url(img/wall/seWallCap.png);
+  background-image: url(../img/wall/seWallCap.png);
 }
 
 #f1-0 {
