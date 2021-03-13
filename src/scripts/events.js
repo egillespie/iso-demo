@@ -1,4 +1,40 @@
-const boy = document.getElementById('boy1')
+const player = document.getElementById('player')
+
+const PLAYER_X_ADJUST = 20
+const PLAYER_Y_ADJUST = 10
+const PLAYER_Z_ADJUST = 1
+
+const WEST = {
+  gridxAdjust: -1,
+  gridyAdjust: 0,
+  relx: -PLAYER_X_ADJUST,
+  rely: -PLAYER_Y_ADJUST,
+  relz: -PLAYER_Z_ADJUST
+}
+
+const NORTH = {
+  gridxAdjust: 0,
+  gridyAdjust: -1,
+  relx: PLAYER_X_ADJUST,
+  rely: -PLAYER_Y_ADJUST,
+  relz: -PLAYER_Z_ADJUST
+}
+
+const EAST = {
+  gridxAdjust: 1,
+  gridyAdjust: 0,
+  relx: PLAYER_X_ADJUST,
+  rely: PLAYER_Y_ADJUST,
+  relz: PLAYER_Z_ADJUST
+}
+
+const SOUTH = {
+  gridxAdjust: 0,
+  gridyAdjust: 1,
+  relx: -PLAYER_X_ADJUST,
+  rely: PLAYER_Y_ADJUST,
+  relz: PLAYER_Z_ADJUST
+}
 
 function onKeyDown (event) {
   switch (event.code) {
@@ -9,27 +45,27 @@ function onKeyDown (event) {
       break
     case 'KeyA':
     case 'ArrowLeft':
-      // Move up and left
+      // Move west (up and left)
       event.preventDefault()
-      moveRel(boy.gridx - 1, boy.gridy, -20, -10, -1)
+      moveCardinal(WEST)
       break
     case 'KeyW':
     case 'ArrowUp':
-      // Move up and right
+      // Move north (up and right)
       event.preventDefault()
-      moveRel(boy.gridx, boy.gridy - 1, 20, -10, -1)
+      moveCardinal(NORTH)
       break
     case 'KeyD':
     case 'ArrowRight':
-      // Move down and right
+      // Move east (down and right)
       event.preventDefault()
-      moveRel(boy.gridx + 1, boy.gridy, 20, 10, 1)
+      moveCardinal(EAST)
       break
     case 'KeyS':
     case 'ArrowDown':
-      // Move down and left
+      // Move south (down and left)
       event.preventDefault()
-      moveRel(boy.gridx, boy.gridy + 1, -20, 10, 1)
+      moveCardinal(SOUTH)
       break
   }
 }
@@ -51,24 +87,32 @@ function canMoveTo (x, y) {
   return !document.getElementById('w' + y + '-' + x)
 }
 
-function moveRel (x, y, relx, rely, relz) {
-  if (canMoveTo(x, y)) {
-    boy.style.top = (parseInt(boy.style.top) + rely) + 'px'
-    boy.style.left = (parseInt(boy.style.left) + relx) + 'px'
-    boy.style.zIndex = parseInt(boy.style.zIndex) + relz
-    boy.gridx = x
-    boy.gridy = y
+function moveTo ({ top, left, zIndex, gridx, gridy }) {
+  if (canMoveTo(gridx, gridy)) {
+    player.style.top = top + 'px'
+    player.style.left = left + 'px'
+    player.style.zIndex = zIndex
+    player.gridx = gridx
+    player.gridy = gridy
   }
 }
 
-function init () {
-  boy.style.top = '112px'
-  boy.style.left = '205px'
-  boy.style.zIndex = 9
-  boy.gridx = 5
-  boy.gridy = 4
-
-  window.addEventListener('keydown', onKeyDown)
+function moveCardinal (dir) {
+  moveTo({
+    top: parseInt(player.style.top) + dir.rely,
+    left: parseInt(player.style.left) + dir.relx,
+    zIndex: parseInt(player.style.zIndex) + dir.relz,
+    gridx: player.gridx + dir.gridxAdjust,
+    gridy: player.gridy + dir.gridyAdjust
+  })
 }
 
-init()
+moveTo({
+  top: 112,
+  left: 205,
+  zIndex: 9,
+  gridx: 5,
+  gridy: 4
+})
+
+window.addEventListener('keydown', onKeyDown)
