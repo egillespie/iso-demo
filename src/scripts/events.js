@@ -1,42 +1,48 @@
 const boy = document.getElementById('boy1')
 
-function onKeyPress (e) {
-  const keynum = window.event ? e.keyCode : e.which
-
-  switch (keynum) {
-    case 111: // o = see through walls
+function onKeyDown (event) {
+  switch (event.code) {
+    case 'KeyO':
+      // Toggle translucent/solid walls
+      event.preventDefault()
       toggleOpacity()
       break
-    case 106: // j = west
+    case 'KeyA':
+    case 'ArrowLeft':
+      // Move up and left
+      event.preventDefault()
       moveRel(boy.gridx - 1, boy.gridy, -20, -10, -1)
       break
-    case 105: // i = north
+    case 'KeyW':
+    case 'ArrowUp':
+      // Move up and right
+      event.preventDefault()
       moveRel(boy.gridx, boy.gridy - 1, 20, -10, -1)
       break
-    case 108: // l = east
+    case 'KeyD':
+    case 'ArrowRight':
+      // Move down and right
+      event.preventDefault()
       moveRel(boy.gridx + 1, boy.gridy, 20, 10, 1)
       break
-    case 107: // k = south
+    case 'KeyS':
+    case 'ArrowDown':
+      // Move down and left
+      event.preventDefault()
       moveRel(boy.gridx, boy.gridy + 1, -20, 10, 1)
       break
   }
-  return 0
 }
 
 function toggleOpacity () {
-  const elems = document.getElementsByTagName('div')
+  const walls = document.getElementsByClassName('wall')
 
-  for (let i = 0; i < elems.length; i++) {
+  for (const wall of walls) {
     if (
-      elems[i].className.substring(0, 4) === 'wall' &&
-      elems[i].id.substring(0, 2) !== 'w1' &&
-      elems[i].id.substring(3, 4) !== '0'
+      wall.id.substring(0, 2) !== 'w1' &&
+      wall.id.substring(3, 4) !== '0'
     ) {
-      if (!elems[i].style.opacity || elems[i].style.opacity === 'none') {
-        elems[i].style.opacity = 0.4
-      } else {
-        elems[i].style.opacity = 1.0
-      }
+      wall.classList.toggle('translucent')
     }
   }
 }
@@ -62,7 +68,7 @@ function init () {
   boy.gridx = 5
   boy.gridy = 4
 
-  document.body.addEventListener('keypress', onKeyPress)
+  window.addEventListener('keydown', onKeyDown)
 }
 
 init()

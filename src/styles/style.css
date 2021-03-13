@@ -16,6 +16,10 @@ div {
   left: 20px;
 }
 
+.translucent {
+  opacity: 0.4;
+}
+
 .boy {
   width: 30px;
   height: 52px;
@@ -441,131 +445,112 @@ div {
   top: 38px;
   left: 145px;
   z-index: 2;
-  opacity: 1;
 }
 
 #w2-2 {
   top: 58px;
   left: 185px;
   z-index: 4;
-  opacity: 1;
 }
 
 #w2-2c {
   top: 58px;
   left: 185px;
   z-index: 4;
-  opacity: 1;
 }
 
 #w2-7 {
   top: 108px;
   left: 285px;
   z-index: 9;
-  opacity: 1;
 }
 
 #w3-0 {
   top: 48px;
   left: 125px;
   z-index: 3;
-  opacity: 1;
 }
 
 #w3-7 {
   top: 118px;
   left: 265px;
   z-index: 10;
-  opacity: 1;
 }
 
 #w4-0 {
   top: 58px;
   left: 105px;
   z-index: 4;
-  opacity: 1;
 }
 
 #w4-2 {
   top: 78px;
   left: 145px;
   z-index: 6;
-  opacity: 1;
 }
 
 #w4-7 {
   top: 128px;
   left: 245px;
   z-index: 11;
-  opacity: 1;
 }
 
 #w5-0 {
   top: 68px;
   left: 85px;
   z-index: 5;
-  opacity: 1;
 }
 
 #w5-2 {
   top: 88px;
   left: 125px;
   z-index: 7;
-  opacity: 1;
 }
 
 #w5-2c {
   top: 88px;
   left: 125px;
   z-index: 7;
-  opacity: 1;
 }
 
 #w5-3 {
   top: 98px;
   left: 145px;
   z-index: 8;
-  opacity: 1;
 }
 
 #w5-4 {
   top: 108px;
   left: 165px;
   z-index: 9;
-  opacity: 1;
 }
 
 #w5-5 {
   top: 118px;
   left: 185px;
   z-index: 10;
-  opacity: 1;
 }
 
 #w5-6 {
   top: 128px;
   left: 205px;
   z-index: 11;
-  opacity: 1;
 }
 
 #w5-7 {
   top: 138px;
   left: 225px;
   z-index: 12;
-  opacity: 1;
 }
 
 #w5-7c {
   top: 138px;
   left: 225px;
   z-index: 12;
-  opacity: 1;
 }
 
 #w6-0 {
   top: 78px;
   left: 65px;
   z-index: 6;
-  opacity: 1;
 }
