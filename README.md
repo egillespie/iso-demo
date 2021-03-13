@@ -4,7 +4,7 @@ Demonstrates how to create an isometric room with a moveable character using
 no frameworks and minimal JavaScript. All of the work is in specially crafted
 wall images.
 
-You can view the demo at https://egillespie.github.io/iso-demo/
+You can view the demo at https://iso-demo.netlify.app
 
 ## Usage
 
