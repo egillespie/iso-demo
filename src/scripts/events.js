@@ -1,14 +1,15 @@
 const space = [
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null]
+  [[], [], [], [], [], [], [], []],
+  [['nww'], ['nsw'], ['net', 'swc'], ['nsw'], ['nsw'], ['nsw'], ['nsw'], ['new', 'swc']],
+  [['eww'], [], ['eww', 'swc'], [], [], [], [], ['eww']],
+  [['eww'], [], [], [], [], [], [], ['eww']],
+  [['eww'], [], ['eww'], [], [], [], [], ['eww']],
+  [['eww'], [], ['nwt', 'swc'], ['nsw'], ['nsw'], ['nsw'], ['nsw'], ['sew']],
+  [['eww'], [], [], [], [], [], [], []],
+  [['sww'], ['nsw'], ['swt'], ['nsw'], ['nsw', 'ewc'], [], [], []]
 ]
 
-const container = document.getElementById('container')
+const renderWindow = document.getElementById('render-window')
 const player = document.getElementById('player')
 
 const FLOOR_WIDTH = 40
@@ -18,6 +19,11 @@ const FLOOR_LIFT = 10
 const WALL_WIDTH = 30
 const WALL_HEIGHT = 60
 const WALL_LIFT = 2
+
+const FLOOR_TOP_ADJUST = (FLOOR_HEIGHT - FLOOR_LIFT) / 2
+const FLOOR_LEFT_ADJUST = FLOOR_WIDTH / 2
+const WALL_TOP_ADJUST = WALL_HEIGHT - FLOOR_HEIGHT + FLOOR_LIFT + WALL_LIFT
+const WALL_LEFT_ADJUST = (FLOOR_WIDTH - WALL_WIDTH) / 2
 
 const PLAYER_X_ADJUST = FLOOR_WIDTH / 2
 const PLAYER_Y_ADJUST = (FLOOR_HEIGHT - FLOOR_LIFT) / 2
@@ -94,17 +100,11 @@ function toggleOpacity () {
 
   for (const wall of walls) {
     wall.classList.toggle('translucent')
-    // if (
-    //   wall.id.substring(0, 2) !== 'w1' &&
-    //   wall.id.substring(3, 4) !== '0'
-    // ) {
-    //   wall.classList.toggle('translucent')
-    // }
   }
 }
 
 function canMoveTo (x, y) {
-  return !document.getElementById('w' + y + '-' + x)
+  return !document.getElementById(`w${y}-${x}.0`)
 }
 
 function moveTo ({ top, left, zIndex, gridx, gridy }) {
@@ -128,17 +128,17 @@ function moveCardinal (dir) {
 }
 
 function insertSprite (node) {
-  container.insertBefore(node, player)
+  renderWindow.insertBefore(node, player)
 }
 
 function floorTop (row, col) {
-  return 60 + ((row + col) * (FLOOR_HEIGHT - FLOOR_LIFT) / 2)
+  return 60 + ((row + col) * FLOOR_TOP_ADJUST)
 }
 
 function floorLeft (row, col) {
   const lastRow = space.length - 1
-  const rowLeft = 60 + ((lastRow - row) * FLOOR_WIDTH / 2)
-  return rowLeft + col * FLOOR_WIDTH / 2
+  const rowLeft = 60 + ((lastRow - row) * FLOOR_LEFT_ADJUST)
+  return rowLeft + col * FLOOR_LEFT_ADJUST
 }
 
 function floorZIndex (row, col) {
@@ -159,16 +159,52 @@ function createFloors () {
   for (let row = 0; row < space.length; row++) {
     for (let col = 0; col < space[row].length; col++) {
       const floor = createFloor(row, col)
-      if (row === 1 && col === 0) {
-        console.log(floor)
-      }
       insertSprite(floor)
+    }
+  }
+}
+
+function wallTop (row, col) {
+  return floorTop(row, col) - WALL_TOP_ADJUST
+}
+
+function wallLeft (row, col) {
+  return floorLeft(row, col) + WALL_LEFT_ADJUST
+}
+
+function wallZIndex (row, col) {
+  return floorZIndex(row, col) + 1
+}
+
+function createWallSegment (type, row, col, index) {
+  const segment = document.createElement('div')
+  segment.id = `w${row}-${col}.${index}`
+  segment.classList.add('wall', type)
+  segment.style.top = wallTop(row, col) + 'px'
+  segment.style.left = wallLeft(row, col) + 'px'
+  segment.style.zIndex = wallZIndex(row, col)
+  return segment
+}
+
+function createWall (row, col) {
+  const wallSegments = space[row][col]
+  return wallSegments.map(
+    (segmentType, index) => createWallSegment(segmentType, row, col, index)
+  )
+}
+
+function createWalls () {
+  for (let row = 0; row < space.length; row++) {
+    for (let col = 0; col < space[row].length; col++) {
+      const wall = createWall(row, col)
+      wall.forEach((wallSegment) => insertSprite(wallSegment))
     }
   }
 }
 
 function createRoom () {
   createFloors()
+  createWalls()
 }
 
 createRoom()
