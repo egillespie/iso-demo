@@ -1,6 +1,6 @@
 const space = [
   [[], [], [], [], [], [], [], []],
-  [['nww'], ['nsw'], ['net', 'swc'], ['nsw'], ['nsw'], ['nsw'], ['nsw'], ['new', 'swc']],
+  [['nww'], ['nsw'], ['net'], ['nsw'], ['nsw'], ['nsw'], ['nsw'], ['new']],
   [['eww'], [], ['eww', 'swc'], [], [], [], [], ['eww']],
   [['eww'], [], [], [], [], [], [], ['eww']],
   [['eww'], [], ['eww'], [], [], [], [], ['eww']],
@@ -20,46 +20,23 @@ const WALL_WIDTH = 30
 const WALL_HEIGHT = 60
 const WALL_LIFT = 2
 
+const PLAYER_WIDTH = 30
+const PLAYER_HEIGHT = 52
+const PLAYER_LIFT = 6
+
 const FLOOR_TOP_ADJUST = (FLOOR_HEIGHT - FLOOR_LIFT) / 2
 const FLOOR_LEFT_ADJUST = FLOOR_WIDTH / 2
+
 const WALL_TOP_ADJUST = WALL_HEIGHT - FLOOR_HEIGHT + FLOOR_LIFT + WALL_LIFT
 const WALL_LEFT_ADJUST = (FLOOR_WIDTH - WALL_WIDTH) / 2
 
-const PLAYER_X_ADJUST = FLOOR_WIDTH / 2
-const PLAYER_Y_ADJUST = (FLOOR_HEIGHT - FLOOR_LIFT) / 2
-const PLAYER_Z_ADJUST = 1
+const PLAYER_TOP_ADJUST = PLAYER_HEIGHT - FLOOR_HEIGHT + FLOOR_LIFT + PLAYER_LIFT
+const PLAYER_LEFT_ADJUST = (FLOOR_WIDTH - PLAYER_WIDTH) / 2
 
-const WEST = {
-  gridxAdjust: -1,
-  gridyAdjust: 0,
-  relx: -PLAYER_X_ADJUST,
-  rely: -PLAYER_Y_ADJUST,
-  relz: -PLAYER_Z_ADJUST
-}
-
-const NORTH = {
-  gridxAdjust: 0,
-  gridyAdjust: -1,
-  relx: PLAYER_X_ADJUST,
-  rely: -PLAYER_Y_ADJUST,
-  relz: -PLAYER_Z_ADJUST
-}
-
-const EAST = {
-  gridxAdjust: 1,
-  gridyAdjust: 0,
-  relx: PLAYER_X_ADJUST,
-  rely: PLAYER_Y_ADJUST,
-  relz: PLAYER_Z_ADJUST
-}
-
-const SOUTH = {
-  gridxAdjust: 0,
-  gridyAdjust: 1,
-  relx: -PLAYER_X_ADJUST,
-  rely: PLAYER_Y_ADJUST,
-  relz: PLAYER_Z_ADJUST
-}
+const WEST = { colAdjust: -1, rowAdjust: 0 }
+const NORTH = { colAdjust: 0, rowAdjust: -1 }
+const EAST = { colAdjust: 1, rowAdjust: 0 }
+const SOUTH = { colAdjust: 0, rowAdjust: 1 }
 
 function onKeyDown (event) {
   switch (event.code) {
@@ -97,34 +74,39 @@ function onKeyDown (event) {
 
 function toggleOpacity () {
   const walls = document.getElementsByClassName('wall')
-
   for (const wall of walls) {
     wall.classList.toggle('translucent')
   }
 }
 
-function canMoveTo (x, y) {
-  return !document.getElementById(`w${y}-${x}.0`)
+function playerTop (row, col) {
+  return floorTop(row, col) - PLAYER_TOP_ADJUST
 }
 
-function moveTo ({ top, left, zIndex, gridx, gridy }) {
-  if (canMoveTo(gridx, gridy)) {
-    player.style.top = top + 'px'
-    player.style.left = left + 'px'
-    player.style.zIndex = zIndex
-    player.gridx = gridx
-    player.gridy = gridy
+function playerLeft (row, col) {
+  return floorLeft(row, col) + PLAYER_LEFT_ADJUST
+}
+
+function playerZIndex (row, col) {
+  return floorZIndex(row, col)
+}
+
+function canMoveTo (row, col) {
+  return !document.getElementById(`w${row}-${col}.0`)
+}
+
+function moveTo (row, col) {
+  if (canMoveTo(row, col)) {
+    player.style.top = playerTop(row, col) + 'px'
+    player.style.left = playerLeft(row, col) + 'px'
+    player.style.zIndex = playerZIndex(row, col)
+    player.col = col
+    player.row = row
   }
 }
 
 function moveCardinal (dir) {
-  moveTo({
-    top: parseInt(player.style.top) + dir.rely,
-    left: parseInt(player.style.left) + dir.relx,
-    zIndex: parseInt(player.style.zIndex) + dir.relz,
-    gridx: player.gridx + dir.gridxAdjust,
-    gridy: player.gridy + dir.gridyAdjust
-  })
+  moveTo(player.row + dir.rowAdjust, player.col + dir.colAdjust)
 }
 
 function insertSprite (node) {
@@ -208,13 +190,6 @@ function createRoom () {
 }
 
 createRoom()
-
-moveTo({
-  top: 112,
-  left: 205,
-  zIndex: 9,
-  gridx: 5,
-  gridy: 4
-})
+moveTo(4, 5)
 
 window.addEventListener('keydown', onKeyDown)
