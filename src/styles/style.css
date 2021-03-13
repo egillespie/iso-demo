@@ -23,7 +23,7 @@ div {
 .player {
   width: 30px;
   height: 52px;
-  background-image: url(../img/sprite/boy.png);
+  background-image: url(../img/sprite/girl.png);
 }
 
 .floor {
