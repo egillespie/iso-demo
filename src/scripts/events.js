@@ -1,3 +1,18 @@
+/*
+const map = [
+  '........',
+  'wwwwwwww',
+  'w.w....w',
+  'w......w',
+  'w.w....w',
+  'w.wwwwww',
+  'w.d.....',
+  'wwwww...'
+]
+
+const spaces = mapToWallSegments(map)
+*/
+
 const space = [
   [[], [], [], [], [], [], [], []],
   [['nww'], ['nsw'], ['net'], ['nsw'], ['nsw'], ['nsw'], ['nsw'], ['new']],
@@ -10,7 +25,12 @@ const space = [
 ]
 
 const renderWindow = document.getElementById('render-window')
+
 const player = document.getElementById('player')
+
+const gameState = {
+  seeThroughWalls: false
+}
 
 const FLOOR_WIDTH = 40
 const FLOOR_HEIGHT = 30
@@ -78,10 +98,70 @@ function onKeyDown (event) {
 }
 
 function toggleOpacity () {
-  const walls = document.getElementsByClassName('wall')
-  for (const wall of walls) {
-    wall.classList.toggle('translucent')
+  gameState.seeThroughWalls = !gameState.seeThroughWalls
+  if (gameState.seeThroughWalls) {
+    adjustPlayerVisibility([player.row, player.col])
+  } else {
+    const walls = document.getElementsByClassName('wall')
+    for (const wall of walls) {
+      wall.classList.remove('translucent')
+    }
   }
+}
+
+function getWallClipPositions (originRow, originCol) {
+  const positions = []
+  const maxRow = Math.min(originRow + 2, space.length - 1)
+  for (let row = originRow; row <= maxRow; row++) {
+    const maxCol = Math.min(originCol + 2, space[row].length - 1)
+    for (let col = originCol; col <= maxCol; col++) {
+      if (row !== originRow || col !== originCol) {
+        positions.push([row, col])
+      }
+    }
+  }
+  return positions
+}
+
+function arrayDifference (array1, array2) {
+  const diff1 = array1.filter(item1 => {
+    const str1 = JSON.stringify(item1)
+    return !array2.map((item2) => JSON.stringify(item2)).includes(str1)
+  })
+  const diff2 = array2.filter((item2) => {
+    const str2 = JSON.stringify(item2)
+    return !array1.map((item1) => JSON.stringify(item1)).includes(str2)
+  })
+  return [...diff1, ...diff2]
+}
+
+function toggleWallOpacity (positions) {
+  for (const position of positions) {
+    const [row, col] = position
+    const walls = document.querySelectorAll(`.wall[id^="w${row}-${col}."]`)
+    for (const wall of walls) {
+      wall.classList.toggle('translucent')
+    }
+  }
+}
+
+function adjustPlayerVisibility (currentPosition, oldPosition) {
+  if (!gameState.seeThroughWalls) return
+
+  const [currentRow, currentCol] = currentPosition
+  const currentClipPositions = getWallClipPositions(currentRow, currentCol)
+  const allClipPositions = []
+  if (oldPosition) {
+    const [oldRow, oldCol] = oldPosition
+    const oldClipPositions = getWallClipPositions(oldRow, oldCol)
+    const changedPositions = arrayDifference(
+      currentClipPositions, oldClipPositions
+    )
+    allClipPositions.push(...changedPositions)
+  } else {
+    allClipPositions.push(...currentClipPositions)
+  }
+  toggleWallOpacity(allClipPositions)
 }
 
 function togglePlayerImage () {
@@ -110,6 +190,7 @@ function movePlayerTo (row, col) {
     repositionSprite(
       player, playerTop(row, col), playerLeft(row, col), playerZIndex(row, col)
     )
+    adjustPlayerVisibility([row, col], [player.row, player.col])
     player.col = col
     player.row = row
   }
