@@ -144,6 +144,10 @@ function toggleWallOpacity (positions) {
     if (wall) {
       wall.classList.toggle('translucent')
     }
+    const cap = document.getElementById(`c${row}-${col}`)
+    if (cap) {
+      cap.classList.toggle('translucent')
+    }
   }
 }
 
@@ -210,7 +214,11 @@ function repositionSprite (sprite, top, left, zIndex) {
 
 function insertSprite (node) {
   if (node) {
-    renderWindow.insertBefore(node, player)
+    if (Array.isArray(node)) {
+      node.forEach(sprite => renderWindow.insertBefore(sprite, player))
+    } else {
+      renderWindow.insertBefore(node, player)
+    }
   }
 }
 
@@ -246,6 +254,70 @@ function createFloors () {
   }
 }
 
+function createCap (type, row, col) {
+  const cap = document.createElement('div')
+  cap.id = `c${row}-${col}`
+  cap.classList.add('cap', type)
+  repositionSprite(
+    cap, wallTop(row, col), wallLeft(row, col), wallZIndex(row, col)
+  )
+  return cap
+}
+
+function isSpaceVisible (row, col) {
+  if (space[row][col]) {
+    const wall = document.getElementById(`w${row}-${col}`)
+    return wall && wall.classList.contains('translucent')
+  }
+  return true
+}
+
+function getExposedCapType (row, col) {
+  const wallType = space[row][col]
+  switch (wallType) {
+    case 'eww':
+    case 'new':
+    case 'set':
+      // South-facing wall cap
+      if (row === space.length - 1 || isSpaceVisible(row + 1, col)) {
+        return 'swc'
+      }
+      break
+    case 'nsw':
+    case 'sww':
+    case 'swt':
+      // East-facing wall cap
+      if (col === space[row].length - 1 || isSpaceVisible(row, col + 1)) {
+        return 'ewc'
+      }
+      break
+    case 'crt':
+    case 'net':
+    case 'nww':
+    case 'nwt': {
+      // South- and east-facing wall caps
+      const swc = (row === space.length - 1 || isSpaceVisible(row + 1, col))
+      const ewc = col === space[row].length - 1 || isSpaceVisible(row, col + 1)
+      if (swc && ewc) {
+        return 'sec'
+      } else if (swc) {
+        return 'swc'
+      } else if (ewc) {
+        return 'ewc'
+      }
+      break
+    }
+  }
+  return null
+}
+
+function createCapIfExposed (row, col) {
+  const capType = getExposedCapType(row, col)
+  if (capType) {
+    return createCap(capType, row, col)
+  }
+}
+
 function wallTop (row, col) {
   return floorTop(row, col) - WALL_TOP_ADJUST
 }
@@ -267,7 +339,8 @@ function createWall (row, col) {
     repositionSprite(
       wall, wallTop(row, col), wallLeft(row, col), wallZIndex(row, col)
     )
-    return wall
+    const cap = createCapIfExposed(row, col)
+    return cap ? [wall, cap] : wall
   }
 }
 

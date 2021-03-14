@@ -44,6 +44,11 @@ div {
   height: 60px;
 }
 
+.cap {
+  width: 30px;
+  height: 60px;
+}
+
 .nsw {
   background-image: url(../img/wall/nsWall.png);
 }
