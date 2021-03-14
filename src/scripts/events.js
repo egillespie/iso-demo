@@ -101,22 +101,28 @@ function playerZIndex (row, col) {
   return floorZIndex(row, col)
 }
 
-function canMoveTo (row, col) {
+function canMovePlayerTo (row, col) {
   return !document.getElementById(`w${row}-${col}.0`)
 }
 
-function moveTo (row, col) {
-  if (canMoveTo(row, col)) {
-    player.style.top = playerTop(row, col) + 'px'
-    player.style.left = playerLeft(row, col) + 'px'
-    player.style.zIndex = playerZIndex(row, col)
+function movePlayerTo (row, col) {
+  if (canMovePlayerTo(row, col)) {
+    repositionSprite(
+      player, playerTop(row, col), playerLeft(row, col), playerZIndex(row, col)
+    )
     player.col = col
     player.row = row
   }
 }
 
 function moveCardinal (dir) {
-  moveTo(player.row + dir.rowAdjust, player.col + dir.colAdjust)
+  movePlayerTo(player.row + dir.rowAdjust, player.col + dir.colAdjust)
+}
+
+function repositionSprite (sprite, top, left, zIndex) {
+  sprite.style.top = top + 'px'
+  sprite.style.left = left + 'px'
+  sprite.style.zIndex = zIndex
 }
 
 function insertSprite (node) {
@@ -141,9 +147,9 @@ function createFloor (row, col) {
   const floor = document.createElement('div')
   floor.id = `f${row}-${col}`
   floor.classList.add('floor')
-  floor.style.top = floorTop(row, col) + 'px'
-  floor.style.left = floorLeft(row, col) + 'px'
-  floor.style.zIndex = floorZIndex(row, col)
+  repositionSprite(
+    floor, floorTop(row, col), floorLeft(row, col), floorZIndex(row, col)
+  )
   return floor
 }
 
@@ -172,9 +178,9 @@ function createWallSegment (type, row, col, index) {
   const segment = document.createElement('div')
   segment.id = `w${row}-${col}.${index}`
   segment.classList.add('wall', type)
-  segment.style.top = wallTop(row, col) + 'px'
-  segment.style.left = wallLeft(row, col) + 'px'
-  segment.style.zIndex = wallZIndex(row, col)
+  repositionSprite(
+    segment, wallTop(row, col), wallLeft(row, col), wallZIndex(row, col)
+  )
   return segment
 }
 
@@ -197,9 +203,9 @@ function createWalls () {
 function createRoom () {
   createFloors()
   createWalls()
+  movePlayerTo(4, 5)
 }
 
 createRoom()
-moveTo(4, 5)
 
 window.addEventListener('keydown', onKeyDown)
