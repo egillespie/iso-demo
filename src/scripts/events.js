@@ -45,6 +45,11 @@ function onKeyDown (event) {
       event.preventDefault()
       toggleOpacity()
       break
+    case 'KeyP':
+      // Toggle player image
+      event.preventDefault()
+      togglePlayerImage()
+      break
     case 'KeyA':
     case 'ArrowLeft':
       // Move west (up and left)
@@ -77,6 +82,11 @@ function toggleOpacity () {
   for (const wall of walls) {
     wall.classList.toggle('translucent')
   }
+}
+
+function togglePlayerImage () {
+  player.classList.toggle('boy')
+  player.classList.toggle('girl')
 }
 
 function playerTop (row, col) {
