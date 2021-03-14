@@ -32,6 +32,8 @@ const gameState = {
   seeThroughWalls: false
 }
 
+const VISIBLE_RADIUS = 3
+
 const FLOOR_WIDTH = 40
 const FLOOR_HEIGHT = 30
 const FLOOR_LIFT = 10
@@ -111,9 +113,9 @@ function toggleOpacity () {
 
 function getWallClipPositions (originRow, originCol) {
   const positions = []
-  const maxRow = Math.min(originRow + 2, space.length - 1)
+  const maxRow = Math.min(originRow + VISIBLE_RADIUS, space.length - 1)
   for (let row = originRow; row <= maxRow; row++) {
-    const maxCol = Math.min(originCol + 2, space[row].length - 1)
+    const maxCol = Math.min(originCol + VISIBLE_RADIUS, space[row].length - 1)
     for (let col = originCol; col <= maxCol; col++) {
       if (row !== originRow || col !== originCol) {
         positions.push([row, col])
