@@ -14,14 +14,14 @@ const spaces = mapToWallSegments(map)
 */
 
 const space = [
-  [[], [], [], [], [], [], [], []],
-  [['nww'], ['nsw'], ['net'], ['nsw'], ['nsw'], ['nsw'], ['nsw'], ['new']],
-  [['eww'], [], ['eww', 'swc'], [], [], [], [], ['eww']],
-  [['eww'], [], [], [], [], [], [], ['eww']],
-  [['eww'], [], ['eww'], [], [], [], [], ['eww']],
-  [['eww'], [], ['nwt', 'swc'], ['nsw'], ['nsw'], ['nsw'], ['nsw'], ['sew']],
-  [['eww'], [], [], [], [], [], [], []],
-  [['sww'], ['nsw'], ['swt'], ['nsw'], ['nsw', 'ewc'], [], [], []]
+  [null, null, null, null, null, null, null, null],
+  ['nww', 'nsw', 'net', 'nsw', 'nsw', 'nsw', 'nsw', 'new'],
+  ['eww', null, 'eww', null, null, null, null, 'eww'],
+  ['eww', null, null, null, null, null, null, 'eww'],
+  ['eww', null, 'eww', null, null, null, null, 'eww'],
+  ['eww', null, 'nwt', 'nsw', 'nsw', 'nsw', 'nsw', 'sew'],
+  ['eww', null, null, null, null, null, null, null],
+  ['sww', 'nsw', 'swt', 'nsw', 'nsw', null, null, null]
 ]
 
 const renderWindow = document.getElementById('render-window')
@@ -140,8 +140,8 @@ function arrayDifference (array1, array2) {
 function toggleWallOpacity (positions) {
   for (const position of positions) {
     const [row, col] = position
-    const walls = document.querySelectorAll(`.wall[id^="w${row}-${col}."]`)
-    for (const wall of walls) {
+    const wall = document.getElementById(`w${row}-${col}`)
+    if (wall) {
       wall.classList.toggle('translucent')
     }
   }
@@ -184,7 +184,7 @@ function playerZIndex (row, col) {
 }
 
 function canMovePlayerTo (row, col) {
-  return !document.getElementById(`w${row}-${col}.0`)
+  return !document.getElementById(`w${row}-${col}`)
 }
 
 function movePlayerTo (row, col) {
@@ -209,7 +209,9 @@ function repositionSprite (sprite, top, left, zIndex) {
 }
 
 function insertSprite (node) {
-  renderWindow.insertBefore(node, player)
+  if (node) {
+    renderWindow.insertBefore(node, player)
+  }
 }
 
 function floorTop (row, col) {
@@ -239,8 +241,7 @@ function createFloor (row, col) {
 function createFloors () {
   for (let row = 0; row < space.length; row++) {
     for (let col = 0; col < space[row].length; col++) {
-      const floor = createFloor(row, col)
-      insertSprite(floor)
+      insertSprite(createFloor(row, col))
     }
   }
 }
@@ -257,28 +258,23 @@ function wallZIndex (row, col) {
   return floorZIndex(row, col) + 1
 }
 
-function createWallSegment (type, row, col, index) {
-  const segment = document.createElement('div')
-  segment.id = `w${row}-${col}.${index}`
-  segment.classList.add('wall', type)
-  repositionSprite(
-    segment, wallTop(row, col), wallLeft(row, col), wallZIndex(row, col)
-  )
-  return segment
-}
-
 function createWall (row, col) {
-  const wallSegments = space[row][col]
-  return wallSegments.map(
-    (segmentType, index) => createWallSegment(segmentType, row, col, index)
-  )
+  const wallType = space[row][col]
+  if (wallType && wallType.length) {
+    const wall = document.createElement('div')
+    wall.id = `w${row}-${col}`
+    wall.classList.add('wall', wallType)
+    repositionSprite(
+      wall, wallTop(row, col), wallLeft(row, col), wallZIndex(row, col)
+    )
+    return wall
+  }
 }
 
 function createWalls () {
   for (let row = 0; row < space.length; row++) {
     for (let col = 0; col < space[row].length; col++) {
-      const wall = createWall(row, col)
-      wall.forEach((wallSegment) => insertSprite(wallSegment))
+      insertSprite(createWall(row, col))
     }
   }
 }
