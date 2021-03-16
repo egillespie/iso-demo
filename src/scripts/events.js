@@ -104,10 +104,20 @@ function toggleOpacity () {
   if (gameState.seeThroughWalls) {
     adjustPlayerVisibility([player.row, player.col])
   } else {
-    const walls = document.getElementsByClassName('wall')
-    for (const wall of walls) {
-      wall.classList.remove('translucent')
-    }
+    makeWallsOpaque()
+  }
+}
+
+function makeWallsOpaque () {
+  // Remove translucency style
+  const sprites = document.getElementsByClassName('translucent')
+  while (sprites.length > 0) {
+    sprites[0].classList.remove('translucent')
+  }
+  // Remove clipped wall caps
+  const clipCaps = document.getElementsByClassName('clip-cap')
+  while (clipCaps.length > 0) {
+    clipCaps[0].remove()
   }
 }
 
@@ -120,6 +130,27 @@ function getWallClipPositions (originRow, originCol) {
       if (row !== originRow || col !== originCol) {
         positions.push([row, col])
       }
+    }
+  }
+  return positions
+}
+
+function getClippedWallCapPositions (originRow, originCol) {
+  const positions = []
+  // Get west edge cap positions if player position allows for it
+  if (originCol > 0 && originRow < space.length - 1) {
+    const clipCol = originCol - 1
+    const maxRow = Math.min(originRow + VISIBLE_RADIUS, space.length - 1)
+    for (let clipRow = originRow + 1; clipRow <= maxRow; clipRow++) {
+      positions.push([clipRow, clipCol])
+    }
+  }
+  // Get north edge cap positions if player position allows for it
+  if (originCol < space.length - 1 && originRow > 0) {
+    const clipRow = originRow - 1
+    const maxCol = Math.min(originCol + VISIBLE_RADIUS, space[clipRow].length - 1)
+    for (let clipCol = originCol + 1; clipCol <= maxCol; clipCol++) {
+      positions.push([clipRow, clipCol])
     }
   }
   return positions
@@ -151,9 +182,25 @@ function toggleWallOpacity (positions) {
   }
 }
 
-function adjustPlayerVisibility (currentPosition, oldPosition) {
-  if (!gameState.seeThroughWalls) return
+function toggleClippedWallCaps (positions) {
+  for (const position of positions) {
+    const [row, col] = position
+    const capId = `c${row}-${col}-clip`
+    const cap = document.getElementById(capId)
+    if (cap) {
+      cap.remove()
+    } else {
+      const newCap = createCapIfExposed(row, col)
+      if (newCap) {
+        newCap.id = capId
+        newCap.classList.add('clip-cap')
+        insertSprite(newCap)
+      }
+    }
+  }
+}
 
+function moveWallOpacity (currentPosition, oldPosition) {
   const [currentRow, currentCol] = currentPosition
   const currentClipPositions = getWallClipPositions(currentRow, currentCol)
   const allClipPositions = []
@@ -168,6 +215,30 @@ function adjustPlayerVisibility (currentPosition, oldPosition) {
     allClipPositions.push(...currentClipPositions)
   }
   toggleWallOpacity(allClipPositions)
+}
+
+function moveClippedWallCaps (currentPosition, oldPosition) {
+  const [currentRow, currentCol] = currentPosition
+  const currentCapPositions = getClippedWallCapPositions(currentRow, currentCol)
+  const allCapPositions = []
+  if (oldPosition) {
+    const [oldRow, oldCol] = oldPosition
+    const oldCapPositions = getClippedWallCapPositions(oldRow, oldCol)
+    const changedPositions = arrayDifference(
+      currentCapPositions, oldCapPositions
+    )
+    allCapPositions.push(...changedPositions)
+  } else {
+    allCapPositions.push(...currentCapPositions)
+  }
+  toggleClippedWallCaps(allCapPositions)
+}
+
+function adjustPlayerVisibility (currentPosition, oldPosition) {
+  if (gameState.seeThroughWalls) {
+    moveWallOpacity(currentPosition, oldPosition)
+    moveClippedWallCaps(currentPosition, oldPosition)
+  }
 }
 
 function togglePlayerImage () {
@@ -274,12 +345,20 @@ function isSpaceVisible (row, col) {
 
 function getExposedCapType (row, col) {
   const wallType = space[row][col]
+  const swcExposed = (
+    row === space.length - 1 ||
+    (isSpaceVisible(row + 1, col) && !isSpaceVisible(row, col))
+  )
+  const ewcExposed = (
+    col === space[row].length - 1 ||
+    (isSpaceVisible(row, col + 1) && !isSpaceVisible(row, col))
+  )
   switch (wallType) {
     case 'eww':
     case 'new':
     case 'set':
       // South-facing wall cap
-      if (row === space.length - 1 || isSpaceVisible(row + 1, col)) {
+      if (swcExposed) {
         return 'swc'
       }
       break
@@ -287,7 +366,7 @@ function getExposedCapType (row, col) {
     case 'sww':
     case 'swt':
       // East-facing wall cap
-      if (col === space[row].length - 1 || isSpaceVisible(row, col + 1)) {
+      if (ewcExposed) {
         return 'ewc'
       }
       break
@@ -296,13 +375,11 @@ function getExposedCapType (row, col) {
     case 'nww':
     case 'nwt': {
       // South- and east-facing wall caps
-      const swc = (row === space.length - 1 || isSpaceVisible(row + 1, col))
-      const ewc = col === space[row].length - 1 || isSpaceVisible(row, col + 1)
-      if (swc && ewc) {
+      if (swcExposed && ewcExposed) {
         return 'sec'
-      } else if (swc) {
+      } else if (swcExposed) {
         return 'swc'
-      } else if (ewc) {
+      } else if (ewcExposed) {
         return 'ewc'
       }
       break
