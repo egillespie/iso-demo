@@ -1,4 +1,14 @@
 /*
+- [x] ~~wall caps that don't connect to adjacent walls~~
+    > No plans for this scenario to be possible after #3
+- [x] reducing the see-through viewing area
+- [ ] convert string map to wall segments
+- [ ] procedurally generate room
+- [ ] introduce parcel to better organize project
+- [ ] unit tests for common and edge scenarios
+*/
+
+/*
 const map = [
   '........',
   'wwwwwwww',
@@ -121,39 +131,38 @@ function makeWallsOpaque () {
   }
 }
 
-function getWallClipPositions (originRow, originCol) {
-  const positions = []
-  const maxRow = Math.min(originRow + VISIBLE_RADIUS, space.length - 1)
-  for (let row = originRow; row <= maxRow; row++) {
-    const maxCol = Math.min(originCol + VISIBLE_RADIUS, space[row].length - 1)
-    for (let col = originCol; col <= maxCol; col++) {
-      if (row !== originRow || col !== originCol) {
-        positions.push([row, col])
-      }
-    }
-  }
-  return positions
+function removeUndefinedSpaces (positions) {
+  return positions.filter(position => {
+    const [row, col] = position
+    return space[row] && space[row][col] !== undefined
+  })
 }
 
-function getClippedWallCapPositions (originRow, originCol) {
-  const positions = []
-  // Get west edge cap positions if player position allows for it
-  if (originCol > 0 && originRow < space.length - 1) {
-    const clipCol = originCol - 1
-    const maxRow = Math.min(originRow + VISIBLE_RADIUS, space.length - 1)
-    for (let clipRow = originRow + 1; clipRow <= maxRow; clipRow++) {
-      positions.push([clipRow, clipCol])
-    }
-  }
-  // Get north edge cap positions if player position allows for it
-  if (originCol < space.length - 1 && originRow > 0) {
-    const clipRow = originRow - 1
-    const maxCol = Math.min(originCol + VISIBLE_RADIUS, space[clipRow].length - 1)
-    for (let clipCol = originCol + 1; clipCol <= maxCol; clipCol++) {
-      positions.push([clipRow, clipCol])
-    }
-  }
-  return positions
+function getWallClipPositions (row, col) {
+  const positions = [
+    [row, col + 1],
+    [row + 1, col],
+    [row + 1, col + 1],
+    [row + 1, col + 2],
+    [row + 2, col + 1],
+    [row + 2, col + 2],
+    [row + 2, col + 3],
+    [row + 3, col + 2],
+    [row + 3, col + 3]
+  ]
+  return removeUndefinedSpaces(positions)
+}
+
+function getClippedWallCapPositions (row, col) {
+  const positions = [
+    [row + 1, col - 1],
+    [row + 2, col],
+    [row + 3, col + 1],
+    [row - 1, col + 1],
+    [row, col + 2],
+    [row + 1, col + 3]
+  ]
+  return removeUndefinedSpaces(positions)
 }
 
 function arrayDifference (array1, array2) {
