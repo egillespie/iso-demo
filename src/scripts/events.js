@@ -42,8 +42,6 @@ const gameState = {
   seeThroughWalls: false
 }
 
-const VISIBLE_RADIUS = 3
-
 const FLOOR_WIDTH = 40
 const FLOOR_HEIGHT = 30
 const FLOOR_LIFT = 10
@@ -264,7 +262,7 @@ function playerLeft (row, col) {
 }
 
 function playerZIndex (row, col) {
-  return floorZIndex(row, col)
+  return floorZIndex(row, col) + 1
 }
 
 function canMovePlayerTo (row, col) {
@@ -295,9 +293,9 @@ function repositionSprite (sprite, top, left, zIndex) {
 function insertSprite (node) {
   if (node) {
     if (Array.isArray(node)) {
-      node.forEach(sprite => renderWindow.insertBefore(sprite, player))
+      node.forEach(sprite => renderWindow.appendChild(sprite))
     } else {
-      renderWindow.insertBefore(node, player)
+      renderWindow.appendChild(node)
     }
   }
 }
@@ -313,7 +311,7 @@ function floorLeft (row, col) {
 }
 
 function floorZIndex (row, col) {
-  return row + col
+  return (row + col) * 10
 }
 
 function createFloor (row, col) {
