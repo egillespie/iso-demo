@@ -36,71 +36,134 @@ div {
 .floor {
   width: 40px;
   height: 30px;
-  background-image: url(../img/floor/floor.png);
+  background-size: 40px 30px;
+  background-image:
+    -webkit-image-set(
+      url(../img/floor/floor.png) 1x,
+      url(../img/floor/floor-2x.png) 2x
+    );
 }
 
 .wall {
   width: 30px;
   height: 60px;
+  background-size: 30px 60px;
 }
 
 .cap {
   width: 30px;
   height: 60px;
+  background-size: 30px 60px;
 }
 
 .nsw {
-  background-image: url(../img/wall/nsWall.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/nsWall.png) 1x,
+      url(../img/wall/nsWall-2x.png) 2x
+    );
 }
 
 .eww {
-  background-image: url(../img/wall/ewWall.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/ewWall.png) 1x,
+      url(../img/wall/ewWall-2x.png) 2x
+    );
 }
 
 .new {
-  background-image: url(../img/wall/neWall.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/neWall.png) 1x,
+      url(../img/wall/neWall-2x.png) 2x
+    );
 }
 
 .nww {
-  background-image: url(../img/wall/nwWall.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/nwWall.png) 1x,
+      url(../img/wall/nwWall-2x.png) 2x
+    );
 }
 
 .sew {
-  background-image: url(../img/wall/seWall.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/seWall.png) 1x,
+      url(../img/wall/seWall-2x.png) 2x
+    );
 }
 
 .sww {
-  background-image: url(../img/wall/swWall.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/swWall.png) 1x,
+      url(../img/wall/swWall-2x.png) 2x
+    );
 }
 
 .net {
-  background-image: url(../img/wall/neWallT.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/neWallT.png) 1x,
+      url(../img/wall/neWallT-2x.png) 2x
+    );
 }
 
 .nwt {
-  background-image: url(../img/wall/nwWallT.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/nwWallT.png) 1x,
+      url(../img/wall/nwWallT-2x.png) 2x
+    );
 }
 
 .set {
-  background-image: url(../img/wall/seWallT.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/seWallT.png) 1x,
+      url(../img/wall/seWallT-2x.png) 2x
+    );
 }
 
 .swt {
-  background-image: url(../img/wall/swWallT.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/swWallT.png) 1x,
+      url(../img/wall/swWallT-2x.png) 2x
+    );
 }
 
 .crt {
-  background-image: url(../img/wall/centerWallT.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/centerWallT.png) 1x,
+      url(../img/wall/centerWallT-2x.png) 2x
+    );
 }
 
 .swc {
-  background-image: url(../img/wall/sWallCap.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/sWallCap.png) 1x,
+      url(../img/wall/sWallCap-2x.png) 2x
+    );
 }
 
 .ewc {
-  background-image: url(../img/wall/eWallCap.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/eWallCap.png) 1x,
+      url(../img/wall/eWallCap-2x.png) 2x
+    );
 }
 
 .sec {
-  background-image: url(../img/wall/seWallCap.png);
+  background-image:
+    -webkit-image-set(
+      url(../img/wall/seWallCap.png) 1x,
+      url(../img/wall/seWallCap-2x.png) 2x
+    );
 }
