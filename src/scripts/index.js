@@ -20,31 +20,22 @@ const map = [
   'wwwww...'
 ]
 
-const spaces = mapToWallSegments(map)
+const room = mapToWallSegments(map)
 */
 
-const space = [
-  [null, null, null, null, null, null, null, null],
-  ['nww', 'nsw', 'net', 'nsw', 'nsw', 'nsw', 'nsw', 'new'],
-  ['eww', null, 'eww', null, null, null, null, 'eww'],
-  ['eww', null, null, null, null, null, null, 'eww'],
-  ['eww', null, 'eww', null, null, null, null, 'eww'],
-  ['eww', null, 'nwt', 'nsw', 'nsw', 'nsw', 'nsw', 'sew'],
-  ['eww', null, null, null, null, null, null, null],
-  ['sww', 'nsw', 'swt', 'nsw', 'nsw', null, null, null]
-]
+const state = require('./state')
 
-const renderWindow = document.getElementById('render-window')
+const insertSprite = require('./sprites/sprite-insert')
+const repositionSprite = require('./sprites/sprite-reposition')
 
-const player = document.getElementById('player')
+const createFloors = require('./floors/floors-create')
+const floorLeft = require('./floors/floor-left')
+const floorTop = require('./floors/floor-top')
+const floorZIndex = require('./floors/floor-z-index')
 
-const gameState = {
-  seeThroughWalls: false
-}
-
-const FLOOR_WIDTH = 40
-const FLOOR_HEIGHT = 30
-const FLOOR_LIFT = 10
+const FLOOR_WIDTH = require('./floors/const/floor-width')
+const FLOOR_HEIGHT = require('./floors/const/floor-height')
+const FLOOR_LIFT = require('./floors/const/floor-lift')
 
 const WALL_WIDTH = 30
 const WALL_HEIGHT = 60
@@ -53,9 +44,6 @@ const WALL_LIFT = 2
 const PLAYER_WIDTH = 30
 const PLAYER_HEIGHT = 52
 const PLAYER_LIFT = 6
-
-const FLOOR_TOP_ADJUST = (FLOOR_HEIGHT - FLOOR_LIFT) / 2
-const FLOOR_LEFT_ADJUST = FLOOR_WIDTH / 2
 
 const WALL_TOP_ADJUST = WALL_HEIGHT - FLOOR_HEIGHT + FLOOR_LIFT + WALL_LIFT
 const WALL_LEFT_ADJUST = (FLOOR_WIDTH - WALL_WIDTH) / 2
@@ -73,7 +61,7 @@ function onKeyDown (event) {
     case 'KeyO':
       // Toggle translucent/solid walls
       event.preventDefault()
-      toggleOpacity()
+      toggleOpacity(state.currentRoom)
       break
     case 'KeyP':
       // Toggle player image
@@ -84,33 +72,33 @@ function onKeyDown (event) {
     case 'ArrowLeft':
       // Move west (up and left)
       event.preventDefault()
-      moveCardinal(WEST)
+      moveCardinal(state.currentRoom, WEST)
       break
     case 'KeyW':
     case 'ArrowUp':
       // Move north (up and right)
       event.preventDefault()
-      moveCardinal(NORTH)
+      moveCardinal(state.currentRoom, NORTH)
       break
     case 'KeyD':
     case 'ArrowRight':
       // Move east (down and right)
       event.preventDefault()
-      moveCardinal(EAST)
+      moveCardinal(state.currentRoom, EAST)
       break
     case 'KeyS':
     case 'ArrowDown':
       // Move south (down and left)
       event.preventDefault()
-      moveCardinal(SOUTH)
+      moveCardinal(state.currentRoom, SOUTH)
       break
   }
 }
 
-function toggleOpacity () {
-  gameState.seeThroughWalls = !gameState.seeThroughWalls
-  if (gameState.seeThroughWalls) {
-    adjustPlayerVisibility([player.row, player.col])
+function toggleOpacity (room) {
+  state.seeThroughWalls = !state.seeThroughWalls
+  if (state.seeThroughWalls) {
+    adjustPlayerVisibility(room, [state.player.row, state.player.col])
   } else {
     makeWallsOpaque()
   }
@@ -129,14 +117,14 @@ function makeWallsOpaque () {
   }
 }
 
-function removeUndefinedSpaces (positions) {
+function removeUndefinedPositions (room, positions) {
   return positions.filter(position => {
     const [row, col] = position
-    return space[row] && space[row][col] !== undefined
+    return room[row] && room[row][col] !== undefined
   })
 }
 
-function getWallClipPositions (row, col) {
+function getWallClipPositions (room, row, col) {
   const positions = [
     [row, col + 1],
     [row + 1, col],
@@ -148,10 +136,10 @@ function getWallClipPositions (row, col) {
     [row + 3, col + 2],
     [row + 3, col + 3]
   ]
-  return removeUndefinedSpaces(positions)
+  return removeUndefinedPositions(room, positions)
 }
 
-function getClippedWallCapPositions (row, col) {
+function getClippedWallCapPositions (room, row, col) {
   const positions = [
     [row + 1, col - 1],
     [row + 2, col],
@@ -160,7 +148,7 @@ function getClippedWallCapPositions (row, col) {
     [row, col + 2],
     [row + 1, col + 3]
   ]
-  return removeUndefinedSpaces(positions)
+  return removeUndefinedPositions(room, positions)
 }
 
 function arrayDifference (array1, array2) {
@@ -189,7 +177,7 @@ function toggleWallOpacity (positions) {
   }
 }
 
-function toggleClippedWallCaps (positions) {
+function toggleClippedWallCaps (room, positions) {
   for (const position of positions) {
     const [row, col] = position
     const capId = `c${row}-${col}-clip`
@@ -197,7 +185,7 @@ function toggleClippedWallCaps (positions) {
     if (cap) {
       cap.remove()
     } else {
-      const newCap = createCapIfExposed(row, col)
+      const newCap = createCapIfExposed(room, row, col)
       if (newCap) {
         newCap.id = capId
         newCap.classList.add('clip-cap')
@@ -207,13 +195,13 @@ function toggleClippedWallCaps (positions) {
   }
 }
 
-function moveWallOpacity (currentPosition, oldPosition) {
+function moveWallOpacity (room, currentPosition, oldPosition) {
   const [currentRow, currentCol] = currentPosition
-  const currentClipPositions = getWallClipPositions(currentRow, currentCol)
+  const currentClipPositions = getWallClipPositions(room, currentRow, currentCol)
   const allClipPositions = []
   if (oldPosition) {
     const [oldRow, oldCol] = oldPosition
-    const oldClipPositions = getWallClipPositions(oldRow, oldCol)
+    const oldClipPositions = getWallClipPositions(room, oldRow, oldCol)
     const changedPositions = arrayDifference(
       currentClipPositions, oldClipPositions
     )
@@ -224,13 +212,13 @@ function moveWallOpacity (currentPosition, oldPosition) {
   toggleWallOpacity(allClipPositions)
 }
 
-function moveClippedWallCaps (currentPosition, oldPosition) {
+function moveClippedWallCaps (room, currentPosition, oldPosition) {
   const [currentRow, currentCol] = currentPosition
-  const currentCapPositions = getClippedWallCapPositions(currentRow, currentCol)
+  const currentCapPositions = getClippedWallCapPositions(room, currentRow, currentCol)
   const allCapPositions = []
   if (oldPosition) {
     const [oldRow, oldCol] = oldPosition
-    const oldCapPositions = getClippedWallCapPositions(oldRow, oldCol)
+    const oldCapPositions = getClippedWallCapPositions(room, oldRow, oldCol)
     const changedPositions = arrayDifference(
       currentCapPositions, oldCapPositions
     )
@@ -238,27 +226,27 @@ function moveClippedWallCaps (currentPosition, oldPosition) {
   } else {
     allCapPositions.push(...currentCapPositions)
   }
-  toggleClippedWallCaps(allCapPositions)
+  toggleClippedWallCaps(room, allCapPositions)
 }
 
-function adjustPlayerVisibility (currentPosition, oldPosition) {
-  if (gameState.seeThroughWalls) {
-    moveWallOpacity(currentPosition, oldPosition)
-    moveClippedWallCaps(currentPosition, oldPosition)
+function adjustPlayerVisibility (room, currentPosition, oldPosition) {
+  if (state.seeThroughWalls) {
+    moveWallOpacity(room, currentPosition, oldPosition)
+    moveClippedWallCaps(room, currentPosition, oldPosition)
   }
 }
 
 function togglePlayerImage () {
-  player.classList.toggle('boy')
-  player.classList.toggle('girl')
+  state.player.classList.toggle('boy')
+  state.player.classList.toggle('girl')
 }
 
 function playerTop (row, col) {
   return floorTop(row, col) - PLAYER_TOP_ADJUST
 }
 
-function playerLeft (row, col) {
-  return floorLeft(row, col) + PLAYER_LEFT_ADJUST
+function playerLeft (room, row, col) {
+  return floorLeft(room, row, col) + PLAYER_LEFT_ADJUST
 }
 
 function playerZIndex (row, col) {
@@ -269,96 +257,48 @@ function canMovePlayerTo (row, col) {
   return !document.getElementById(`w${row}-${col}`)
 }
 
-function movePlayerTo (row, col) {
+function movePlayerTo (room, row, col) {
   if (canMovePlayerTo(row, col)) {
     repositionSprite(
-      player, playerTop(row, col), playerLeft(row, col), playerZIndex(row, col)
+      state.player, playerTop(row, col), playerLeft(room, row, col), playerZIndex(row, col)
     )
-    adjustPlayerVisibility([row, col], [player.row, player.col])
-    player.col = col
-    player.row = row
+    adjustPlayerVisibility(room, [row, col], [state.player.row, state.player.col])
+    state.player.col = col
+    state.player.row = row
   }
 }
 
-function moveCardinal (dir) {
-  movePlayerTo(player.row + dir.rowAdjust, player.col + dir.colAdjust)
+function moveCardinal (room, dir) {
+  movePlayerTo(room, state.player.row + dir.rowAdjust, state.player.col + dir.colAdjust)
 }
 
-function repositionSprite (sprite, top, left, zIndex) {
-  sprite.style.top = top + 'px'
-  sprite.style.left = left + 'px'
-  sprite.style.zIndex = zIndex
-}
-
-function insertSprite (node) {
-  if (node) {
-    if (Array.isArray(node)) {
-      node.forEach(sprite => renderWindow.appendChild(sprite))
-    } else {
-      renderWindow.appendChild(node)
-    }
-  }
-}
-
-function floorTop (row, col) {
-  return 60 + ((row + col) * FLOOR_TOP_ADJUST)
-}
-
-function floorLeft (row, col) {
-  const lastRow = space.length - 1
-  const rowLeft = 60 + ((lastRow - row) * FLOOR_LEFT_ADJUST)
-  return rowLeft + col * FLOOR_LEFT_ADJUST
-}
-
-function floorZIndex (row, col) {
-  return (row + col) * 10
-}
-
-function createFloor (row, col) {
-  const floor = document.createElement('div')
-  floor.id = `f${row}-${col}`
-  floor.classList.add('floor')
-  repositionSprite(
-    floor, floorTop(row, col), floorLeft(row, col), floorZIndex(row, col)
-  )
-  return floor
-}
-
-function createFloors () {
-  for (let row = 0; row < space.length; row++) {
-    for (let col = 0; col < space[row].length; col++) {
-      insertSprite(createFloor(row, col))
-    }
-  }
-}
-
-function createCap (type, row, col) {
+function createCap (room, type, row, col) {
   const cap = document.createElement('div')
   cap.id = `c${row}-${col}`
   cap.classList.add('cap', type)
   repositionSprite(
-    cap, wallTop(row, col), wallLeft(row, col), wallZIndex(row, col)
+    cap, wallTop(row, col), wallLeft(room, row, col), wallZIndex(row, col)
   )
   return cap
 }
 
-function isSpaceVisible (row, col) {
-  if (space[row][col]) {
+function isPositionVisible (room, row, col) {
+  if (room[row][col]) {
     const wall = document.getElementById(`w${row}-${col}`)
     return wall && wall.classList.contains('translucent')
   }
   return true
 }
 
-function getExposedCapType (row, col) {
-  const wallType = space[row][col]
+function getExposedCapType (room, row, col) {
+  const wallType = room[row][col]
   const swcExposed = (
-    row === space.length - 1 ||
-    (isSpaceVisible(row + 1, col) && !isSpaceVisible(row, col))
+    row === room.length - 1 ||
+    (isPositionVisible(room, row + 1, col) && !isPositionVisible(room, row, col))
   )
   const ewcExposed = (
-    col === space[row].length - 1 ||
-    (isSpaceVisible(row, col + 1) && !isSpaceVisible(row, col))
+    col === room[row].length - 1 ||
+    (isPositionVisible(room, row, col + 1) && !isPositionVisible(room, row, col))
   )
   switch (wallType) {
     case 'eww':
@@ -395,10 +335,10 @@ function getExposedCapType (row, col) {
   return null
 }
 
-function createCapIfExposed (row, col) {
-  const capType = getExposedCapType(row, col)
+function createCapIfExposed (room, row, col) {
+  const capType = getExposedCapType(room, row, col)
   if (capType) {
-    return createCap(capType, row, col)
+    return createCap(room, capType, row, col)
   }
 }
 
@@ -406,40 +346,51 @@ function wallTop (row, col) {
   return floorTop(row, col) - WALL_TOP_ADJUST
 }
 
-function wallLeft (row, col) {
-  return floorLeft(row, col) + WALL_LEFT_ADJUST
+function wallLeft (room, row, col) {
+  return floorLeft(room, row, col) + WALL_LEFT_ADJUST
 }
 
 function wallZIndex (row, col) {
   return floorZIndex(row, col) + 1
 }
 
-function createWall (row, col) {
-  const wallType = space[row][col]
+function createWall (room, row, col) {
+  const wallType = room[row][col]
   if (wallType && wallType.length) {
     const wall = document.createElement('div')
     wall.id = `w${row}-${col}`
     wall.classList.add('wall', wallType)
     repositionSprite(
-      wall, wallTop(row, col), wallLeft(row, col), wallZIndex(row, col)
+      wall, wallTop(row, col), wallLeft(room, row, col), wallZIndex(row, col)
     )
-    const cap = createCapIfExposed(row, col)
+    const cap = createCapIfExposed(room, row, col)
     return cap ? [wall, cap] : wall
   }
 }
 
-function createWalls () {
-  for (let row = 0; row < space.length; row++) {
-    for (let col = 0; col < space[row].length; col++) {
-      insertSprite(createWall(row, col))
+function createWalls (room) {
+  for (let row = 0; row < room.length; row++) {
+    for (let col = 0; col < room[row].length; col++) {
+      insertSprite(createWall(room, row, col))
     }
   }
 }
 
 function createRoom () {
-  createFloors()
-  createWalls()
-  movePlayerTo(4, 5)
+  const room = [
+    [null, null, null, null, null, null, null, null],
+    ['nww', 'nsw', 'net', 'nsw', 'nsw', 'nsw', 'nsw', 'new'],
+    ['eww', null, 'eww', null, null, null, null, 'eww'],
+    ['eww', null, null, null, null, null, null, 'eww'],
+    ['eww', null, 'eww', null, null, null, null, 'eww'],
+    ['eww', null, 'nwt', 'nsw', 'nsw', 'nsw', 'nsw', 'sew'],
+    ['eww', null, null, null, null, null, null, null],
+    ['sww', 'nsw', 'swt', 'nsw', 'nsw', null, null, null]
+  ]
+  state.currentRoom = room
+  createFloors(room)
+  createWalls(room)
+  movePlayerTo(room, 4, 5)
 }
 
 createRoom()
