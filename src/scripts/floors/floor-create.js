@@ -1,4 +1,4 @@
-const repositionSprite = require('../sprites/sprite-reposition')
+const positionSprite = require('../sprites/sprite-position')
 const floorTop = require('./floor-top')
 const floorLeft = require('./floor-left')
 const floorZIndex = require('./floor-z-index')
@@ -8,7 +8,7 @@ module.exports = function (room, row, col) {
   const floor = document.createElement('div')
   floor.id = `f${row}-${col}`
   floor.classList.add('floor')
-  repositionSprite(
+  positionSprite(
     floor,
     floorTop(row, col),
     floorLeft(room, row, col),
