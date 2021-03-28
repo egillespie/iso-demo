@@ -1,4 +1,4 @@
-const removeUndefinedRoomPositions = require('../room/room-remove-undefined-positions')
+const removeUndefinedRoomPositions = require('../rooms/room-positions-remove-undefined')
 
 // Returns an array of wall positions that may clip a sprite appearing
 // at the specified row and column.
