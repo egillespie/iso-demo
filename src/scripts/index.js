@@ -25,34 +25,18 @@ const room = mapToWallSegments(map)
 
 const state = require('./state')
 
-const positionSprite = require('./sprites/sprite-position')
-
 const createFloors = require('./floors/floors-create')
 const createWalls = require('./walls/walls-create')
 
-const floorLeft = require('./floors/floor-left')
-const floorTop = require('./floors/floor-top')
-const floorZIndex = require('./floors/floor-z-index')
+const toggleOpacity = require('./walls/walls-opacity-toggle')
+const togglePlayerSprite = require('./player/player-sprite-toggle')
 
-const floorWidth = require('./floors/const/floor-width')
-const floorHeight = require('./floors/const/floor-height')
-const floorLift = require('./floors/const/floor-lift')
+const movePlayerNorth = require('./player/player-move-north')
+const movePlayerEast = require('./player/player-move-east')
+const movePlayerSouth = require('./player/player-move-south')
+const movePlayerWest = require('./player/player-move-west')
 
-const toggleOpacity = require('./player/opacity-toggle')
-
-const adjustWallVisibility = require('./walls/walls-adjust-visibility')
-
-const PLAYER_WIDTH = 30
-const PLAYER_HEIGHT = 52
-const PLAYER_LIFT = 6
-
-const PLAYER_TOP_ADJUST = PLAYER_HEIGHT - floorHeight + floorLift + PLAYER_LIFT
-const PLAYER_LEFT_ADJUST = (floorWidth - PLAYER_WIDTH) / 2
-
-const WEST = { colAdjust: -1, rowAdjust: 0 }
-const NORTH = { colAdjust: 0, rowAdjust: -1 }
-const EAST = { colAdjust: 1, rowAdjust: 0 }
-const SOUTH = { colAdjust: 0, rowAdjust: 1 }
+const movePlayerTo = require('./player/player-move-to-position')
 
 function onKeyDown (event) {
   switch (event.code) {
@@ -64,69 +48,33 @@ function onKeyDown (event) {
     case 'KeyP':
       // Toggle player image
       event.preventDefault()
-      togglePlayerImage()
+      togglePlayerSprite()
       break
     case 'KeyA':
     case 'ArrowLeft':
       // Move west (up and left)
       event.preventDefault()
-      moveCardinal(state.currentRoom, WEST)
+      movePlayerWest(state.currentRoom)
       break
     case 'KeyW':
     case 'ArrowUp':
       // Move north (up and right)
       event.preventDefault()
-      moveCardinal(state.currentRoom, NORTH)
+      movePlayerNorth(state.currentRoom)
       break
     case 'KeyD':
     case 'ArrowRight':
       // Move east (down and right)
       event.preventDefault()
-      moveCardinal(state.currentRoom, EAST)
+      movePlayerEast(state.currentRoom)
       break
     case 'KeyS':
     case 'ArrowDown':
       // Move south (down and left)
       event.preventDefault()
-      moveCardinal(state.currentRoom, SOUTH)
+      movePlayerSouth(state.currentRoom)
       break
   }
-}
-
-function togglePlayerImage () {
-  state.player.classList.toggle('boy')
-  state.player.classList.toggle('girl')
-}
-
-function playerTop (row, col) {
-  return floorTop(row, col) - PLAYER_TOP_ADJUST
-}
-
-function playerLeft (room, row, col) {
-  return floorLeft(room, row, col) + PLAYER_LEFT_ADJUST
-}
-
-function playerZIndex (row, col) {
-  return floorZIndex(row, col) + 1
-}
-
-function canMovePlayerTo (row, col) {
-  return !document.getElementById(`w${row}-${col}`)
-}
-
-function movePlayerTo (room, row, col) {
-  if (canMovePlayerTo(row, col)) {
-    positionSprite(
-      state.player, playerTop(row, col), playerLeft(room, row, col), playerZIndex(row, col)
-    )
-    adjustWallVisibility(room, [row, col], [state.player.row, state.player.col])
-    state.player.col = col
-    state.player.row = row
-  }
-}
-
-function moveCardinal (room, dir) {
-  movePlayerTo(room, state.player.row + dir.rowAdjust, state.player.col + dir.colAdjust)
 }
 
 function createRoom () {

@@ -1,6 +1,6 @@
 const state = require('../state')
-const adjustWallVisibility = require('../walls/walls-adjust-visibility')
-const makeAllWallsOpaque = require('../walls/walls-make-all-opaque')
+const adjustWallVisibility = require('./walls-adjust-visibility')
+const makeAllWallsOpaque = require('./walls-make-all-opaque')
 
 // Turns opacity of walls obstructing the player on or off.
 module.exports = function () {

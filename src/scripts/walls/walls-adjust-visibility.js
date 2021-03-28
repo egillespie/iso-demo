@@ -1,5 +1,5 @@
 const state = require('../state')
-const moveWallOpacity = require('./wall-move-opacity')
+const moveWallOpacity = require('./wall-opacity-move')
 const moveClippedWallCaps = require('./wall-caps-move-clipped')
 
 // Makes walls opaque or translucent depending on the change in position
