@@ -5,9 +5,9 @@ const movePlayerTo = require('./player-move-to-position')
 // direction constants at `player/const/player-cardinal-*.js` as the second
 // parameter to this function. It's usually more convenient to call the
 // `player/player-move-*.js` functions instead of calling this function.
-module.exports = function (room, dir) {
+module.exports = function (dir) {
   movePlayerTo(
-    room,
+    state.currentRoom,
     state.player.row + dir.rowAdjust,
     state.player.col + dir.colAdjust
   )
