@@ -1,5 +1,8 @@
 .DS_Store
 
+# Generated reports
+reports/
+
 # Logs
 logs
 *.log
