@@ -3,6 +3,8 @@ body {
   padding: 0;
   min-height: 100%;
   background-color: #000;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges; /* fallback for Firefox */
 }
 
 div {
@@ -37,11 +39,7 @@ div {
   width: 40px;
   height: 30px;
   background-size: 40px 30px;
-  background-image:
-    -webkit-image-set(
-      url(../img/floor/floor.png) 1x,
-      url(../img/floor/floor-2x.png) 2x
-    );
+  background-image: url(../img/floor/floor.png);
 }
 
 .wall {
@@ -57,113 +55,57 @@ div {
 }
 
 .nsw {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/nsWall.png) 1x,
-      url(../img/wall/nsWall-2x.png) 2x
-    );
+  background-image: url(../img/wall/nsWall.png);
 }
 
 .eww {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/ewWall.png) 1x,
-      url(../img/wall/ewWall-2x.png) 2x
-    );
+  background-image: url(../img/wall/ewWall.png);
 }
 
 .new {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/neWall.png) 1x,
-      url(../img/wall/neWall-2x.png) 2x
-    );
+  background-image: url(../img/wall/neWall.png);
 }
 
 .nww {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/nwWall.png) 1x,
-      url(../img/wall/nwWall-2x.png) 2x
-    );
+  background-image: url(../img/wall/nwWall.png);
 }
 
 .sew {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/seWall.png) 1x,
-      url(../img/wall/seWall-2x.png) 2x
-    );
+  background-image: url(../img/wall/seWall.png);
 }
 
 .sww {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/swWall.png) 1x,
-      url(../img/wall/swWall-2x.png) 2x
-    );
+  background-image: url(../img/wall/swWall.png);
 }
 
 .net {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/neWallT.png) 1x,
-      url(../img/wall/neWallT-2x.png) 2x
-    );
+  background-image: url(../img/wall/neWallT.png);
 }
 
 .nwt {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/nwWallT.png) 1x,
-      url(../img/wall/nwWallT-2x.png) 2x
-    );
+  background-image: url(../img/wall/nwWallT.png);
 }
 
 .set {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/seWallT.png) 1x,
-      url(../img/wall/seWallT-2x.png) 2x
-    );
+  background-image: url(../img/wall/seWallT.png);
 }
 
 .swt {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/swWallT.png) 1x,
-      url(../img/wall/swWallT-2x.png) 2x
-    );
+  background-image: url(../img/wall/swWallT.png);
 }
 
 .crt {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/centerWallT.png) 1x,
-      url(../img/wall/centerWallT-2x.png) 2x
-    );
+  background-image: url(../img/wall/centerWallT.png);
 }
 
 .swc {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/sWallCap.png) 1x,
-      url(../img/wall/sWallCap-2x.png) 2x
-    );
+  background-image: url(../img/wall/sWallCap.png);
 }
 
 .ewc {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/eWallCap.png) 1x,
-      url(../img/wall/eWallCap-2x.png) 2x
-    );
+  background-image: url(../img/wall/eWallCap.png);
 }
 
 .sec {
-  background-image:
-    -webkit-image-set(
-      url(../img/wall/seWallCap.png) 1x,
-      url(../img/wall/seWallCap-2x.png) 2x
-    );
+  background-image: url(../img/wall/seWallCap.png);
 }
