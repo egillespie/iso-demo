@@ -1,3 +1,4 @@
+const createSprite = require('../sprites/sprite-create')
 const positionSprite = require('../sprites/sprite-position')
 const wallTop = require('./wall-top')
 const wallLeft = require('./wall-left')
@@ -10,8 +11,7 @@ const createWallCapIfExposed = require('./wall-cap-create-if-exposed')
 module.exports = function (room, row, col) {
   const wallType = room[row][col]
   if (wallType && wallType.length) {
-    const wall = document.createElement('div')
-    wall.id = `w${row}-${col}`
+    const wall = createSprite(`w${row}-${col}`)
     wall.classList.add('wall', wallType)
     positionSprite(
       wall,
