@@ -4,6 +4,6 @@ const floorAdjustLeft = require('./const/floor-adjust-left')
 // to render it in an isometric grid.
 module.exports = function (room, row, col) {
   const lastRow = room.length - 1
-  const rowLeft = 60 + ((lastRow - row) * floorAdjustLeft)
+  const rowLeft = ((lastRow - row) * floorAdjustLeft)
   return rowLeft + col * floorAdjustLeft
 }
