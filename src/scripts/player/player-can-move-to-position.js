@@ -1,5 +1,9 @@
 // Returns true if no walls exist in the specified position, allowing
 // the player to move there. Returns false otherwise.
 module.exports = function (row, col) {
-  return !document.getElementById(`w${row}-${col}`)
+  return (
+    row >= 0 &&
+    col >= 0 &&
+    !document.getElementById(`w${row}-${col}`)
+  )
 }
