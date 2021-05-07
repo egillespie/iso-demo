@@ -1,7 +1,6 @@
 const state = require('../state')
 const createFloors = require('../floors/floors-create')
 const createWalls = require('../walls/walls-create')
-const movePlayerTo = require('../player/player-move-to-position')
 
 // Create and render a whole room, make it the active room,
 // and place the player in it.
@@ -19,5 +18,4 @@ module.exports = function () {
   state.currentRoom = room
   createFloors(room)
   createWalls(room)
-  movePlayerTo(room, 4, 5)
 }
