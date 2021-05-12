@@ -2,7 +2,7 @@
   "name": "iso-demo",
   "version": "1.0.0",
   "private": true,
-  "description": "Demonstrates how to create an isometric room with a moveable character in a browser with no frontend frameworks.",
+  "description": "Isometric! at the Browser",
   "author": "Erik Gillespie <erik.gillespie@gmail.com>",
   "scripts": {
     "dev": "parcel src/index.html --open",

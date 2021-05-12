@@ -1,6 +1,6 @@
 module.exports = {
   renderWindow: document.getElementById('render-window'),
   player: document.getElementById('player'),
-  currentRoom: null,
+  currentBoard: null,
   seeThroughWalls: false
 }

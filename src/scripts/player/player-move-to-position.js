@@ -6,17 +6,17 @@ const playerTop = require('./player-top')
 const playerZIndex = require('./player-z-index')
 const adjustWallVisibility = require('../walls/walls-adjust-visibility')
 
-module.exports = function (room, row, col) {
+module.exports = function (board, row, col) {
   if (canPlayerMoveTo(row, col)) {
     const player = state.player
     positionSprite(
       player,
       playerTop(row, col),
-      playerLeft(room, row, col),
+      playerLeft(board, row, col),
       playerZIndex(row, col)
     )
     adjustWallVisibility(
-      room,
+      board,
       [row, col],
       [player.row, player.col]
     )

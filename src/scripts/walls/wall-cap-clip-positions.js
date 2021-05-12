@@ -1,4 +1,4 @@
-const removeUndefinedRoomPositions = require('../rooms/room-positions-remove-undefined')
+const removeUndefinedBoardPositions = require('../boards/board-positions-remove-undefined')
 
 // Returns an array of wall positions that may leave exposed wall caps if
 // not connected to a solid/opaque wall.
@@ -13,7 +13,7 @@ const removeUndefinedRoomPositions = require('../rooms/room-positions-remove-und
 // .C....
 // ..C...
 // ```
-module.exports = function (room, row, col) {
+module.exports = function (board, row, col) {
   const positions = [
     [row + 1, col - 1],
     [row + 2, col],
@@ -22,5 +22,5 @@ module.exports = function (room, row, col) {
     [row, col + 2],
     [row + 1, col + 3]
   ]
-  return removeUndefinedRoomPositions(room, positions)
+  return removeUndefinedBoardPositions(board, positions)
 }

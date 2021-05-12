@@ -7,7 +7,7 @@ module.exports = function () {
   state.seeThroughWalls = !state.seeThroughWalls
   if (state.seeThroughWalls) {
     adjustWallVisibility(
-      state.currentRoom,
+      state.currentBoard,
       [state.player.row, state.player.col]
     )
   } else {

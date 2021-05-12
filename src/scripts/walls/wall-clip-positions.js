@@ -1,4 +1,4 @@
-const removeUndefinedRoomPositions = require('../rooms/room-positions-remove-undefined')
+const removeUndefinedBoardPositions = require('../boards/board-positions-remove-undefined')
 
 // Returns an array of wall positions that may clip a sprite appearing
 // at the specified row and column.
@@ -13,7 +13,7 @@ const removeUndefinedRoomPositions = require('../rooms/room-positions-remove-und
 // ..CCC.
 // ...CC.
 // ```
-module.exports = function (room, row, col) {
+module.exports = function (board, row, col) {
   const positions = [
     [row, col + 1],
     [row + 1, col],
@@ -25,5 +25,5 @@ module.exports = function (room, row, col) {
     [row + 3, col + 2],
     [row + 3, col + 3]
   ]
-  return removeUndefinedRoomPositions(room, positions)
+  return removeUndefinedBoardPositions(board, positions)
 }

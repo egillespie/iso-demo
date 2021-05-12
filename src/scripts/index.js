@@ -4,7 +4,7 @@
 - [x] reducing the see-through viewing area
 - [x] introduce parcel to better organize project
 - [ ] convert string map to wall segments
-- [ ] procedurally generate room
+- [ ] procedurally generate board
 - [ ] unit tests for common and edge scenarios
 */
 
@@ -20,11 +20,38 @@ const map = [
   'wwwww...'
 ]
 
-const room = mapToWallSegments(map)
+const board = [
+  ' ####### #######        ',
+  ' #.....# #.....#  ##### ',
+  ' #.....###.....#  #...# ',
+  ' #.....#.D.....#  #.#D##',
+  ' #.....#.#.....#  #.#..#',
+  ' #D#####.#.....#  #.#..#',
+  ' #.....#.#######..#.#..#',
+  ' ##.##.........#..#.#..#',
+  '  #.####.#D###.####.##D#',
+  '  #.#  #.#...#.........#',
+  ' ##D#  #.#...#.#########',
+  ' #..#  #.#...#.#.....#  ',
+  ' #..#  #.#...#.#.....#  ',
+  ' #..#  #.#...#.D.....#  ',
+  ' #..#  #.#...###.....#  ',
+  ' ####  #.#############  ',
+  '       #.# #..#         ',
+  '       #.# #..###       ',
+  '       #.# #..D.#       ',
+  '     ###.######.#       ',
+  '     #..........#       ',
+  '     #.##########       ',
+  '     #.D....#           ',
+  '     ########           '
+]
+
+const board = mapToWallSegments(map)
 */
 
 const state = require('./state')
-const createRoom = require('./rooms/room-create')
+const createBoard = require('./boards/board-create')
 const createPlayer = require('./player/player-create')
 const insertSprite = require('./sprites/sprite-insert')
 const movePlayerTo = require('./player/player-move-to-position')
@@ -33,9 +60,9 @@ const handleKeyDown = require('./events/handle-key-down')
 while (state.renderWindow.firstChild) {
   state.renderWindow.removeChild(state.renderWindow.lastChild)
 }
-createRoom()
+createBoard()
 insertSprite(createPlayer('girl'))
-movePlayerTo(state.currentRoom, 4, 5)
+movePlayerTo(state.currentBoard, 4, 5)
 
 window.addEventListener('keydown', handleKeyDown)
 
@@ -48,7 +75,7 @@ if (module.hot) {
     const player = module.hot.data.player
     if (!isNaN(player.row) && !isNaN(player.col)) {
       const movePlayerTo = require('./player/player-move-to-position')
-      movePlayerTo(state.currentRoom, player.row, player.col)
+      movePlayerTo(state.currentBoard, player.row, player.col)
     }
   })
 }

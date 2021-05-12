@@ -4,13 +4,13 @@ const toggleClippedWallCaps = require('./wall-caps-toggle-clipped')
 
 // Removes wall caps that are no longer exposed by translucent walls and
 // adds new wall caps where newly exposed because of wall translucency.
-module.exports = function (room, currentPosition, oldPosition) {
+module.exports = function (board, currentPosition, oldPosition) {
   const [currentRow, currentCol] = currentPosition
-  const currentCapPositions = wallCapClipPositions(room, currentRow, currentCol)
+  const currentCapPositions = wallCapClipPositions(board, currentRow, currentCol)
   const allCapPositions = []
   if (oldPosition) {
     const [oldRow, oldCol] = oldPosition
-    const oldCapPositions = wallCapClipPositions(room, oldRow, oldCol)
+    const oldCapPositions = wallCapClipPositions(board, oldRow, oldCol)
     const changedPositions = allArrayDifferences(
       currentCapPositions, oldCapPositions
     )
@@ -18,5 +18,5 @@ module.exports = function (room, currentPosition, oldPosition) {
   } else {
     allCapPositions.push(...currentCapPositions)
   }
-  toggleClippedWallCaps(room, allCapPositions)
+  toggleClippedWallCaps(board, allCapPositions)
 }

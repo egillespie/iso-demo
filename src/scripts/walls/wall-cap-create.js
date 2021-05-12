@@ -4,15 +4,15 @@ const wallLeft = require('./wall-left')
 const wallTop = require('./wall-top')
 const wallZIndex = require('./wall-z-index')
 
-// Creates and adds a wall cap of the specified type to the room in the
+// Creates and adds a wall cap of the specified type to the board in the
 // specified row and column.
-module.exports = function (room, type, row, col) {
+module.exports = function (board, type, row, col) {
   const cap = createSprite(`c${row}-${col}`)
   cap.classList.add('cap', type)
   positionSprite(
     cap,
     wallTop(row, col),
-    wallLeft(room, row, col),
+    wallLeft(board, row, col),
     wallZIndex(row, col)
   )
   return cap

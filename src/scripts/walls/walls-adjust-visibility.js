@@ -4,9 +4,9 @@ const moveClippedWallCaps = require('./wall-caps-move-clipped')
 
 // Makes walls opaque or translucent depending on the change in position
 // and removes or creates wall caps where exposed due to wall translucency.
-module.exports = function (room, currentPosition, oldPosition) {
+module.exports = function (board, currentPosition, oldPosition) {
   if (state.seeThroughWalls) {
-    moveWallOpacity(room, currentPosition, oldPosition)
-    moveClippedWallCaps(room, currentPosition, oldPosition)
+    moveWallOpacity(board, currentPosition, oldPosition)
+    moveClippedWallCaps(board, currentPosition, oldPosition)
   }
 }

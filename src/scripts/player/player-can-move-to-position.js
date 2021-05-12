@@ -6,8 +6,8 @@ module.exports = function (row, col) {
   return (
     row >= 0 &&
     col >= 0 &&
-    row < state.currentRoom.length &&
-    col < state.currentRoom[row].length &&
+    row < state.currentBoard.length &&
+    col < state.currentBoard[row].length &&
     !document.getElementById(`w${row}-${col}`)
   )
 }

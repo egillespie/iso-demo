@@ -3,7 +3,7 @@ const createWallCapIfExposed = require('./wall-cap-create-if-exposed')
 
 // Removes wall caps that are no longer exposed by translucent walls
 // and adds wall caps where newly exposed.
-module.exports = function (room, positions) {
+module.exports = function (board, positions) {
   for (const position of positions) {
     const [row, col] = position
     const capId = `c${row}-${col}-clip`
@@ -11,7 +11,7 @@ module.exports = function (room, positions) {
     if (cap) {
       cap.remove()
     } else {
-      const newCap = createWallCapIfExposed(room, row, col)
+      const newCap = createWallCapIfExposed(board, row, col)
       if (newCap) {
         newCap.id = capId
         newCap.classList.add('clip-cap')
