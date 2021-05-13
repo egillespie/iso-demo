@@ -31,6 +31,10 @@ function wallAt (asciiMap, row, col) {
   return asciiCharAt(asciiMap, row, col) === '#'
 }
 
+function doorAt (asciiMap, row, col) {
+  return asciiCharAt(asciiMap, row, col) === 'D'
+}
+
 module.exports = function (asciiMap) {
   const board = []
   for (let row = 0; row < asciiMap.length; row++) {
@@ -49,28 +53,36 @@ module.exports = function (asciiMap) {
           const eWall = wallAt(asciiMap, row, col + 1)
           const sWall = wallAt(asciiMap, row + 1, col)
           const wWall = wallAt(asciiMap, row, col - 1)
+          const nDoor = doorAt(asciiMap, row - 1, col)
+          const eDoor = doorAt(asciiMap, row, col + 1)
+          const sDoor = doorAt(asciiMap, row + 1, col)
+          const wDoor = doorAt(asciiMap, row, col - 1)
+          const nConnect = nWall || nDoor
+          const eConnect = eWall || eDoor
+          const sConnect = sWall || sDoor
+          const wConnect = wWall || wDoor
 
-          if (nWall && eWall && sWall && wWall) {
+          if (nConnect && eConnect && sConnect && wConnect) {
             board[row][col] = 'crt'
-          } else if (nWall && eWall && sWall) {
+          } else if (nConnect && eConnect && sConnect) {
             board[row][col] = 'nwt'
-          } else if (eWall && sWall && wWall) {
+          } else if (eConnect && sConnect && wConnect) {
             board[row][col] = 'net'
-          } else if (sWall && wWall && nWall) {
+          } else if (sConnect && wConnect && nConnect) {
             board[row][col] = 'set'
-          } else if (wWall && nWall && eWall) {
+          } else if (wConnect && nConnect && eConnect) {
             board[row][col] = 'swt'
-          } else if (nWall && eWall) {
+          } else if (nConnect && eConnect) {
             board[row][col] = 'sww'
-          } else if (eWall && sWall) {
+          } else if (eConnect && sConnect) {
             board[row][col] = 'nww'
-          } else if (sWall && wWall) {
+          } else if (sConnect && wConnect) {
             board[row][col] = 'new'
-          } else if (wWall && nWall) {
+          } else if (wConnect && nConnect) {
             board[row][col] = 'sew'
-          } else if (nWall || sWall) {
+          } else if (nConnect || sConnect) {
             board[row][col] = 'eww'
-          } else if (wWall || eWall) {
+          } else if (wConnect || eConnect) {
             board[row][col] = 'nsw'
           } else {
             board[row][col] = 'csp'
