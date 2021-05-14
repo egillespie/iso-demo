@@ -54,6 +54,11 @@ body {
   transform: translateX(-50%);
 }
 
+.ascii-map-panel code {
+  display: inline-block;
+  line-height: 90%;
+}
+
 .play-area {
   flex-grow: 1;
 }
