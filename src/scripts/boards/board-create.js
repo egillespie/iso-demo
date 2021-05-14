@@ -10,7 +10,7 @@ module.exports = function () {
     ' ####### #######        ',
     ' #.....# #.....#  ##### ',
     ' #.....###.....#  #...# ',
-    ' #.....#.D.....#  #.#D##',
+    ' #.....#.D..#..#  #.#D##',
     ' #.....#.#.....#  #.#..#',
     ' #D#####.#.....#  #.#..#',
     ' #.....#.#######..#.#..#',
@@ -33,6 +33,8 @@ module.exports = function () {
     '     ########           '
   ]
   const board = generateBoardFromAsciiMap(asciiMap)
+  state.dom.asciiMap.textContent = asciiMap.join('\n')
+  state.asciiMap = asciiMap
   state.currentBoard = board
   createFloors(board)
   createWalls(board)

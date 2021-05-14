@@ -4,6 +4,6 @@ const createSprite = require('../sprites/sprite-create')
 module.exports = function (gender) {
   const player = createSprite('player')
   player.classList.add('player', gender)
-  state.player = player
+  state.dom.player = player
   return player
 }

@@ -8,7 +8,7 @@ const movePlayerTo = require('./player-move-to-position')
 module.exports = function (dir) {
   movePlayerTo(
     state.currentBoard,
-    state.player.row + dir.rowAdjust,
-    state.player.col + dir.colAdjust
+    state.dom.player.row + dir.rowAdjust,
+    state.dom.player.col + dir.colAdjust
   )
 }

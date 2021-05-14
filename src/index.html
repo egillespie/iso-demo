@@ -1,13 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Isometric Demo</title>
-  <link rel="stylesheet" href="styles/style.css">
-</head>
-<body>
-  <div id="render-window" class="board">
-    <div id="player" class="sprite player girl"></div>
-  </div>
-  <script src="scripts/index.js"></script>
-</body>
+  <head>
+    <title>Isometric Demo</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <main class="app-content">
+      <div class="player-panel">
+        <div class="key-map-panel">
+          <fieldset>
+            <legend>Keys</legend>
+            <div class="key-binding">
+              <label for="key-move-north">Move north</label>
+              <input
+                type="text"
+                name="key-move-north"
+                id="key-move-north"
+                size="3"
+                readonly
+                value="w"
+              />
+            </div>
+            <div class="key-binding">
+              <label for="key-move-west">Move west</label>
+              <input
+                type="text"
+                name="key-move-west"
+                id="key-move-west"
+                size="3"
+                readonly
+                value="a"
+              />
+            </div>
+            <div class="key-binding">
+              <label for="key-move-south">Move south</label>
+              <input
+                type="text"
+                name="key-move-south"
+                id="key-move-south"
+                size="3"
+                readonly
+                value="s"
+              />
+            </div>
+            <div class="key-binding">
+              <label for="key-move-east">Move east</label>
+              <input
+                type="text"
+                name="key-move-east"
+                id="key-move-east"
+                size="3"
+                readonly
+                value="d"
+              />
+            </div>
+            <div class="key-binding">
+              <label for="key-toggle-walls">Toggle wall visibility</label>
+              <input
+                type="text"
+                name="key-toggle-walls"
+                id="key-toggle-walls"
+                size="3"
+                readonly
+                value="o"
+              />
+            </div>
+            <div class="key-binding">
+              <label for="key-toggle-player">Toggle player sprite</label>
+              <input
+                type="text"
+                name="key-toggle-player"
+                id="key-toggle-player"
+                size="3"
+                readonly
+                value="p"
+              />
+            </div>
+          </fieldset>
+        </div>
+        <div class="ascii-map-panel">
+          <fieldset>
+            <legend>Map</legend>
+            <pre><code id="ascii-map"></code></pre>
+          </fieldset>
+        </div>
+      </div>
+      <div class="play-area">
+        <fieldset>
+          <legend>Play area</legend>
+          <div id="render-window" class="board"></div>
+        </fieldset>
+      </div>
+    </main>
+    <script src="scripts/index.js"></script>
+  </body>
 </html>

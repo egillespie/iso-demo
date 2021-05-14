@@ -1,22 +1,81 @@
+:root {
+  --ui-bg-color: #a9a9a9;
+  --rw-bg-color: #111;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
   padding: 0;
-  min-height: 100%;
-  background-color: #111;
+  height: 100%;
   image-rendering: pixelated;
   image-rendering: crisp-edges; /* fallback for Firefox */
 }
 
-.sprite {
-  position: absolute;
+.app-content {
+  height: 100%;
+  display: flex;
+  background-color: var(--ui-bg-color);
 }
 
-.board {
+.player-panel {
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.key-map-panel .key-binding {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 40px;
+}
+
+.key-map-panel .key-binding label {
+  text-align: right;
+}
+
+.key-map-panel .key-binding input {
+  text-align: center;
+}
+
+.ascii-map-panel pre {
+  display: inline-block;
   position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.play-area {
+  flex-grow: 1;
+}
+
+.play-area fieldset {
+  height: 100%;
+}
+
+.play-area .board {
+  position: relative;
+  background-color: var(--rw-bg-color);
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow-x: auto;
+  border-style: inset;
+  border-width: 2px;
+}
+
+.sprite {
+  position: absolute;
 }
 
 .translucent {

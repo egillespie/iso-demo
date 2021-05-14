@@ -5,9 +5,9 @@ const state = require('../state')
 module.exports = function (node) {
   if (node) {
     if (Array.isArray(node)) {
-      node.forEach(sprite => state.renderWindow.appendChild(sprite))
+      node.forEach(sprite => state.dom.renderWindow.appendChild(sprite))
     } else {
-      state.renderWindow.appendChild(node)
+      state.dom.renderWindow.appendChild(node)
     }
   }
 }

@@ -8,7 +8,7 @@ const adjustWallVisibility = require('../walls/walls-adjust-visibility')
 
 module.exports = function (board, row, col) {
   if (canPlayerMoveTo(row, col)) {
-    const player = state.player
+    const player = state.dom.player
     positionSprite(
       player,
       playerTop(row, col),
