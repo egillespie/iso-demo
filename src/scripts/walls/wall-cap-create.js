@@ -1,5 +1,6 @@
 const createSprite = require('../sprites/sprite-create')
 const positionSprite = require('../sprites/sprite-position')
+const insertSprite = require('../sprites/sprite-insert')
 const wallLeft = require('./wall-left')
 const wallTop = require('./wall-top')
 const wallZIndex = require('./wall-z-index')
@@ -15,5 +16,5 @@ module.exports = function (board, type, row, col) {
     wallLeft(board, row, col),
     wallZIndex(row, col)
   )
-  return cap
+  insertSprite(cap)
 }

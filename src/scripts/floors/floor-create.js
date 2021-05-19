@@ -1,5 +1,6 @@
 const createSprite = require('../sprites/sprite-create')
 const positionSprite = require('../sprites/sprite-position')
+const insertSprite = require('../sprites/sprite-insert')
 const floorTop = require('./floor-top')
 const floorLeft = require('./floor-left')
 const floorZIndex = require('./floor-z-index')
@@ -15,5 +16,5 @@ module.exports = function (board, row, col) {
     floorLeft(board, row, col),
     floorZIndex(row, col)
   )
-  return floor
+  insertSprite(floor)
 }

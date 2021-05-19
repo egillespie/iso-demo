@@ -59,6 +59,23 @@ body {
   line-height: 90%;
 }
 
+.ascii-map-panel .wall-state {
+  text-align: center;
+}
+
+.ascii-map-panel .map-coords {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.ascii-map-panel .map-coords #player-row::before {
+  content: 'Row: ';
+}
+
+.ascii-map-panel .map-coords #player-col::before {
+  content: 'Col: ';
+}
+
 .play-area {
   flex-grow: 1;
 }

@@ -1,5 +1,6 @@
 const createSprite = require('../sprites/sprite-create')
 const positionSprite = require('../sprites/sprite-position')
+const insertSprite = require('../sprites/sprite-insert')
 const wallTop = require('./wall-top')
 const wallLeft = require('./wall-left')
 const wallZIndex = require('./wall-z-index')
@@ -19,7 +20,7 @@ module.exports = function (board, row, col) {
       wallLeft(board, row, col),
       wallZIndex(row, col)
     )
-    const cap = createWallCapIfExposed(board, row, col)
-    return cap ? [wall, cap] : wall
+    insertSprite(wall)
+    createWallCapIfExposed(board, row, col)
   }
 }

@@ -7,6 +7,6 @@ const exposedWallCapType = require('./wall-cap-exposed-type')
 module.exports = function (board, row, col) {
   const capType = exposedWallCapType(board, row, col)
   if (capType) {
-    return createWallCap(board, capType, row, col)
+    createWallCap(board, capType, row, col)
   }
 }

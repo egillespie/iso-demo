@@ -1,4 +1,4 @@
-module.exports = {
+const state = {
   dom: {
     renderWindow: document.getElementById('render-window'),
     player: document.getElementById('player'),
@@ -12,3 +12,5 @@ module.exports = {
   currentBoard: null,
   seeThroughWalls: false
 }
+
+module.exports = state
