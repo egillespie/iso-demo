@@ -7,9 +7,9 @@ const generateBoardFromAsciiMap = require('./board-generate-from-ascii-map')
 // and place the player in it.
 module.exports = function () {
   const asciiMap = [
-    ' ####### #######        ',
-    ' #.....# #.....#  ##### ',
-    ' #.....###.....#  #...# ',
+    '   ##### #######        ',
+    '   #...# #.....#  ##### ',
+    ' ###...###.....#  #...# ',
     ' #.....#.D..#..#  #.#D##',
     ' #.....#.#.....#  #.#..#',
     ' #D#####.#.....#  #.#..#',

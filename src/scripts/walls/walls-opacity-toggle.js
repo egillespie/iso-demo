@@ -8,7 +8,7 @@ module.exports = function () {
   if (state.seeThroughWalls) {
     adjustWallVisibility(
       state.currentBoard,
-      [state.dom.player.row, state.dom.player.col]
+      [state.player.row, state.player.col]
     )
   } else {
     makeAllWallsOpaque()
