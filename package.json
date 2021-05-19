@@ -25,6 +25,9 @@
     "stylelint-config-standard": "^21.0.0"
   },
   "standard": {
-    "env": ["jest"]
+    "envs": [
+      "browser",
+      "jest"
+    ]
   }
 }

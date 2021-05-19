@@ -2,6 +2,9 @@ const createBoard = require('./boards/board-create')
 const createPlayer = require('./player/player-create')
 const movePlayerTo = require('./player/player-move-to-position')
 const handleKeyDown = require('./events/handle-key-down')
+const registerComponents = require('./components')
+
+registerComponents()
 
 createBoard()
 createPlayer('girl')

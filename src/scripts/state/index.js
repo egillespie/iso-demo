@@ -1,3 +1,7 @@
+const _internalState = {
+  seeThroughWalls: false
+}
+
 const state = {
   dom: {
     renderWindow: document.getElementById('render-window'),
@@ -9,8 +13,26 @@ const state = {
     col: 0
   },
   asciiMap: null,
-  currentBoard: null,
-  seeThroughWalls: false
+  currentBoard: null
 }
+
+Object.defineProperty(state, 'seeThroughWalls', {
+  get () {
+    return _internalState.seeThroughWalls
+  },
+  set (newValue) {
+    const oldValue = _internalState.seeThroughWalls
+    if (newValue !== oldValue) {
+      _internalState.seeThroughWalls = newValue
+      const event = new CustomEvent('statechange:seethroughwalls', {
+        detail: {
+          oldValue,
+          newValue
+        }
+      })
+      window.dispatchEvent(event)
+    }
+  }
+})
 
 module.exports = state

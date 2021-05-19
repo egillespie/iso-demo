@@ -18,6 +18,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background-color: var(--ui-bg-color);
   image-rendering: pixelated;
   image-rendering: crisp-edges; /* fallback for Firefox */
 }
@@ -25,7 +26,6 @@ body {
 .app-content {
   height: 100%;
   display: flex;
-  background-color: var(--ui-bg-color);
 }
 
 .player-panel {
@@ -60,7 +60,18 @@ body {
 }
 
 .ascii-map-panel .wall-state {
-  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.ascii-map-panel .wall-state > span {
+  width: 50%;
+  text-align: left;
+  padding: 0 5px;
+}
+
+.ascii-map-panel .wall-state > span:first-child {
+  text-align: right;
 }
 
 .ascii-map-panel .map-coords {
