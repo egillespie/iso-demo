@@ -1,4 +1,3 @@
-const insertSprite = require('../sprites/sprite-insert')
 const createWallCapIfExposed = require('./wall-cap-create-if-exposed')
 
 // Removes wall caps that are no longer exposed by translucent walls
@@ -11,12 +10,10 @@ module.exports = function (board, positions) {
     if (cap) {
       cap.remove()
     } else {
-      const newCap = createWallCapIfExposed(board, row, col)
-      if (newCap) {
-        newCap.id = capId
-        newCap.classList.add('clip-cap')
-        insertSprite(newCap)
-      }
+      createWallCapIfExposed(board, row, col, {
+        id: capId,
+        classList: ['clip-cap']
+      })
     }
   }
 }

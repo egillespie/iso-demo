@@ -7,8 +7,9 @@ const wallZIndex = require('./wall-z-index')
 
 // Creates and adds a wall cap of the specified type to the board in the
 // specified row and column.
-module.exports = function (board, type, row, col) {
-  const cap = createSprite(`c${row}-${col}`)
+module.exports = function (board, type, row, col, attrs) {
+  const id = attrs?.id || `c${row}-${col}`
+  const cap = createSprite(id, attrs)
   cap.classList.add('cap', type)
   positionSprite(
     cap,
