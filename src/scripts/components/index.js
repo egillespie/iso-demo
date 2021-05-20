@@ -1,3 +1,5 @@
 module.exports = function () {
-  require('./wall-state-label')
+  require('./player-col')
+  require('./player-row')
+  require('./see-through-walls-label')
 }

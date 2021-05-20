@@ -1,6 +1,6 @@
 const state = require('../state')
 
-class WallStateLabel extends HTMLSpanElement {
+class SeeThroughWallsLabel extends HTMLSpanElement {
   constructor () {
     super()
     this.attachShadow({ mode: 'open' })
@@ -18,6 +18,10 @@ class WallStateLabel extends HTMLSpanElement {
   }
 }
 
-customElements.define('wall-state-label', WallStateLabel, { extends: 'span' })
+customElements.define(
+  'see-through-walls-label',
+  SeeThroughWallsLabel,
+  { extends: 'span' }
+)
 
-module.exports = WallStateLabel
+module.exports = SeeThroughWallsLabel

@@ -59,32 +59,18 @@ body {
   line-height: 90%;
 }
 
-.ascii-map-panel .wall-state {
+.ascii-map-panel .player-details {
   display: flex;
   justify-content: space-evenly;
+  text-align: center;
 }
 
-.ascii-map-panel .wall-state > span {
-  width: 50%;
-  text-align: left;
-  padding: 0 5px;
+.ascii-map-panel .player-details > span {
+  flex: 1 1 25%;
 }
 
-.ascii-map-panel .wall-state > span:first-child {
-  text-align: right;
-}
-
-.ascii-map-panel .map-coords {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.ascii-map-panel .map-coords #player-row::before {
-  content: 'Row: ';
-}
-
-.ascii-map-panel .map-coords #player-col::before {
-  content: 'Col: ';
+.ascii-map-panel .player-details > span:last-child {
+  flex: 2 2 50%;
 }
 
 .play-area {
