@@ -1,9 +1,11 @@
+const styles = require('bundle-text:../../styles/components/ascii-map.css')
 const state = require('../state')
 const deepCopy = require('../util/deep-copy')
 
 class AsciiMap extends HTMLElement {
   constructor () {
     super()
+    this.attachShadow({ mode: 'open' })
     this.resetMap()
     window.addEventListener(
       'statechange:asciimap',
@@ -56,7 +58,10 @@ class AsciiMap extends HTMLElement {
 
   drawMap () {
     const asciiMapString = this.asciiMap ? this.asciiMap.join('\n') : ''
-    this.innerHTML = `<pre><code>${asciiMapString}</code></pre>`
+    this.shadowRoot.innerHTML = `
+      <style>${styles}</style>
+      <pre><code>${asciiMapString}</code></pre>
+    `
   }
 }
 

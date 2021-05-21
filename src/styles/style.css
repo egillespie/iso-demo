@@ -47,18 +47,6 @@ body {
   text-align: center;
 }
 
-.ascii-map-panel pre {
-  display: inline-block;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.ascii-map-panel code {
-  display: inline-block;
-  line-height: 90%;
-}
-
 .ascii-map-panel .player-details {
   display: flex;
   justify-content: space-evenly;

@@ -1,0 +1,11 @@
+pre {
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+code {
+  display: inline-block;
+  line-height: 90%;
+}
