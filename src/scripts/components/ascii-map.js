@@ -1,6 +1,6 @@
-const cssUrl = require('url:../../styles/components/ascii-map.css')
 const state = require('../state')
-const deepCopy = require('../util/deep-copy')
+const createElement = require('./util/create-element')
+const cssUrl = require('url:../../styles/components/ascii-map.css')
 
 class AsciiMap extends HTMLElement {
   constructor () {
@@ -15,11 +15,9 @@ class AsciiMap extends HTMLElement {
     link.setAttribute('rel', 'stylesheet')
     link.setAttribute('href', cssUrl)
 
-    const pre = document.createElement('pre')
-    this.code = document.createElement('code')
-    pre.appendChild(this.code)
+    this.mapContainer = createElement('div', 'ascii-map-container')
+    this.shadowRoot.append(link, this.mapContainer)
 
-    this.shadowRoot.append(link, pre)
     this.resetMap()
   }
 
@@ -39,42 +37,47 @@ class AsciiMap extends HTMLElement {
   }
 
   resetMap () {
-    this.asciiMap = deepCopy(state.asciiMap)
-    this.resetPlayerPosition()
-    this.drawMap()
+    if (state.asciiMap) {
+      this.elementMap = []
+      const mapChars = createElement('div', 'ascii-map-chars')
+      for (let row = 0; row < state.asciiMap.length; row++) {
+        this.elementMap[row] = []
+        const asciiRow = createElement('div', 'ascii-row')
+        for (let col = 0; col < state.asciiMap[row].length; col++) {
+          const asciiChar = state.asciiMap[row][col]
+          const space = createElement('span', 'ascii-space')
+          space.dataset.origChar = asciiChar
+          space.textContent = asciiChar
+          this.elementMap[row][col] = space
+          asciiRow.appendChild(space)
+        }
+        mapChars.appendChild(asciiRow)
+      }
+      const oldMapChars = this.mapContainer.firstElementChild
+      if (oldMapChars) {
+        this.mapContainer.replaceChild(mapChars, oldMapChars)
+      } else {
+        this.mapContainer.appendChild(mapChars)
+      }
+      this.updatePlayerPosition()
+    }
   }
 
   updatePlayerPosition () {
-    this.resetPlayerPosition()
-    this.setPlayerPositionToChar('@')
-    this.drawMap()
-  }
-
-  resetPlayerPosition () {
     if (this.playerRow !== undefined && this.playerCol !== undefined) {
-      const ch = state.asciiMap[this.playerRow][this.playerCol]
-      this.setPlayerPositionToChar(ch)
+      const oldSpace = this.elementMap[this.playerRow][this.playerCol]
+      oldSpace.classList.remove('player')
+      oldSpace.textContent = oldSpace.dataset.origChar
     }
+
     this.playerRow = state.player.row
     this.playerCol = state.player.col
-  }
 
-  setPlayerPositionToChar (ch) {
     if (this.playerRow !== undefined && this.playerCol !== undefined) {
-      this.asciiMap[this.playerRow] = this.replaceCharAt(
-        this.asciiMap[this.playerRow],
-        this.playerCol,
-        ch
-      )
+      const space = this.elementMap[this.playerRow][this.playerCol]
+      space.classList.add('player')
+      space.textContent = '@'
     }
-  }
-
-  replaceCharAt (str, index, ch) {
-    return str.substr(0, index) + ch + str.substr(index + 1)
-  }
-
-  drawMap () {
-    this.code.textContent = this.asciiMap ? this.asciiMap.join('\n') : ''
   }
 }
 
