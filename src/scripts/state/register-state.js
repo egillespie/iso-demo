@@ -7,7 +7,7 @@ const StateChangeEvent = require('./state-change-event')
 // The `fieldName` is the full dot-separated name to access the field in
 // `./state/index.js`. For example, `seeThroughWalls` or `player.row`.
 module.exports = function (stateHolder, fieldName, initialValue) {
-  const privateFieldName = `_${fieldName.replaceAll('.', '_')}`
+  const privateFieldName = `_${fieldName.replace(/[.]/g, '_')}`
   const lastField = fieldName.substring(fieldName.lastIndexOf('.') + 1)
   Object.defineProperty(stateHolder, lastField, {
     enumerable: true,
