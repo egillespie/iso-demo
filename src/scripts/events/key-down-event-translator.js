@@ -15,45 +15,78 @@ const D = { key: 'd', code: 'KeyD' }
 const O = { key: 'o', code: 'KeyO' }
 const P = { key: 'p', code: 'KeyP' }
 
-// Maps `KeyboardEvent.code` values to actions that the player may perform.
-// Also provides functions to customize the key bindings.
-const keyBindings = {
+class KeyDownEventTranslator {
+  constructor () {
+    this.keyBindings = {}
+    this.resetAll()
+  }
+
+  handleEvent (event) {
+    if (document.activeElement === document.body) {
+      const action = this.keyBindings[event.code]
+      if (action) {
+        event.preventDefault()
+        action()
+      }
+    }
+  }
+
+  assignKeyBinding (keyboardEvent, callback) {
+    const oldCode = Object.keys(this.keyBindings).find(
+      code => this.keyBindings[code] === callback
+    )
+    delete this.keyBindings[oldCode]
+    this.keyBindings[keyboardEvent.code] = callback
+  }
+
   assignMoveNorth (keyboardEvent) {
-    assignKeyBinding(keyboardEvent, movePlayerNorth)
-  },
+    this.assignKeyBinding(keyboardEvent, movePlayerNorth)
+  }
+
   assignMoveEast (keyboardEvent) {
-    assignKeyBinding(keyboardEvent, movePlayerEast)
-  },
+    this.assignKeyBinding(keyboardEvent, movePlayerEast)
+  }
+
   assignMoveSouth (keyboardEvent) {
-    assignKeyBinding(keyboardEvent, movePlayerSouth)
-  },
+    this.assignKeyBinding(keyboardEvent, movePlayerSouth)
+  }
+
   assignMoveWest (keyboardEvent) {
-    assignKeyBinding(keyboardEvent, movePlayerWest)
-  },
+    this.assignKeyBinding(keyboardEvent, movePlayerWest)
+  }
+
   assignToggleOpacity (keyboardEvent) {
-    assignKeyBinding(keyboardEvent, toggleOpacity)
-  },
+    this.assignKeyBinding(keyboardEvent, toggleOpacity)
+  }
+
   assignTogglePlayerSprite (keyboardEvent) {
-    assignKeyBinding(keyboardEvent, togglePlayerSprite)
-  },
+    this.assignKeyBinding(keyboardEvent, togglePlayerSprite)
+  }
+
   resetMoveNorth () {
     this.assignMoveNorth(W)
-  },
+  }
+
   resetMoveEast () {
     this.assignMoveEast(D)
-  },
+  }
+
   resetMoveSouth () {
     this.assignMoveSouth(S)
-  },
+  }
+
   resetMoveWest () {
     this.assignMoveWest(A)
-  },
+  }
+
   resetToggleOpacity () {
     this.assignToggleOpacity(O)
-  },
+  }
+
   resetTogglePlayerSprite () {
     this.assignTogglePlayerSprite(P)
-  },
+  }
+
   resetAll () {
     this.resetMoveNorth()
     this.resetMoveEast()
@@ -64,13 +97,4 @@ const keyBindings = {
   }
 }
 
-function assignKeyBinding (keyboardEvent, callback) {
-  const oldCode = Object.keys(keyBindings).find(
-    code => keyBindings[code] === callback
-  )
-  delete keyBindings[oldCode]
-  keyBindings[keyboardEvent.code] = callback
-}
-
-keyBindings.resetAll()
-module.exports = keyBindings
+module.exports = KeyDownEventTranslator
