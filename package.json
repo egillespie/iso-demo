@@ -5,6 +5,7 @@
   "description": "Isometric! at the Browser",
   "author": "Erik Gillespie <erik.gillespie@gmail.com>",
   "scripts": {
+    "prepare": "husky install",
     "dev": "parcel src/index.html --open",
     "lint:html": "htmlhint src/*.html",
     "lint:css": "stylelint src/**/*.css",
