@@ -1,5 +1,7 @@
-const KeyDownEventTranslator = require('./key-down-event-translator')
+const ActionRequestEventHandler = require('./action-request-event-handler')
+const KeyDownEventHandler = require('./key-down-event-handler')
 
 module.exports = function () {
-  window.addEventListener('keydown', new KeyDownEventTranslator())
+  window.addEventListener('actionrequest', new ActionRequestEventHandler())
+  window.addEventListener('keydown', new KeyDownEventHandler())
 }

@@ -5,8 +5,9 @@
 // triggered the action.
 class ActionRequestEvent extends CustomEvent {
   constructor (action) {
-    super(`actionrequest:${action.toLowerCase()}`)
+    super('actionrequest')
     this.name = this.constructor.name
+    this.action = action
   }
 }
 

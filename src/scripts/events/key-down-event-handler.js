@@ -1,9 +1,4 @@
-const toggleOpacity = require('../walls/walls-opacity-toggle')
-const togglePlayerSprite = require('../player/player-sprite-toggle')
-const movePlayerNorth = require('../player/player-move-north')
-const movePlayerEast = require('../player/player-move-east')
-const movePlayerSouth = require('../player/player-move-south')
-const movePlayerWest = require('../player/player-move-west')
+const ActionRequestEvent = require('./action-request-event')
 
 // Sources:
 // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/KeyboardEvent
@@ -15,7 +10,7 @@ const D = { key: 'd', code: 'KeyD' }
 const O = { key: 'o', code: 'KeyO' }
 const P = { key: 'p', code: 'KeyP' }
 
-class KeyDownEventTranslator {
+class KeyDownEventHandler {
   constructor () {
     this.keyBindings = {}
     this.resetAll()
@@ -31,6 +26,12 @@ class KeyDownEventTranslator {
     }
   }
 
+  broadcast (action) {
+    return function () {
+      window.dispatchEvent(new ActionRequestEvent(action))
+    }
+  }
+
   assignKeyBinding (keyboardEvent, callback) {
     const oldCode = Object.keys(this.keyBindings).find(
       code => this.keyBindings[code] === callback
@@ -40,27 +41,27 @@ class KeyDownEventTranslator {
   }
 
   assignMoveNorth (keyboardEvent) {
-    this.assignKeyBinding(keyboardEvent, movePlayerNorth)
+    this.assignKeyBinding(keyboardEvent, this.broadcast('movePlayerNorth'))
   }
 
   assignMoveEast (keyboardEvent) {
-    this.assignKeyBinding(keyboardEvent, movePlayerEast)
+    this.assignKeyBinding(keyboardEvent, this.broadcast('movePlayerEast'))
   }
 
   assignMoveSouth (keyboardEvent) {
-    this.assignKeyBinding(keyboardEvent, movePlayerSouth)
+    this.assignKeyBinding(keyboardEvent, this.broadcast('movePlayerSouth'))
   }
 
   assignMoveWest (keyboardEvent) {
-    this.assignKeyBinding(keyboardEvent, movePlayerWest)
+    this.assignKeyBinding(keyboardEvent, this.broadcast('movePlayerWest'))
   }
 
   assignToggleOpacity (keyboardEvent) {
-    this.assignKeyBinding(keyboardEvent, toggleOpacity)
+    this.assignKeyBinding(keyboardEvent, this.broadcast('toggleOpacity'))
   }
 
   assignTogglePlayerSprite (keyboardEvent) {
-    this.assignKeyBinding(keyboardEvent, togglePlayerSprite)
+    this.assignKeyBinding(keyboardEvent, this.broadcast('togglePlayerSprite'))
   }
 
   resetMoveNorth () {
@@ -97,4 +98,4 @@ class KeyDownEventTranslator {
   }
 }
 
-module.exports = KeyDownEventTranslator
+module.exports = KeyDownEventHandler
