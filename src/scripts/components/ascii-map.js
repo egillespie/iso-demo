@@ -11,12 +11,13 @@ class AsciiMap extends HTMLElement {
   }
 
   initializeLayout () {
-    const link = document.createElement('link')
-    link.setAttribute('rel', 'stylesheet')
-    link.setAttribute('href', cssUrl)
+    const styleLink = createElement('link', {
+      rel: 'stylesheet',
+      href: cssUrl
+    })
 
-    this.mapContainer = createElement('div', 'ascii-map-container')
-    this.shadowRoot.append(link, this.mapContainer)
+    this.mapContainer = createElement('div', { class: 'ascii-map-container' })
+    this.shadowRoot.append(styleLink, this.mapContainer)
 
     this.resetMap()
   }
@@ -39,13 +40,13 @@ class AsciiMap extends HTMLElement {
   resetMap () {
     if (state.asciiMap) {
       this.elementMap = []
-      const mapChars = createElement('div', 'ascii-map-chars')
+      const mapChars = createElement('div', { class: 'ascii-map-chars' })
       for (let row = 0; row < state.asciiMap.length; row++) {
         this.elementMap[row] = []
-        const asciiRow = createElement('div', 'ascii-row')
+        const asciiRow = createElement('div', { class: 'ascii-row' })
         for (let col = 0; col < state.asciiMap[row].length; col++) {
           const asciiChar = state.asciiMap[row][col]
-          const space = createElement('span', 'ascii-space')
+          const space = createElement('span', { class: 'ascii-space' })
           space.dataset.origChar = asciiChar
           space.textContent = asciiChar
           this.elementMap[row][col] = space

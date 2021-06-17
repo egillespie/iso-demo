@@ -1,0 +1,13 @@
+.key-binding {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 40px;
+}
+
+.key-binding label {
+  text-align: right;
+}
+
+.key-binding input {
+  text-align: center;
+}

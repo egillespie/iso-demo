@@ -33,20 +33,6 @@ body {
   flex-shrink: 0;
 }
 
-.key-map-panel .key-binding {
-  display: flex;
-  justify-content: space-between;
-  margin: 0 40px;
-}
-
-.key-map-panel .key-binding label {
-  text-align: right;
-}
-
-.key-map-panel .key-binding input {
-  text-align: center;
-}
-
 .ascii-map-panel .player-details {
   display: flex;
   justify-content: space-evenly;

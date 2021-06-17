@@ -1,7 +1,11 @@
-module.exports = function (tagName, className) {
+module.exports = function (tagName, attributes) {
   const e = document.createElement(tagName)
-  if (className) {
-    e.classList.add(className)
+  for (const attributeName in attributes) {
+    const attribute = attributes[attributeName]
+    const value = attribute instanceof Array
+      ? attribute.join(' ')
+      : (attribute || '')
+    e.setAttribute(attributeName, value)
   }
   return e
 }
