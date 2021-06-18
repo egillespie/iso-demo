@@ -14,6 +14,13 @@ class ActionRequestEventHandler {
       action()
     }
   }
+
+  static instance () {
+    if (!ActionRequestEventHandler._instance) {
+      ActionRequestEventHandler._instance = new ActionRequestEventHandler()
+    }
+    return ActionRequestEventHandler._instance
+  }
 }
 
 module.exports = ActionRequestEventHandler

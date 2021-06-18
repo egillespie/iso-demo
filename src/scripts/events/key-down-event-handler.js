@@ -1,100 +1,60 @@
 const ActionRequestEvent = require('./action-request-event')
+const deepCopy = require('../util/deep-copy')
 
 // Sources:
 // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/KeyboardEvent
 // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code/code_values
-const W = { key: 'w', code: 'KeyW' }
-const A = { key: 'a', code: 'KeyA' }
-const S = { key: 's', code: 'KeyS' }
-const D = { key: 'd', code: 'KeyD' }
-const O = { key: 'o', code: 'KeyO' }
-const P = { key: 'p', code: 'KeyP' }
+const DEFAULT_KEY_BINDINGS = Object.freeze({
+  KeyW: { key: 'w', action: 'movePlayerNorth' },
+  KeyA: { key: 'a', action: 'movePlayerWest' },
+  KeyS: { key: 's', action: 'movePlayerSouth' },
+  KeyD: { key: 'd', action: 'movePlayerEast' },
+  KeyO: { key: 'o', action: 'toggleOpacity' },
+  KeyP: { key: 'p', action: 'togglePlayerSprite' }
+})
 
 class KeyDownEventHandler {
   constructor () {
-    this.keyBindings = {}
-    this.resetAll()
+    this.resetAllKeyBindings()
+  }
+
+  static instance () {
+    if (!KeyDownEventHandler._instance) {
+      KeyDownEventHandler._instance = new KeyDownEventHandler()
+    }
+    return KeyDownEventHandler._instance
   }
 
   handleEvent (event) {
     if (document.activeElement === document.body) {
-      const action = this.keyBindings[event.code]
-      if (action) {
+      const binding = this.keyBindings[event.code]
+      if (binding) {
         event.preventDefault()
-        action()
+        window.dispatchEvent(new ActionRequestEvent(binding.action))
       }
     }
   }
 
-  broadcast (action) {
-    return function () {
-      window.dispatchEvent(new ActionRequestEvent(action))
-    }
-  }
-
-  assignKeyBinding (keyboardEvent, callback) {
-    const oldCode = Object.keys(this.keyBindings).find(
-      code => this.keyBindings[code] === callback
+  lookupCodeForAction (keyBindings, action) {
+    return Object.keys(keyBindings).find(
+      code => keyBindings[code].action === action
     )
+  }
+
+  assignKeyBinding (action, keyboardEvent) {
+    const oldCode = this.lookupCodeForAction(this.keyBindings, action)
     delete this.keyBindings[oldCode]
-    this.keyBindings[keyboardEvent.code] = callback
+    this.keyBindings[keyboardEvent.code] = { action, key: keyboardEvent.key }
   }
 
-  assignMoveNorth (keyboardEvent) {
-    this.assignKeyBinding(keyboardEvent, this.broadcast('movePlayerNorth'))
+  resetKeyBinding (action) {
+    const code = this.lookupCodeForAction(DEFAULT_KEY_BINDINGS, action)
+    const key = DEFAULT_KEY_BINDINGS[code].key
+    this.assignKeyBinding(action, { key, code })
   }
 
-  assignMoveEast (keyboardEvent) {
-    this.assignKeyBinding(keyboardEvent, this.broadcast('movePlayerEast'))
-  }
-
-  assignMoveSouth (keyboardEvent) {
-    this.assignKeyBinding(keyboardEvent, this.broadcast('movePlayerSouth'))
-  }
-
-  assignMoveWest (keyboardEvent) {
-    this.assignKeyBinding(keyboardEvent, this.broadcast('movePlayerWest'))
-  }
-
-  assignToggleOpacity (keyboardEvent) {
-    this.assignKeyBinding(keyboardEvent, this.broadcast('toggleOpacity'))
-  }
-
-  assignTogglePlayerSprite (keyboardEvent) {
-    this.assignKeyBinding(keyboardEvent, this.broadcast('togglePlayerSprite'))
-  }
-
-  resetMoveNorth () {
-    this.assignMoveNorth(W)
-  }
-
-  resetMoveEast () {
-    this.assignMoveEast(D)
-  }
-
-  resetMoveSouth () {
-    this.assignMoveSouth(S)
-  }
-
-  resetMoveWest () {
-    this.assignMoveWest(A)
-  }
-
-  resetToggleOpacity () {
-    this.assignToggleOpacity(O)
-  }
-
-  resetTogglePlayerSprite () {
-    this.assignTogglePlayerSprite(P)
-  }
-
-  resetAll () {
-    this.resetMoveNorth()
-    this.resetMoveEast()
-    this.resetMoveSouth()
-    this.resetMoveWest()
-    this.resetToggleOpacity()
-    this.resetTogglePlayerSprite()
+  resetAllKeyBindings () {
+    this.keyBindings = deepCopy(DEFAULT_KEY_BINDINGS)
   }
 }
 
