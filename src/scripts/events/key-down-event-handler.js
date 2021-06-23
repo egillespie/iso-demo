@@ -35,20 +35,25 @@ class KeyDownEventHandler {
     }
   }
 
-  lookupCodeForAction (keyBindings, action) {
+  lookupCodeForAction (action, keyBindings = this.keyBindings) {
     return Object.keys(keyBindings).find(
       code => keyBindings[code].action === action
     )
   }
 
+  lookupKeyForAction (action, keyBindings = this.keyBindings) {
+    const code = this.lookupCodeForAction(action, keyBindings)
+    return keyBindings[code]?.key
+  }
+
   assignKeyBinding (action, keyboardEvent) {
-    const oldCode = this.lookupCodeForAction(this.keyBindings, action)
+    const oldCode = this.lookupCodeForAction(action)
     delete this.keyBindings[oldCode]
     this.keyBindings[keyboardEvent.code] = { action, key: keyboardEvent.key }
   }
 
   resetKeyBinding (action) {
-    const code = this.lookupCodeForAction(DEFAULT_KEY_BINDINGS, action)
+    const code = this.lookupCodeForAction(action, DEFAULT_KEY_BINDINGS)
     const key = DEFAULT_KEY_BINDINGS[code].key
     this.assignKeyBinding(action, { key, code })
   }

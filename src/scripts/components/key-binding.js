@@ -1,5 +1,6 @@
 const createElement = require('./util/create-element')
 const kebabify = require('../util/kebabify')
+const KeyDownEventHandler = require('../events/key-down-event-handler')
 const cssUrl = require('url:../../styles/components/key-binding.css')
 
 class KeyBinding extends HTMLElement {
@@ -16,10 +17,13 @@ class KeyBinding extends HTMLElement {
       href: cssUrl
     })
 
+    const keyDownEventHandler = KeyDownEventHandler.instance()
+    const action = this.getAttribute('action')
+    const key = keyDownEventHandler.lookupKeyForAction(action)
+
     const keyBinding = createElement('div', { class: 'key-binding' })
     const label = this.getAttribute('label')
     const id = `key-${kebabify(label)}`
-    const key = this.getAttribute('key')
 
     const keyLabel = createElement('label', { for: id })
     keyLabel.textContent = label
