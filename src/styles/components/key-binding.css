@@ -1,13 +1,22 @@
-.key-binding {
+:host {
   display: flex;
   justify-content: space-between;
-  margin: 0 40px;
+  margin: 0 20px;
 }
 
-.key-binding label {
+label {
   text-align: right;
 }
 
-.key-binding input {
+form {
+  display: flex;
+  align-items: center;
+}
+
+form input {
   text-align: center;
+}
+
+form gg-icon {
+  margin-left: 0.3rem;
 }

@@ -21,13 +21,13 @@ class KeyBinding extends HTMLElement {
     const action = this.getAttribute('action')
     const key = keyDownEventHandler.lookupKeyForAction(action)
 
-    const keyBinding = createElement('div', { class: 'key-binding' })
     const label = this.getAttribute('label')
     const id = `key-${kebabify(label)}`
 
     const keyLabel = createElement('label', { for: id })
     keyLabel.textContent = label
 
+    const keyForm = createElement('form')
     const keyInput = createElement('input', {
       type: 'text',
       name: id,
@@ -36,9 +36,10 @@ class KeyBinding extends HTMLElement {
       readonly: 'readonly',
       value: key
     })
+    const keyReset = createElement('gg-icon', { name: 'close' })
+    keyForm.append(keyInput, keyReset)
 
-    keyBinding.append(keyLabel, keyInput)
-    this.shadowRoot.append(styleLink, keyBinding)
+    this.shadowRoot.append(styleLink, keyLabel, keyForm)
   }
 
   addEventListeners () {
