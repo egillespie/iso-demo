@@ -1,5 +1,4 @@
 const createElement = require('./util/create-element')
-const kebabify = require('../util/kebabify')
 const KeyDownEventHandler = require('../events/key-down-event-handler')
 const cssUrl = require('url:../../styles/components/key-binding.css')
 
@@ -17,32 +16,39 @@ class KeyBinding extends HTMLElement {
       href: cssUrl
     })
 
-    const keyDownEventHandler = KeyDownEventHandler.instance()
-    const action = this.getAttribute('action')
-    const key = keyDownEventHandler.lookupKeyForAction(action)
-
-    const label = this.getAttribute('label')
-    const id = `key-${kebabify(label)}`
-
-    const keyLabel = createElement('label', { for: id })
-    keyLabel.textContent = label
-
+    const inputId = 'key-input'
+    this.keyLabel = createElement('label', { for: inputId })
     const keyForm = createElement('form')
-    const keyInput = createElement('input', {
+    this.keyInput = createElement('input', {
       type: 'text',
-      name: id,
-      id: id,
+      name: inputId,
+      id: inputId,
       size: 3,
       readonly: 'readonly',
-      value: key
+      value: ''
     })
     const keyReset = createElement('gg-icon', { name: 'close' })
-    keyForm.append(keyInput, keyReset)
+    keyForm.append(this.keyInput, keyReset)
 
-    this.shadowRoot.append(styleLink, keyLabel, keyForm)
+    this.shadowRoot.append(styleLink, this.keyLabel, keyForm)
   }
 
   addEventListeners () {
+  }
+
+  // Call `attributeChangedCallback` when the 'name' attribute changes.
+  static get observedAttributes () {
+    return ['action', 'label']
+  }
+
+  // Called when the 'name' attribute is changed to allow the icon to change.
+  attributeChangedCallback (name, _oldValue, newValue) {
+    if (name === 'action') {
+      const key = KeyDownEventHandler.instance().lookupKeyForAction(newValue)
+      this.keyInput.value = key
+    } else if (name === 'label') {
+      this.keyLabel.textContent = newValue
+    }
   }
 }
 
