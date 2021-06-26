@@ -17,6 +17,13 @@ form input {
   text-align: center;
 }
 
-form gg-icon {
+form button {
   margin-left: 0.3rem;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  line-height: 0;
 }

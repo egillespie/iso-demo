@@ -27,13 +27,24 @@ class KeyBinding extends HTMLElement {
       readonly: 'readonly',
       value: ''
     })
-    const keyReset = createElement('gg-icon', { name: 'close' })
-    keyForm.append(this.keyInput, keyReset)
+
+    this.resetButton = createElement('button', { type: 'button' })
+    this.resetButton.append(createElement('gg-icon', {
+      name: 'close',
+      'aria-hidden': 'true'
+    }))
+    keyForm.append(this.keyInput, this.resetButton)
 
     this.shadowRoot.append(styleLink, this.keyLabel, keyForm)
   }
 
   addEventListeners () {
+    this.resetButton.addEventListener('click', this.resetKeyBinding)
+  }
+
+  resetKeyBinding () {
+    const action = this.getRootNode().host.getAttribute('action')
+    KeyDownEventHandler.instance().resetKeyBinding(action)
   }
 
   // Call `attributeChangedCallback` when the 'name' attribute changes.
@@ -48,6 +59,10 @@ class KeyBinding extends HTMLElement {
       this.keyInput.value = key
     } else if (name === 'label') {
       this.keyLabel.textContent = newValue
+      this.resetButton.setAttribute(
+        'aria-label',
+        `Reset key binding for "${newValue}" action`
+      )
     }
   }
 }
