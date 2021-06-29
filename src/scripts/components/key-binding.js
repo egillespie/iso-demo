@@ -39,12 +39,22 @@ class KeyBinding extends HTMLElement {
   }
 
   addEventListeners () {
+    const action = this.getAttribute('action')
+    window.addEventListener(
+      `statechange:keybinding.${action.toLowerCase()}`,
+      () => this.syncActionKey(action)
+    )
     this.resetButton.addEventListener('click', this.resetKeyBinding)
   }
 
   resetKeyBinding () {
     const action = this.getRootNode().host.getAttribute('action')
     KeyDownEventHandler.instance().resetKeyBinding(action)
+  }
+
+  syncActionKey (action) {
+    const key = KeyDownEventHandler.instance().lookupKeyForAction(action)
+    this.keyInput.value = key
   }
 
   // Call `attributeChangedCallback` when the 'name' attribute changes.
@@ -55,8 +65,7 @@ class KeyBinding extends HTMLElement {
   // Called when the 'name' attribute is changed to allow the icon to change.
   attributeChangedCallback (name, _oldValue, newValue) {
     if (name === 'action') {
-      const key = KeyDownEventHandler.instance().lookupKeyForAction(newValue)
-      this.keyInput.value = key
+      this.syncActionKey(newValue)
     } else if (name === 'label') {
       this.keyLabel.textContent = newValue
       this.resetButton.setAttribute(

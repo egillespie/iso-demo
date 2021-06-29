@@ -9,6 +9,7 @@ const StateChangeEvent = require('./state-change-event')
 module.exports = function (stateHolder, fieldName, initialValue) {
   const privateFieldName = `_${fieldName.replace(/[.]/g, '_')}`
   const lastField = fieldName.substring(fieldName.lastIndexOf('.') + 1)
+  stateHolder[privateFieldName] = initialValue
   Object.defineProperty(stateHolder, lastField, {
     enumerable: true,
     get () {
@@ -23,7 +24,4 @@ module.exports = function (stateHolder, fieldName, initialValue) {
       }
     }
   })
-  if (initialValue !== undefined) {
-    stateHolder[lastField] = initialValue
-  }
 }
