@@ -1,3 +1,4 @@
+const defineStateHolder = require('./define-state-holder')
 const registerState = require('./register-state')
 
 // Sample game state:
@@ -13,6 +14,14 @@ const registerState = require('./register-state')
 //     player: document.getElementById('player'),
 //     asciiMap: document.getElementById('ascii-map')
 //   },
+//   keyBinding: {
+//     movePlayerNorth: { key: 'w', code: 'KeyW' },
+//     movePlayerWest: { key: 'a', code: 'KeyA' },
+//     movePlayerSouth: { key: 's', code: 'KeyS' },
+//     movePlayerEast: { key: 'd', code: 'KeyD' },
+//     toggleOpacity: { key: 'o', code: 'KeyO' },
+//     togglePlayerSprite: { key: 'p', code: 'KeyP' }
+//   }
 //   asciiMap: null,
 //   currentBoard: null
 // }
@@ -20,23 +29,15 @@ const registerState = require('./register-state')
 
 const state = {}
 
-Object.defineProperty(state, 'player', {
-  value: {},
-  enumerable: true,
-  writable: false
-})
-
-Object.defineProperty(state, 'dom', {
-  value: {},
-  enumerable: true,
-  writable: false
-})
-
 registerState(state, 'seeThroughWalls')
 registerState(state, 'asciiMap')
 registerState(state, 'currentBoard')
+
+defineStateHolder(state, 'player')
 registerState(state.player, 'player.row')
 registerState(state.player, 'player.col')
+
+defineStateHolder(state, 'dom')
 registerState(state.dom, 'dom.player')
 registerState(state.dom, 'dom.renderWindow',
   document.getElementById('render-window')

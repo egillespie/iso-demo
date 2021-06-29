@@ -1,3 +1,5 @@
-module.exports = function (object) {
-  return JSON.parse(JSON.stringify(object))
+module.exports = function (value) {
+  return typeof value === 'object'
+    ? JSON.parse(JSON.stringify(value))
+    : value
 }
