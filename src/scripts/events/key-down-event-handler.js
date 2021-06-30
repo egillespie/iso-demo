@@ -14,9 +14,7 @@ class KeyDownEventHandler {
       : JSON.parse(localStorage.getItem(STORAGE_KEY))
 
     // Allow others to watch for changes to key bindings
-    if (!state.keyBinding) {
-      defineStateHolder(state, 'keyBinding')
-    }
+    defineStateHolder(state, 'keyBinding')
     Object.entries(this.keyBindings).forEach(([code, keyBinding]) => {
       const { key, action } = keyBinding
       registerState(state.keyBinding, `keyBinding.${action}`, { code, key })
