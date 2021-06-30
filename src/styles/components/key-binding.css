@@ -29,13 +29,11 @@ form button {
 }
 
 form button:hover {
-  filter: drop-shadow(0 2px 1px rgb(0 0 0 / 0.4));
   transform: scale(1.1) translateY(-1px);
-  transition: all 0.2s;
+  transition: transform 0.2s;
 }
 
 form button:active {
-  filter: none;
   transform: scale(1) translateY(0);
-  transition: all 0.1s;
+  transition: transform 0.1s;
 }
