@@ -48,8 +48,14 @@ class KeyBinding extends HTMLElement {
   }
 
   resetKeyBinding () {
-    const action = this.getRootNode().host.getAttribute('action')
-    KeyDownEventHandler.instance().resetKeyBinding(action)
+    const label = this.getRootNode().host.getAttribute('label')
+    const reset = confirm(
+      `Reset the key binding for "${label}" to its default value?`
+    )
+    if (reset) {
+      const action = this.getRootNode().host.getAttribute('action')
+      KeyDownEventHandler.instance().resetKeyBinding(action)
+    }
   }
 
   syncActionKey (action) {
@@ -70,7 +76,7 @@ class KeyBinding extends HTMLElement {
       this.keyLabel.textContent = newValue
       this.resetButton.setAttribute(
         'aria-label',
-        `Reset key binding for "${newValue}" action`
+        `Reset the key binding for "${newValue}".`
       )
     }
   }
