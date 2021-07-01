@@ -1,0 +1,23 @@
+.hidden {
+  display: none;
+}
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease;
+}
+
+.modal-container {
+  max-width: 500px;
+  margin: 40px auto 0;
+  padding: 20px 30px;
+  background-color: var(--ui-bg-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+}
