@@ -1,8 +1,7 @@
 const state = require('../state')
 
 class PlayerRow extends HTMLSpanElement {
-  constructor () {
-    super()
+  connectedCallback () {
     this.attachShadow({ mode: 'open' })
     this.updateTextContent()
     window.addEventListener(

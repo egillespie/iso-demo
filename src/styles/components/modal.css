@@ -3,6 +3,7 @@
 }
 
 .modal-mask {
+  display: none;
   position: fixed;
   z-index: 9998;
   top: 0;

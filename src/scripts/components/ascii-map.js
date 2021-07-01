@@ -5,6 +5,10 @@ const cssUrl = require('url:../../styles/components/ascii-map.css')
 class AsciiMap extends HTMLElement {
   constructor () {
     super()
+    this.mapContainer = createElement('div', { class: 'ascii-map-container' })
+  }
+
+  connectedCallback () {
     this.attachShadow({ mode: 'open' })
     this.initializeLayout()
     this.addEventListeners()
@@ -15,10 +19,7 @@ class AsciiMap extends HTMLElement {
       rel: 'stylesheet',
       href: cssUrl
     })
-
-    this.mapContainer = createElement('div', { class: 'ascii-map-container' })
     this.shadowRoot.append(styleLink, this.mapContainer)
-
     this.resetMap()
   }
 

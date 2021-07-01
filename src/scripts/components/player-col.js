@@ -1,8 +1,7 @@
 const state = require('../state')
 
 class PlayerCol extends HTMLSpanElement {
-  constructor () {
-    super()
+  connectedCallback () {
     this.attachShadow({ mode: 'open' })
     this.updateTextContent()
     window.addEventListener(
