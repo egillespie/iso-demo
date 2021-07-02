@@ -1,33 +1,39 @@
 const iconUrl = require('url:../../img/gg-icons.svg')
-const cssUrl = require('url:../../styles/components/gg-icon.css')
+const css = require('bundle-text:../../styles/components/gg-icon.css')
 
 class GGIcon extends HTMLElement {
-  connectedCallback () {
+  constructor () {
+    super()
     this.attachShadow({ mode: 'open' })
     // Can't figure out how to use createElementNS and using a string
     // template is much simpler so using that.
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="${cssUrl}"/>
+      <style>${css}</style>
       <svg xmlns="http://www.w3.org/2000/svg">
-        <use id="use" xlink:href=""/>
+        <use id="use" xlink:href="${this.iconUrl}"/>
       </svg>
     `
-    this.setIcon(this.getAttribute('name'))
   }
 
-  setIcon (name) {
-    const use = this.shadowRoot.getElementById('use')
-    use.setAttribute('xlink:href', `${iconUrl}#icon-${name}`)
+  get icon () {
+    return this.getAttribute('icon')
   }
 
-  // Call `attributeChangedCallback` when the 'name' attribute changes.
+  set icon (name) {
+    this.setAttribute('icon', name)
+  }
+
+  get iconUrl () {
+    return `${iconUrl}#icon-${this.icon}`
+  }
+
   static get observedAttributes () {
-    return ['name']
+    return ['icon']
   }
 
-  // Called when the 'name' attribute is changed to allow the icon to change.
   attributeChangedCallback (_name, _oldValue, newValue) {
-    this.setIcon(newValue)
+    const use = this.shadowRoot.getElementById('use')
+    use.setAttribute('xlink:href', this.iconUrl)
   }
 }
 

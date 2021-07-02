@@ -1,6 +1,7 @@
 const state = require('../state')
 const createElement = require('./util/create-element')
-const cssUrl = require('url:../../styles/components/ascii-map.css')
+const createStyleElement = require('./util/create-style-element')
+const css = require('bundle-text:../../styles/components/ascii-map.css')
 
 class AsciiMap extends HTMLElement {
   constructor () {
@@ -15,12 +16,8 @@ class AsciiMap extends HTMLElement {
   }
 
   initializeLayout () {
-    const styleLink = createElement('link', {
-      rel: 'stylesheet',
-      href: cssUrl
-    })
-    this.shadowRoot.append(styleLink, this.mapContainer)
     this.resetMap()
+    this.shadowRoot.append(createStyleElement(css), this.mapContainer)
   }
 
   addEventListeners () {

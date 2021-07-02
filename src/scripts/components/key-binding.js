@@ -1,6 +1,7 @@
 const createElement = require('./util/create-element')
+const createStyleElement = require('./util/create-style-element')
 const KeyDownEventHandler = require('../events/key-down-event-handler')
-const cssUrl = require('url:../../styles/components/key-binding.css')
+const css = require('bundle-text:../../styles/components/key-binding.css')
 
 class KeyBinding extends HTMLElement {
   constructor () {
@@ -25,17 +26,13 @@ class KeyBinding extends HTMLElement {
   }
 
   initializeLayout () {
-    const styleLink = createElement('link', {
-      rel: 'stylesheet',
-      href: cssUrl
-    })
     this.resetButton.append(createElement('gg-icon', {
-      name: 'close',
+      icon: 'close',
       'aria-hidden': 'true'
     }))
     const keyForm = createElement('form')
     keyForm.append(this.keyInput, this.resetButton)
-    this.shadowRoot.append(styleLink, this.keyLabel, keyForm)
+    this.shadowRoot.append(createStyleElement(css), this.keyLabel, keyForm)
   }
 
   addEventListeners () {

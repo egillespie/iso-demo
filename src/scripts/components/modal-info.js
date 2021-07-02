@@ -1,5 +1,6 @@
 const createElement = require('./util/create-element')
-const cssUrl = require('url:../../styles/components/modal.css')
+const createStyleElement = require('./util/create-style-element')
+const css = require('bundle-text:../../styles/components/modal.css')
 
 class ModalInfo extends HTMLElement {
   constructor () {
@@ -39,14 +40,10 @@ class ModalInfo extends HTMLElement {
   }
 
   initializeLayout () {
-    const styleLink = createElement('link', {
-      rel: 'stylesheet',
-      href: cssUrl
-    })
     const modalContainer = createElement('div', { class: 'modal-container' })
     modalContainer.innerHTML = this.innerHTML
     this.modalMask.append(modalContainer)
-    this.shadowRoot.append(styleLink, this.modalMask)
+    this.shadowRoot.append(createStyleElement(css), this.modalMask)
   }
 }
 
