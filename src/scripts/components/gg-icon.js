@@ -7,7 +7,7 @@ class GGIcon extends HTMLElement {
     this.attachShadow({ mode: 'open' })
     // Can't figure out how to use createElementNS and using a string
     // template is much simpler so using that.
-    this.shadowRoot.innerHTML = `
+    this.shadowRoot.innerHTML = /* html */`
       <style>${css}</style>
       <svg xmlns="http://www.w3.org/2000/svg">
         <use id="use" xlink:href="${this.iconUrl}"/>
