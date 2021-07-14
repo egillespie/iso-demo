@@ -4,7 +4,8 @@ module.exports = function (tagName, attributes) {
     const attribute = attributes[attributeName]
     const value = attribute instanceof Array
       ? attribute.join(' ')
-      : (attribute || '')
+      : attribute == null ? '' : attribute
+    // `attribute == null` is same as `[null, undefined].includes(attribute)`
     e.setAttribute(attributeName, value)
   }
   return e

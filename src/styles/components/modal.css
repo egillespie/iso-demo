@@ -3,7 +3,6 @@
 }
 
 .modal-mask {
-  display: none;
   position: fixed;
   z-index: 9998;
   top: 0;
@@ -16,9 +15,33 @@
 
 .modal-container {
   max-width: 500px;
-  margin: 40px auto 0;
-  padding: 20px 30px;
+  margin: 60px auto 0;
+  padding: 10px;
   background-color: var(--ui-bg-color);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
+}
+
+.model-container > fieldset {
+  padding: 10px;
+}
+
+.modal-container > footer {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.modal-container > footer > button {
+  background-color: #efefef;
+  padding: 5px 10px;
+  margin-left: 8px;
+  margin-right: 2px;
+  border-width: 1px;
+  border-color: #d3d3d3;
+  border-style: outset;
+}
+
+.modal-container > footer > button:active {
+  padding: 6px 9px 4px 11px;
+  border-style: inset;
 }
