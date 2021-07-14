@@ -5,6 +5,8 @@ const css = require('bundle-text:../../styles/components/modal.css')
 class ModalInfo extends HTMLElement {
   constructor () {
     super()
+    this._handleKeyDown = this.handleKeyDown.bind(this)
+    this._hide = this.hide.bind(this)
     this.modalMask = createElement('div', { class: 'modal-mask' })
     this.titleElement = createElement('h2', {
       id: 'title',
@@ -17,9 +19,7 @@ class ModalInfo extends HTMLElement {
   connectedCallback () {
     this.attachShadow({ mode: 'open' })
     this.initializeLayout()
-    if (this.hasAttribute('show')) {
-      this.okButton.blur()
-    }
+    this.addEventListeners()
   }
 
   get show () {
@@ -30,8 +30,13 @@ class ModalInfo extends HTMLElement {
     if (value) {
       this.setAttribute('show', '')
     } else {
+      this.removeEventListeners()
       this.removeAttribute('show')
     }
+  }
+
+  hide () {
+    this.show = false
   }
 
   get title () {
@@ -54,20 +59,20 @@ class ModalInfo extends HTMLElement {
     if (name === 'show') {
       if (newValue === null) {
         this.modalMask.classList.add('hidden')
-        this.modalMask.setAttribute('aria-hidden', 'true')
+        this.modalMask.setAttribute('aria-hidden', true)
       } else {
         this.modalMask.classList.remove('hidden')
-        this.modalMask.setAttribute('aria-hidden', 'false')
+        this.modalMask.setAttribute('aria-hidden', false)
       }
     } else if (name === 'title') {
       if (newValue) {
         this.titleElement.innerHTML = newValue
         this.titleElement.classList.remove('hidden')
-        this.titleElement.setAttribute('aria-hidden', 'false')
+        this.titleElement.setAttribute('aria-hidden', false)
       } else {
         this.titleElement.innerHTML = ''
         this.titleElement.classList.add('hidden')
-        this.titleElement.setAttribute('aria-hidden', 'true')
+        this.titleElement.setAttribute('aria-hidden', true)
       }
     }
   }
@@ -76,7 +81,7 @@ class ModalInfo extends HTMLElement {
     const modalContainer = createElement('aside', {
       class: 'modal-container',
       role: 'dialog',
-      'aria-modal': 'true',
+      'aria-modal': true,
       'aria-labelledby': 'title',
       'aria-describedby': 'content'
     })
@@ -90,6 +95,22 @@ class ModalInfo extends HTMLElement {
     modalContainer.append(contentContainer, footer)
     this.modalMask.append(modalContainer)
     this.shadowRoot.append(createStyleElement(css), this.modalMask)
+  }
+
+  addEventListeners () {
+    window.addEventListener('keydown', this._handleKeyDown)
+    this.okButton.addEventListener('click', this._hide)
+  }
+
+  removeEventListeners () {
+    window.removeEventListener('keydown', this._handleKeyDown)
+    this.okButton.removeEventListener('click', this._hide)
+  }
+
+  handleKeyDown (event) {
+    if (event.code === 'Escape') {
+      this.hide()
+    }
   }
 }
 

@@ -6,6 +6,7 @@
   display: inline-block;
   line-height: 90%;
   font-family: monospace;
+  font-size: 0.875rem;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
