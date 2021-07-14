@@ -15,7 +15,7 @@ class ModalInfo extends HTMLElement {
       class: 'hidden',
       'aria-hidden': true
     })
-    this.okButton = createElement('button', { type: 'button' })
+    this.closeButton = createElement('button', { type: 'button' })
   }
 
   connectedCallback () {
@@ -52,8 +52,20 @@ class ModalInfo extends HTMLElement {
     }
   }
 
+  get closeLabel () {
+    return this.getAttribute('close-label') || 'Close'
+  }
+
+  set closeLabel (text) {
+    if (text) {
+      this.setAttribute('close-label', text)
+    } else {
+      this.removeAttribute('close-label')
+    }
+  }
+
   static get observedAttributes () {
-    return ['show', 'title']
+    return ['show', 'title', 'close-label']
   }
 
   attributeChangedCallback (name, _oldValue, newValue) {
@@ -71,6 +83,8 @@ class ModalInfo extends HTMLElement {
         this.titleElement.innerHTML = ''
         hideElement(this.titleElement)
       }
+    } else if (name === 'close-label') {
+      this.closeButton.textContent = newValue || 'Close'
     }
   }
 
@@ -87,8 +101,8 @@ class ModalInfo extends HTMLElement {
     content.innerHTML = this.innerHTML
     contentContainer.append(this.titleElement, content)
     const footer = createElement('footer')
-    this.okButton.textContent = 'Close'
-    footer.append(this.okButton)
+    this.closeButton.textContent = this.closeLabel
+    footer.append(this.closeButton)
     modalContainer.append(contentContainer, footer)
     this.modalMask.append(modalContainer)
     this.shadowRoot.append(createStyleElement(css), this.modalMask)
@@ -96,12 +110,12 @@ class ModalInfo extends HTMLElement {
 
   addEventListeners () {
     window.addEventListener('keydown', this._handleKeyDown)
-    this.okButton.addEventListener('click', this._hide)
+    this.closeButton.addEventListener('click', this._hide)
   }
 
   removeEventListeners () {
     window.removeEventListener('keydown', this._handleKeyDown)
-    this.okButton.removeEventListener('click', this._hide)
+    this.closeButton.removeEventListener('click', this._hide)
   }
 
   handleKeyDown (event) {
