@@ -22,8 +22,9 @@
   transition: all 0.3s ease;
 }
 
-.model-container > fieldset {
-  padding: 10px;
+.modal-container > section {
+  border: 2px groove var(--ui-border-color);
+  padding: 0 1rem;
 }
 
 .modal-container > footer {
@@ -32,12 +33,12 @@
 }
 
 .modal-container > footer > button {
-  background-color: #efefef;
+  background-color: var(--ui-button-color);
   padding: 5px 10px;
   margin-left: 8px;
   margin-right: 2px;
   border-width: 1px;
-  border-color: #d3d3d3;
+  border-color: var(--ui-border-color);
   border-style: outset;
 }
 

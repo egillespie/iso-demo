@@ -80,14 +80,14 @@ class ModalInfo extends HTMLElement {
       'aria-labelledby': 'title',
       'aria-describedby': 'content'
     })
-    const fieldset = createElement('fieldset')
+    const contentContainer = createElement('section')
     const content = createElement('div', { id: 'content' })
     content.innerHTML = this.innerHTML
-    fieldset.append(this.titleElement, content)
+    contentContainer.append(this.titleElement, content)
     const footer = createElement('footer')
     this.okButton.textContent = 'Close'
     footer.append(this.okButton)
-    modalContainer.append(fieldset, footer)
+    modalContainer.append(contentContainer, footer)
     this.modalMask.append(modalContainer)
     this.shadowRoot.append(createStyleElement(css), this.modalMask)
   }
