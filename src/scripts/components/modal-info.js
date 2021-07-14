@@ -1,5 +1,7 @@
 const createElement = require('./util/create-element')
 const createStyleElement = require('./util/create-style-element')
+const showElement = require('./util/show-element')
+const hideElement = require('./util/hide-element')
 const css = require('bundle-text:../../styles/components/modal.css')
 
 class ModalInfo extends HTMLElement {
@@ -30,7 +32,6 @@ class ModalInfo extends HTMLElement {
     if (value) {
       this.setAttribute('show', '')
     } else {
-      this.removeEventListeners()
       this.removeAttribute('show')
     }
   }
@@ -58,21 +59,17 @@ class ModalInfo extends HTMLElement {
   attributeChangedCallback (name, _oldValue, newValue) {
     if (name === 'show') {
       if (newValue === null) {
-        this.modalMask.classList.add('hidden')
-        this.modalMask.setAttribute('aria-hidden', true)
+        hideElement(this.modalMask)
       } else {
-        this.modalMask.classList.remove('hidden')
-        this.modalMask.setAttribute('aria-hidden', false)
+        showElement(this.modalMask)
       }
     } else if (name === 'title') {
       if (newValue) {
         this.titleElement.innerHTML = newValue
-        this.titleElement.classList.remove('hidden')
-        this.titleElement.setAttribute('aria-hidden', false)
+        showElement(this.titleElement)
       } else {
         this.titleElement.innerHTML = ''
-        this.titleElement.classList.add('hidden')
-        this.titleElement.setAttribute('aria-hidden', true)
+        hideElement(this.titleElement)
       }
     }
   }
