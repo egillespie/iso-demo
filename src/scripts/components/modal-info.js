@@ -1,5 +1,6 @@
 const createElement = require('./util/create-element')
 const createStyleElement = require('./util/create-style-element')
+const syncAttribute = require('./util/sync-attribute')
 const showElement = require('./util/show-element')
 const hideElement = require('./util/hide-element')
 const css = require('bundle-text:../../styles/components/modal.css')
@@ -7,8 +8,6 @@ const css = require('bundle-text:../../styles/components/modal.css')
 class ModalInfo extends HTMLElement {
   constructor () {
     super()
-    this._handleKeyDown = this.handleKeyDown.bind(this)
-    this._hide = this.hide.bind(this)
     this.modalMask = createElement('div', { class: 'modal-mask' })
     this.titleElement = createElement('h2', {
       id: 'title',
@@ -29,11 +28,7 @@ class ModalInfo extends HTMLElement {
   }
 
   set show (value) {
-    if (value) {
-      this.setAttribute('show', '')
-    } else {
-      this.removeAttribute('show')
-    }
+    syncAttribute(this, 'show', value ? '' : null)
   }
 
   hide () {
@@ -45,11 +40,7 @@ class ModalInfo extends HTMLElement {
   }
 
   set title (title) {
-    if (title) {
-      this.setAttribute('title', title)
-    } else {
-      this.removeAttribute('title')
-    }
+    syncAttribute(this, 'title', title)
   }
 
   get closeLabel () {
@@ -57,11 +48,7 @@ class ModalInfo extends HTMLElement {
   }
 
   set closeLabel (text) {
-    if (text) {
-      this.setAttribute('close-label', text)
-    } else {
-      this.removeAttribute('close-label')
-    }
+    syncAttribute(this, 'close-label', text)
   }
 
   static get observedAttributes () {
@@ -109,13 +96,8 @@ class ModalInfo extends HTMLElement {
   }
 
   addEventListeners () {
-    window.addEventListener('keydown', this._handleKeyDown)
-    this.closeButton.addEventListener('click', this._hide)
-  }
-
-  removeEventListeners () {
-    window.removeEventListener('keydown', this._handleKeyDown)
-    this.closeButton.removeEventListener('click', this._hide)
+    window.addEventListener('keydown', this.handleKeyDown.bind(this))
+    this.closeButton.addEventListener('click', this.hide.bind(this))
   }
 
   handleKeyDown (event) {
