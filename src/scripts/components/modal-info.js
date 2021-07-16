@@ -51,27 +51,45 @@ class ModalInfo extends HTMLElement {
     syncAttribute(this, 'close-label', text)
   }
 
-  static get observedAttributes () {
-    return ['show', 'title', 'close-label']
+  static get attributeHandlers () {
+    return {
+      show: 'handleShowChanged',
+      title: 'handleTitleChanged',
+      'close-label': 'handleCloseLabelChanged'
+    }
   }
 
-  attributeChangedCallback (name, _oldValue, newValue) {
-    if (name === 'show') {
-      if (newValue === null) {
-        hideElement(this.modalMask)
-      } else {
-        showElement(this.modalMask)
-      }
-    } else if (name === 'title') {
-      if (newValue) {
-        this.titleElement.innerHTML = newValue
-        showElement(this.titleElement)
-      } else {
-        this.titleElement.innerHTML = ''
-        hideElement(this.titleElement)
-      }
-    } else if (name === 'close-label') {
-      this.closeButton.textContent = newValue || 'Close'
+  static get observedAttributes () {
+    return Object.keys(ModalInfo.attributeHandlers)
+  }
+
+  handleShowChanged (show) {
+    if (show !== null) {
+      showElement(this.modalMask)
+    } else {
+      hideElement(this.modalMask)
+    }
+  }
+
+  handleTitleChanged (title) {
+    if (title) {
+      this.titleElement.innerHTML = title
+      showElement(this.titleElement)
+    } else {
+      this.titleElement.innerHTML = ''
+      hideElement(this.titleElement)
+    }
+  }
+
+  handleCloseLabelChanged (label) {
+    this.closeButton.textContent = label || 'Close'
+  }
+
+  attributeChangedCallback (name, oldValue, newValue) {
+    const attributeHandler = ModalInfo.attributeHandlers[name]
+    const handleChange = this[attributeHandler]?.bind(this)
+    if (handleChange) {
+      handleChange(newValue, oldValue)
     }
   }
 
