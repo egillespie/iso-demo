@@ -31,6 +31,12 @@ body {
   display: flex;
 }
 
+.focus-trap {
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+
 .player-panel {
   width: 300px;
   flex-shrink: 0;

@@ -8,19 +8,20 @@ const css = require('bundle-text:../../styles/components/modal.css')
 class ModalInfo extends HTMLElement {
   constructor () {
     super()
-    this.modalMask = createElement('div', { class: 'modal-mask' })
-    this.titleElement = createElement('h2', {
-      id: 'title',
-      class: 'hidden',
-      'aria-hidden': true
-    })
-    this.closeButton = createElement('button', { type: 'button' })
+    this._handleKeyDown = this.handleKeyDown.bind(this)
+    this._hide = this.hide.bind(this)
+    this.attachShadow({ mode: 'open' })
+    this.initializeLayout()
   }
 
   connectedCallback () {
-    this.attachShadow({ mode: 'open' })
-    this.initializeLayout()
-    this.addEventListeners()
+    window.addEventListener('keydown', this._handleKeyDown)
+    this.closeButton.addEventListener('click', this._hide)
+  }
+
+  disconnectedCallback () {
+    window.removeEventListener('keydown', this._handleKeyDown)
+    this.closeButton.removeEventListener('click', this._hide)
   }
 
   get show () {
@@ -63,8 +64,17 @@ class ModalInfo extends HTMLElement {
     return Object.keys(ModalInfo.attributeHandlers)
   }
 
+  attributeChangedCallback (name, oldValue, newValue) {
+    const attributeHandler = ModalInfo.attributeHandlers[name]
+    const handleChange = this[attributeHandler]?.bind(this)
+    if (handleChange) {
+      handleChange(newValue, oldValue)
+    }
+  }
+
   handleShowChanged (show) {
     if (show !== null) {
+      this.trapFocus()
       showElement(this.modalMask)
     } else {
       hideElement(this.modalMask)
@@ -85,15 +95,19 @@ class ModalInfo extends HTMLElement {
     this.closeButton.textContent = label || 'Close'
   }
 
-  attributeChangedCallback (name, oldValue, newValue) {
-    const attributeHandler = ModalInfo.attributeHandlers[name]
-    const handleChange = this[attributeHandler]?.bind(this)
-    if (handleChange) {
-      handleChange(newValue, oldValue)
-    }
-  }
-
   initializeLayout () {
+    this.modalMask = createElement('div', { class: 'modal-mask' })
+    this.titleElement = createElement('h2', {
+      id: 'title',
+      class: 'hidden',
+      'aria-hidden': true
+    })
+    this.closeButton = createElement('button', { type: 'button' })
+    this.trap = createElement('div', {
+      class: 'focus-trap',
+      tabindex: -1,
+      'aria-hidden': true
+    })
     const modalContainer = createElement('aside', {
       class: 'modal-container',
       role: 'dialog',
@@ -113,15 +127,22 @@ class ModalInfo extends HTMLElement {
     this.shadowRoot.append(createStyleElement(css), this.modalMask)
   }
 
-  addEventListeners () {
-    window.addEventListener('keydown', this.handleKeyDown.bind(this))
-    this.closeButton.addEventListener('click', this.hide.bind(this))
-  }
-
   handleKeyDown (event) {
     if (event.code === 'Escape') {
       this.hide()
     }
+  }
+
+  trapFocus () {
+    const nodes = document.body.children
+    const previousSibling = nodes[0].previousSibling
+    for (let i = 0; nodes.length - i; this.trap.firstChild === nodes[0] && i++) {
+      this.trap.appendChild(nodes[i])
+    }
+    const nextSibling = previousSibling
+      ? previousSibling.nextSibling
+      : document.body.firstChild
+    document.body.insertBefore(this.trap, nextSibling)
   }
 }
 

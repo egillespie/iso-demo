@@ -6,33 +6,28 @@ const css = require('bundle-text:../../styles/components/ascii-map.css')
 class AsciiMap extends HTMLElement {
   constructor () {
     super()
-    this.mapContainer = createElement('div', { class: 'ascii-map-container' })
+    this._resetMap = this.resetMap.bind(this)
+    this._updatePlayerPos = this.updatePlayerPos.bind(this)
+    this.attachShadow({ mode: 'open' })
+    this.initializeLayout()
   }
 
   connectedCallback () {
-    this.attachShadow({ mode: 'open' })
-    this.initializeLayout()
-    this.addEventListeners()
+    window.addEventListener('statechange:asciimap', this._resetMap)
+    window.addEventListener('statechange:player.row', this._updatePlayerPos)
+    window.addEventListener('statechange:player.col', this._updatePlayerPos)
+  }
+
+  disconnectedCallback () {
+    window.removeEventListener('statechange:asciimap', this._resetMap)
+    window.removeEventListener('statechange:player.row', this._updatePlayerPos)
+    window.removeEventListener('statechange:player.col', this._updatePlayerPos)
   }
 
   initializeLayout () {
+    this.mapContainer = createElement('div', { class: 'ascii-map-container' })
     this.resetMap()
     this.shadowRoot.append(createStyleElement(css), this.mapContainer)
-  }
-
-  addEventListeners () {
-    window.addEventListener(
-      'statechange:asciimap',
-      () => this.resetMap()
-    )
-    window.addEventListener(
-      'statechange:player.row',
-      () => this.updatePlayerPosition()
-    )
-    window.addEventListener(
-      'statechange:player.col',
-      () => this.updatePlayerPosition()
-    )
   }
 
   resetMap () {
@@ -58,11 +53,11 @@ class AsciiMap extends HTMLElement {
       } else {
         this.mapContainer.appendChild(mapChars)
       }
-      this.updatePlayerPosition()
+      this.updatePlayerPos()
     }
   }
 
-  updatePlayerPosition () {
+  updatePlayerPos () {
     if (this.playerRow !== undefined && this.playerCol !== undefined) {
       const oldSpace = this.elementMap[this.playerRow][this.playerCol]
       oldSpace.classList.remove('player')

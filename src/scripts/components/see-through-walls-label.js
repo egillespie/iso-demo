@@ -1,16 +1,22 @@
 const state = require('../state')
 
 class SeeThroughWallsLabel extends HTMLSpanElement {
-  connectedCallback () {
+  constructor () {
+    super()
+    this._syncContent = this.syncContent.bind(this)
     this.attachShadow({ mode: 'open' })
-    this.updateTextContent()
-    window.addEventListener(
-      'statechange:seethroughwalls',
-      () => this.updateTextContent()
-    )
+    this.syncContent()
   }
 
-  updateTextContent () {
+  connectedCallback () {
+    window.addEventListener('statechange:seethroughwalls', this._syncContent)
+  }
+
+  disconnectedCallback () {
+    window.removeEventListener('statechange:seethroughwalls', this._syncContent)
+  }
+
+  syncContent () {
     this.shadowRoot.textContent = state.seeThroughWalls
       ? 'translucent'
       : 'opaque'

@@ -1,11 +1,51 @@
 const createElement = require('./util/create-element')
 const createStyleElement = require('./util/create-style-element')
+const syncAttribute = require('./util/sync-attribute')
 const KeyDownEventHandler = require('../events/key-down-event-handler')
 const css = require('bundle-text:../../styles/components/key-binding.css')
 
 class KeyBinding extends HTMLElement {
   constructor () {
     super()
+    this._syncActionKey = this.syncActionKey.bind(this)
+    this._resetKeyBinding = this.resetKeyBinding.bind(this)
+    this.attachShadow({ mode: 'open' })
+    this.initializeLayout()
+  }
+
+  connectedCallback () {
+    window.addEventListener(
+      `statechange:keybinding.${this.action.toLowerCase()}`,
+      this._syncActionKey
+    )
+    this.resetButton.addEventListener('click', this._resetKeyBinding)
+  }
+
+  disconnectedCallback () {
+    window.removeEventListener(
+      `statechange:keybinding.${this.action.toLowerCase()}`,
+      this._syncActionKey
+    )
+    this.resetButton.removeEventListener('click', this._resetKeyBinding)
+  }
+
+  get action () {
+    return this.getAttribute('action')
+  }
+
+  set action (value) {
+    this.setAttribute('action', value)
+  }
+
+  get label () {
+    return this.getAttribute('label')
+  }
+
+  set label (value) {
+    syncAttribute(this, 'label', value)
+  }
+
+  initializeLayout () {
     const inputId = 'key-input'
     this.keyLabel = createElement('label', { for: inputId })
     this.keyInput = createElement('input', {
@@ -17,15 +57,6 @@ class KeyBinding extends HTMLElement {
       value: ''
     })
     this.resetButton = createElement('button', { type: 'button' })
-  }
-
-  connectedCallback () {
-    this.attachShadow({ mode: 'open' })
-    this.initializeLayout()
-    this.addEventListeners()
-  }
-
-  initializeLayout () {
     this.resetButton.append(createElement('gg-icon', {
       icon: 'close',
       'aria-hidden': 'true'
@@ -35,28 +66,17 @@ class KeyBinding extends HTMLElement {
     this.shadowRoot.append(createStyleElement(css), this.keyLabel, keyForm)
   }
 
-  addEventListeners () {
-    const action = this.getAttribute('action')
-    window.addEventListener(
-      `statechange:keybinding.${action.toLowerCase()}`,
-      () => this.syncActionKey(action)
-    )
-    this.resetButton.addEventListener('click', this.resetKeyBinding)
-  }
-
   resetKeyBinding () {
-    const label = this.getRootNode().host.getAttribute('label')
     const reset = confirm(
-      `Reset the key binding for "${label}" to its default value?`
+      `Reset the key binding for "${this.label}" to its default value?`
     )
     if (reset) {
-      const action = this.getRootNode().host.getAttribute('action')
-      KeyDownEventHandler.instance().resetKeyBinding(action)
+      KeyDownEventHandler.instance().resetKeyBinding(this.action)
     }
   }
 
-  syncActionKey (action) {
-    const key = KeyDownEventHandler.instance().lookupKeyForAction(action)
+  syncActionKey () {
+    const key = KeyDownEventHandler.instance().lookupKeyForAction(this.action)
     this.keyInput.value = key
   }
 
@@ -68,7 +88,12 @@ class KeyBinding extends HTMLElement {
   // Called when the 'name' attribute is changed to allow the icon to change.
   attributeChangedCallback (name, _oldValue, newValue) {
     if (name === 'action') {
-      this.syncActionKey(newValue)
+      const key = KeyDownEventHandler.instance().lookupKeyForAction(newValue)
+      if (key) {
+        this.syncActionKey()
+      } else {
+        console.error(`Invalid value for attribute 'action': '${newValue}'`)
+      }
     } else if (name === 'label') {
       this.keyLabel.textContent = newValue
       this.resetButton.setAttribute(

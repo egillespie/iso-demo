@@ -1,16 +1,22 @@
 const state = require('../state')
 
 class PlayerRow extends HTMLSpanElement {
-  connectedCallback () {
+  constructor () {
+    super()
+    this._syncContent = this.syncContent.bind(this)
     this.attachShadow({ mode: 'open' })
-    this.updateTextContent()
-    window.addEventListener(
-      'statechange:player.row',
-      () => this.updateTextContent()
-    )
+    this.syncContent()
   }
 
-  updateTextContent () {
+  connectedCallback () {
+    window.addEventListener('statechange:player.row', this._syncContent)
+  }
+
+  disconnectedCallback () {
+    window.removeEventListener('statechange:player.row', this._syncContent)
+  }
+
+  syncContent () {
     this.shadowRoot.textContent = state.player.row
   }
 }
