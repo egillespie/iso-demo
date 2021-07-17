@@ -31,7 +31,7 @@ class GGIcon extends HTMLElement {
     return ['icon']
   }
 
-  attributeChangedCallback (_name, _oldValue, newValue) {
+  attributeChangedCallback () {
     const use = this.shadowRoot.getElementById('use')
     use.setAttribute('xlink:href', this.iconUrl)
   }

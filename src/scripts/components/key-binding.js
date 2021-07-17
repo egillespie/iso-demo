@@ -2,6 +2,7 @@ const createElement = require('./util/create-element')
 const createStyleElement = require('./util/create-style-element')
 const syncAttribute = require('./util/sync-attribute')
 const KeyDownEventHandler = require('../events/key-down-event-handler')
+const invokeOnChangeAttribute = require('./util/invoke-on-change-attribute')
 const css = require('bundle-text:../../styles/components/key-binding.css')
 
 class KeyBinding extends HTMLElement {
@@ -80,27 +81,29 @@ class KeyBinding extends HTMLElement {
     this.keyInput.value = key
   }
 
-  // Call `attributeChangedCallback` when the 'name' attribute changes.
   static get observedAttributes () {
     return ['action', 'label']
   }
 
-  // Called when the 'name' attribute is changed to allow the icon to change.
-  attributeChangedCallback (name, _oldValue, newValue) {
-    if (name === 'action') {
-      const key = KeyDownEventHandler.instance().lookupKeyForAction(newValue)
-      if (key) {
-        this.syncActionKey()
-      } else {
-        console.error(`Invalid value for attribute 'action': '${newValue}'`)
-      }
-    } else if (name === 'label') {
-      this.keyLabel.textContent = newValue
-      this.resetButton.setAttribute(
-        'aria-label',
-        `Reset the key binding for "${newValue}".`
-      )
+  attributeChangedCallback () {
+    invokeOnChangeAttribute(this, ...arguments)
+  }
+
+  onChangeAction (action) {
+    const key = KeyDownEventHandler.instance().lookupKeyForAction(action)
+    if (key) {
+      this.syncActionKey()
+    } else {
+      console.error(`Invalid value for attribute 'action': '${action}'`)
     }
+  }
+
+  onChangeLabel (label) {
+    this.keyLabel.textContent = label
+    this.resetButton.setAttribute(
+      'aria-label',
+      `Reset the key binding for "${label}".`
+    )
   }
 }
 

@@ -3,13 +3,8 @@ const createStyleElement = require('./util/create-style-element')
 const syncAttribute = require('./util/sync-attribute')
 const showElement = require('./util/show-element')
 const hideElement = require('./util/hide-element')
+const invokeOnChangeAttribute = require('./util/invoke-on-change-attribute')
 const css = require('bundle-text:../../styles/components/modal.css')
-
-const ATTRIBUTE_HANDLERS = new Map([
-  ['show', 'handleShowChanged'],
-  ['heading', 'handleHeadingChanged'],
-  ['close-label', 'handleCloseLabelChanged']
-])
 
 class ModalInfo extends HTMLElement {
   constructor () {
@@ -53,18 +48,14 @@ class ModalInfo extends HTMLElement {
   }
 
   static get observedAttributes () {
-    return ATTRIBUTE_HANDLERS.keys()
+    return ['show', 'heading', 'close-label']
   }
 
-  attributeChangedCallback (name, oldValue, newValue) {
-    const attributeHandler = ATTRIBUTE_HANDLERS.get(name)
-    const handleChange = this[attributeHandler]?.bind(this)
-    if (handleChange) {
-      handleChange(newValue, oldValue)
-    }
+  attributeChangedCallback () {
+    invokeOnChangeAttribute(this, ...arguments)
   }
 
-  handleShowChanged (show) {
+  onChangeShow (show) {
     if (show !== null) {
       // this.trapFocus()
       showElement(this.modalMask)
@@ -74,7 +65,7 @@ class ModalInfo extends HTMLElement {
     }
   }
 
-  handleHeadingChanged (heading) {
+  onChangeHeading (heading) {
     if (heading) {
       this.headingElement.innerHTML = heading
       showElement(this.headingElement)
@@ -84,7 +75,7 @@ class ModalInfo extends HTMLElement {
     }
   }
 
-  handleCloseLabelChanged (label) {
+  onChangeCloseLabel (label) {
     this.closeButton.textContent = label || 'Close'
   }
 
