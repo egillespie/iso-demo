@@ -5,17 +5,15 @@ const showElement = require('./util/show-element')
 const hideElement = require('./util/hide-element')
 const css = require('bundle-text:../../styles/components/modal.css')
 
-const ATTRIBUTE_HANDLERS = {
-  show: 'handleShowChanged',
-  title: 'handleTitleChanged',
-  'close-label': 'handleCloseLabelChanged'
-}
+const ATTRIBUTE_HANDLERS = new Map([
+  ['show', 'handleShowChanged'],
+  ['heading', 'handleHeadingChanged'],
+  ['close-label', 'handleCloseLabelChanged']
+])
 
 class ModalInfo extends HTMLElement {
   constructor () {
     super()
-    this._handleKeyDown = this.handleKeyDown.bind(this)
-    this._hide = this.hide.bind(this)
     this.attachShadow({ mode: 'open' })
     this.initializeLayout()
   }
@@ -38,12 +36,12 @@ class ModalInfo extends HTMLElement {
     syncAttribute(this, 'show', value ? '' : null)
   }
 
-  get title () {
-    return this.getAttribute('title')
+  get heading () {
+    return this.getAttribute('heading')
   }
 
-  set title (title) {
-    syncAttribute(this, 'title', title)
+  set heading (heading) {
+    syncAttribute(this, 'heading', heading)
   }
 
   get closeLabel () {
@@ -55,11 +53,11 @@ class ModalInfo extends HTMLElement {
   }
 
   static get observedAttributes () {
-    return Object.keys(ATTRIBUTE_HANDLERS)
+    return ATTRIBUTE_HANDLERS.keys()
   }
 
   attributeChangedCallback (name, oldValue, newValue) {
-    const attributeHandler = ATTRIBUTE_HANDLERS[name]
+    const attributeHandler = ATTRIBUTE_HANDLERS.get(name)
     const handleChange = this[attributeHandler]?.bind(this)
     if (handleChange) {
       handleChange(newValue, oldValue)
@@ -71,17 +69,18 @@ class ModalInfo extends HTMLElement {
       // this.trapFocus()
       showElement(this.modalMask)
     } else {
+      // this.freeFocus()
       hideElement(this.modalMask)
     }
   }
 
-  handleTitleChanged (title) {
-    if (title) {
-      this.titleElement.innerHTML = title
-      showElement(this.titleElement)
+  handleHeadingChanged (heading) {
+    if (heading) {
+      this.headingElement.innerHTML = heading
+      showElement(this.headingElement)
     } else {
-      this.titleElement.innerHTML = ''
-      hideElement(this.titleElement)
+      this.headingElement.innerHTML = ''
+      hideElement(this.headingElement)
     }
   }
 
@@ -91,8 +90,8 @@ class ModalInfo extends HTMLElement {
 
   initializeLayout () {
     this.modalMask = createElement('div', { class: 'modal-mask' })
-    this.titleElement = createElement('h2', {
-      id: 'title',
+    this.headingElement = createElement('h2', {
+      id: 'heading',
       class: 'hidden',
       'aria-hidden': true
     })
@@ -106,13 +105,13 @@ class ModalInfo extends HTMLElement {
       class: 'modal-container',
       role: 'dialog',
       'aria-modal': true,
-      'aria-labelledby': 'title',
+      'aria-labelledby': 'heading',
       'aria-describedby': 'content'
     })
     const contentContainer = createElement('section')
     const content = createElement('div', { id: 'content' })
     content.innerHTML = this.innerHTML
-    contentContainer.append(this.titleElement, content)
+    contentContainer.append(this.headingElement, content)
     const footer = createElement('footer')
     this.closeButton.textContent = this.closeLabel
     footer.append(this.closeButton)
@@ -137,6 +136,9 @@ class ModalInfo extends HTMLElement {
       ? previousSibling.nextSibling
       : document.body.firstChild
     document.body.insertBefore(this.trap, nextSibling)
+  }
+
+  freeFocus () {
   }
 
   hide () {
