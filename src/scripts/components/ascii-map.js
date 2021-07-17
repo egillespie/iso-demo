@@ -6,22 +6,32 @@ const css = require('bundle-text:../../styles/components/ascii-map.css')
 class AsciiMap extends HTMLElement {
   constructor () {
     super()
-    this._resetMap = this.resetMap.bind(this)
-    this._updatePlayerPos = this.updatePlayerPos.bind(this)
     this.attachShadow({ mode: 'open' })
     this.initializeLayout()
   }
 
   connectedCallback () {
-    window.addEventListener('statechange:asciimap', this._resetMap)
-    window.addEventListener('statechange:player.row', this._updatePlayerPos)
-    window.addEventListener('statechange:player.col', this._updatePlayerPos)
+    window.addEventListener('statechange:asciimap', this)
+    window.addEventListener('statechange:player.row', this)
+    window.addEventListener('statechange:player.col', this)
   }
 
   disconnectedCallback () {
-    window.removeEventListener('statechange:asciimap', this._resetMap)
-    window.removeEventListener('statechange:player.row', this._updatePlayerPos)
-    window.removeEventListener('statechange:player.col', this._updatePlayerPos)
+    window.removeEventListener('statechange:asciimap', this)
+    window.removeEventListener('statechange:player.row', this)
+    window.removeEventListener('statechange:player.col', this)
+  }
+
+  handleEvent (event) {
+    switch (event.type) {
+      case 'statechange:asciimap':
+        this.resetMap()
+        break
+      case 'statechange:player.row':
+      case 'statechange:player.col':
+        this.updatePlayerPos()
+        break
+    }
   }
 
   initializeLayout () {
