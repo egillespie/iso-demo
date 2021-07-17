@@ -5,6 +5,12 @@ const showElement = require('./util/show-element')
 const hideElement = require('./util/hide-element')
 const css = require('bundle-text:../../styles/components/modal.css')
 
+const ATTRIBUTE_HANDLERS = {
+  show: 'handleShowChanged',
+  title: 'handleTitleChanged',
+  'close-label': 'handleCloseLabelChanged'
+}
+
 class ModalInfo extends HTMLElement {
   constructor () {
     super()
@@ -15,13 +21,13 @@ class ModalInfo extends HTMLElement {
   }
 
   connectedCallback () {
-    window.addEventListener('keydown', this._handleKeyDown)
-    this.closeButton.addEventListener('click', this._hide)
+    window.addEventListener('keydown', this)
+    this.closeButton.addEventListener('click', this)
   }
 
   disconnectedCallback () {
-    window.removeEventListener('keydown', this._handleKeyDown)
-    this.closeButton.removeEventListener('click', this._hide)
+    window.removeEventListener('keydown', this)
+    this.closeButton.removeEventListener('click', this)
   }
 
   get show () {
@@ -30,10 +36,6 @@ class ModalInfo extends HTMLElement {
 
   set show (value) {
     syncAttribute(this, 'show', value ? '' : null)
-  }
-
-  hide () {
-    this.show = false
   }
 
   get title () {
@@ -52,20 +54,12 @@ class ModalInfo extends HTMLElement {
     syncAttribute(this, 'close-label', text)
   }
 
-  static get attributeHandlers () {
-    return {
-      show: 'handleShowChanged',
-      title: 'handleTitleChanged',
-      'close-label': 'handleCloseLabelChanged'
-    }
-  }
-
   static get observedAttributes () {
-    return Object.keys(ModalInfo.attributeHandlers)
+    return Object.keys(ATTRIBUTE_HANDLERS)
   }
 
   attributeChangedCallback (name, oldValue, newValue) {
-    const attributeHandler = ModalInfo.attributeHandlers[name]
+    const attributeHandler = ATTRIBUTE_HANDLERS[name]
     const handleChange = this[attributeHandler]?.bind(this)
     if (handleChange) {
       handleChange(newValue, oldValue)
@@ -74,7 +68,7 @@ class ModalInfo extends HTMLElement {
 
   handleShowChanged (show) {
     if (show !== null) {
-      this.trapFocus()
+      // this.trapFocus()
       showElement(this.modalMask)
     } else {
       hideElement(this.modalMask)
@@ -143,6 +137,18 @@ class ModalInfo extends HTMLElement {
       ? previousSibling.nextSibling
       : document.body.firstChild
     document.body.insertBefore(this.trap, nextSibling)
+  }
+
+  hide () {
+    this.show = false
+  }
+
+  handleEvent (event) {
+    if (event.type === 'keydown') {
+      this.handleKeyDown(event)
+    } else if (event.type === 'click') {
+      this.hide()
+    }
   }
 }
 
