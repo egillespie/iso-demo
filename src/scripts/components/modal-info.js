@@ -3,12 +3,15 @@ const createStyleElement = require('./util/create-style-element')
 const syncAttribute = require('./util/sync-attribute')
 const showElement = require('./util/show-element')
 const hideElement = require('./util/hide-element')
+const changeParentElement = require('./util/change-parent-element')
 const invokeOnChangeAttribute = require('./util/invoke-on-change-attribute')
 const css = require('bundle-text:../../styles/components/modal.css')
 
 class ModalInfo extends HTMLElement {
   constructor () {
     super()
+    this.originalParentNode = this.parentNode
+    this.originalNextElementSibling = this.nextElementSibling
     this.attachShadow({ mode: 'open' })
     this.initializeLayout()
   }
@@ -55,12 +58,14 @@ class ModalInfo extends HTMLElement {
     invokeOnChangeAttribute(this, ...arguments)
   }
 
-  onChangeShow (show) {
+  onChangeShow (show, wasShowing) {
+    const actuallyChanged = (show !== null) !== (wasShowing !== null)
+    if (!actuallyChanged) return
     if (show !== null) {
-      // this.trapFocus()
+      this.trapFocus()
       showElement(this.modalMask)
     } else {
-      // this.freeFocus()
+      this.freeFocus()
       hideElement(this.modalMask)
     }
   }
@@ -111,6 +116,14 @@ class ModalInfo extends HTMLElement {
     this.shadowRoot.append(createStyleElement(css), this.modalMask)
   }
 
+  handleEvent (event) {
+    if (event.type === 'keydown') {
+      this.handleKeyDown(event)
+    } else if (event.type === 'click') {
+      this.hide()
+    }
+  }
+
   handleKeyDown (event) {
     if (event.code === 'Escape') {
       this.hide()
@@ -118,30 +131,20 @@ class ModalInfo extends HTMLElement {
   }
 
   trapFocus () {
-    const nodes = document.body.children
-    const previousSibling = nodes[0].previousSibling
-    for (let i = 0; nodes.length - i; this.trap.firstChild === nodes[0] && i++) {
-      this.trap.appendChild(nodes[i])
-    }
-    const nextSibling = previousSibling
-      ? previousSibling.nextSibling
-      : document.body.firstChild
-    document.body.insertBefore(this.trap, nextSibling)
+    changeParentElement(document.body, this.trap)
+    this.remove()
+    document.body.append(this.trap, this)
   }
 
   freeFocus () {
+    changeParentElement(this.trap, document.body)
+    this.trap.remove()
+    this.remove()
+    this.originalParentNode.insertBefore(this, this.originalNextElementSibling)
   }
 
   hide () {
     this.show = false
-  }
-
-  handleEvent (event) {
-    if (event.type === 'keydown') {
-      this.handleKeyDown(event)
-    } else if (event.type === 'click') {
-      this.hide()
-    }
   }
 }
 
