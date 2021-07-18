@@ -4,6 +4,8 @@ const syncAttribute = require('./util/sync-attribute')
 const showElement = require('./util/show-element')
 const hideElement = require('./util/hide-element')
 const changeParentElement = require('./util/change-parent-element')
+const allowFocusWithin = require('./util/allow-focus-within')
+const preventFocusWithin = require('./util/prevent-focus-within')
 const invokeOnChangeAttribute = require('./util/invoke-on-change-attribute')
 const css = require('bundle-text:../../styles/components/modal.css')
 
@@ -89,18 +91,18 @@ class ModalInfo extends HTMLElement {
     this.headingElement = createElement('h2', {
       id: 'heading',
       class: 'hidden',
-      'aria-hidden': true
+      'aria-hidden': 'true'
     })
     this.closeButton = createElement('button', { type: 'button' })
     this.trap = createElement('div', {
       class: 'focus-trap',
-      tabindex: -1,
-      'aria-hidden': true
+      tabindex: '-1',
+      'aria-hidden': 'true'
     })
     const modalContainer = createElement('aside', {
       class: 'modal-container',
       role: 'dialog',
-      'aria-modal': true,
+      'aria-modal': 'true',
       'aria-labelledby': 'heading',
       'aria-describedby': 'content'
     })
@@ -131,12 +133,18 @@ class ModalInfo extends HTMLElement {
   }
 
   trapFocus () {
+    // Wrap body elements in trap element and move the modal out
     changeParentElement(document.body, this.trap)
     this.remove()
     document.body.append(this.trap, this)
+    // Make focusable elements unfocusable
+    preventFocusWithin(this.trap)
   }
 
   freeFocus () {
+    // Make unfocusable elements focusable
+    allowFocusWithin(this.trap)
+    // Move contents of trap back into body and put modal back
     changeParentElement(this.trap, document.body)
     this.trap.remove()
     this.remove()
