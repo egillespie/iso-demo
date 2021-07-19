@@ -133,12 +133,15 @@ class ModalInfo extends HTMLElement {
   }
 
   trapFocus () {
+    // Save the focused element
+    this.lastFocusedElement = document.activeElement
     // Wrap body elements in trap element and move the modal out
     changeParentElement(document.body, this.trap)
     this.remove()
     document.body.append(this.trap, this)
-    // Make focusable elements unfocusable
+    // Make focusable elements unfocusable and focus the modal
     preventFocusWithin(this.trap)
+    this.focus()
   }
 
   freeFocus () {
@@ -149,6 +152,8 @@ class ModalInfo extends HTMLElement {
     this.trap.remove()
     this.remove()
     this.originalParentNode.insertBefore(this, this.originalNextElementSibling)
+    // Restore focus
+    this.lastFocusedElement?.focus()
   }
 
   hide () {
