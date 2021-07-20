@@ -8,26 +8,22 @@ const css = require('bundle-text:../../styles/components/key-binding.css')
 class KeyBinding extends HTMLElement {
   constructor () {
     super()
-    this._syncActionKey = this.syncActionKey.bind(this)
-    this._resetKeyBinding = this.resetKeyBinding.bind(this)
     this.attachShadow({ mode: 'open' })
     this.initializeLayout()
   }
 
   connectedCallback () {
     window.addEventListener(
-      `statechange:keybinding.${this.action.toLowerCase()}`,
-      this._syncActionKey
+      `statechange:keybinding.${this.action.toLowerCase()}`, this
     )
-    this.resetButton.addEventListener('click', this._resetKeyBinding)
+    this.resetButton.addEventListener('click', this)
   }
 
   disconnectedCallback () {
     window.removeEventListener(
-      `statechange:keybinding.${this.action.toLowerCase()}`,
-      this._syncActionKey
+      `statechange:keybinding.${this.action.toLowerCase()}`, this
     )
-    this.resetButton.removeEventListener('click', this._resetKeyBinding)
+    this.resetButton.removeEventListener('click', this)
   }
 
   get action () {
@@ -89,9 +85,16 @@ class KeyBinding extends HTMLElement {
     invokeOnChangeAttribute(this, ...arguments)
   }
 
-  onChangeAction (action) {
-    const key = KeyDownEventHandler.instance().lookupKeyForAction(action)
-    if (key) {
+  onChangeAction (action, oldAction) {
+    if (oldAction) {
+      window.removeEventListener(
+        `statechange:keybinding.${oldAction.toLowerCase()}`, this
+      )
+    }
+    if (KeyDownEventHandler.instance().lookupKeyForAction(action)) {
+      window.addEventListener(
+        `statechange:keybinding.${action.toLowerCase()}`, this
+      )
       this.syncActionKey()
     } else {
       console.error(`Invalid value for attribute 'action': '${action}'`)
@@ -104,6 +107,14 @@ class KeyBinding extends HTMLElement {
       'aria-label',
       `Reset the key binding for "${label}".`
     )
+  }
+
+  handleEvent (event) {
+    if (event.type === `statechange:keybinding.${this.action.toLowerCase()}`) {
+      this.syncActionKey()
+    } else if (event.type === 'click') {
+      this.resetKeyBinding()
+    }
   }
 }
 

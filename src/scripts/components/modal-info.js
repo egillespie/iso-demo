@@ -1,3 +1,4 @@
+const ModalCloseEvent = require('./modal-close-event')
 const createElement = require('./util/create-element')
 const createStyleElement = require('./util/create-style-element')
 const syncAttribute = require('./util/sync-attribute')
@@ -70,6 +71,7 @@ class ModalInfo extends HTMLElement {
     } else {
       this.freeFocus()
       hideElement(this.modalMask)
+      this.dispatchEvent(new ModalCloseEvent('close'))
     }
   }
 
