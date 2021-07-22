@@ -136,6 +136,8 @@ class ModalInfo extends HTMLElement {
   }
 
   trapFocus () {
+    // Prevent scrolling
+    document.body.classList.add('scroll-lock')
     // Save the focused element
     this.lastFocusedElement = getActiveBuiltinElement()
     // Wrap body elements in trap element and move the modal out
@@ -148,6 +150,8 @@ class ModalInfo extends HTMLElement {
   }
 
   freeFocus () {
+    // Resume scrolling
+    document.body.classList.remove('scroll-lock')
     // Make unfocusable elements focusable
     allowFocusWithin(this.trap)
     // Move contents of trap back into body and put modal back

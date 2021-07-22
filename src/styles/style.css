@@ -8,7 +8,6 @@
 html {
   box-sizing: border-box;
   font-size: 16px;
-  height: 100%;
 }
 
 *,
@@ -20,21 +19,17 @@ html {
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
   background-color: var(--ui-bg-color);
   image-rendering: pixelated;
   image-rendering: crisp-edges; /* fallback for Firefox */
 }
 
-.app-content {
-  height: 100%;
-  display: flex;
+body.scroll-lock {
+  overflow: hidden;
 }
 
-.focus-trap {
-  height: 100%;
-  pointer-events: none;
-  user-select: none;
+.app-content {
+  display: flex;
 }
 
 .player-panel {
@@ -58,6 +53,7 @@ body {
 
 .play-area {
   flex-grow: 1;
+  min-height: 100vh;
 }
 
 .play-area fieldset {

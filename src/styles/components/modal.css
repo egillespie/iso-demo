@@ -46,3 +46,8 @@
   padding: 6px 9px 4px 11px;
   border-style: inset;
 }
+
+.focus-trap {
+  pointer-events: none;
+  user-select: none;
+}
