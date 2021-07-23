@@ -29,6 +29,8 @@ const registerState = require('./register-state')
 
 const state = {}
 
+registerState(state, 'paused', false)
+
 registerState(state, 'seeThroughWalls')
 registerState(state, 'asciiMap')
 registerState(state, 'currentBoard')

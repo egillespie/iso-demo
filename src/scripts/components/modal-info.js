@@ -1,4 +1,5 @@
 const ModalCloseEvent = require('./modal-close-event')
+const state = require('../state')
 const createElement = require('./util/create-element')
 const createStyleElement = require('./util/create-style-element')
 const syncAttribute = require('./util/sync-attribute')
@@ -136,6 +137,8 @@ class ModalInfo extends HTMLElement {
   }
 
   trapFocus () {
+    // Pause other events
+    state.paused = true
     // Prevent scrolling
     document.body.classList.add('scroll-lock')
     // Save the focused element
@@ -143,7 +146,7 @@ class ModalInfo extends HTMLElement {
     // Wrap body elements in trap element and move the modal out
     changeParentElement(document.body, this.trap)
     this.remove()
-    document.body.append(this.trap, this)
+    document.body.append(this, this.trap)
     // Make focusable elements unfocusable and focus the modal
     preventFocusWithin(this.trap)
     this.focus()
@@ -161,6 +164,8 @@ class ModalInfo extends HTMLElement {
     this.originalParentNode.insertBefore(this, this.originalNextElementSibling)
     // Restore focus
     this.lastFocusedElement?.focus()
+    // Resume other events
+    state.paused = false
   }
 
   hide () {

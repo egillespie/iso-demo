@@ -29,6 +29,7 @@ class KeyDownEventHandler {
   }
 
   handleEvent (event) {
+    if (state.paused) return
     if (document.activeElement === document.body) {
       const binding = this.keyBindings[event.code]
       if (binding) {
