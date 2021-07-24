@@ -1,5 +1,5 @@
 const CommonModal = require('./common-modal')
-const ModalCloseEvent = require('./modal-close-event')
+const ModalActionEvent = require('./modal-action-event')
 
 class InfoModal extends CommonModal {
   constructor () {
@@ -18,7 +18,7 @@ class InfoModal extends CommonModal {
 
   close () {
     this.hide()
-    this.dispatchEvent(new ModalCloseEvent('close'))
+    this.dispatchEvent(new ModalActionEvent('close'))
   }
 }
 

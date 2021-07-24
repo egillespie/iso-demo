@@ -1,3 +1,4 @@
+const ModalActionEvent = require('./modal-action-event')
 const state = require('../../state')
 const capitalize = require('../../util/capitalize')
 const createElement = require('../util/create-element')
@@ -105,15 +106,15 @@ class Modal extends HTMLElement {
 
   initializeLayout () {
     this.attachShadow({ mode: 'open' })
+    this.trap = createElement('div', {
+      class: 'focus-trap',
+      tabindex: '-1',
+      'aria-hidden': 'true'
+    })
     this.modalMask = createElement('div', { class: 'modal-mask' })
     this.headingElement = createElement('h2', {
       id: 'heading',
       class: 'hidden',
-      'aria-hidden': 'true'
-    })
-    this.trap = createElement('div', {
-      class: 'focus-trap',
-      tabindex: '-1',
       'aria-hidden': 'true'
     })
     const modalContainer = createElement('aside', {
@@ -192,6 +193,7 @@ class Modal extends HTMLElement {
 
   escape () {
     this.hide()
+    this.dispatchEvent(new ModalActionEvent('escape'))
   }
 }
 
