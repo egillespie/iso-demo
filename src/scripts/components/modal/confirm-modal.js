@@ -1,22 +1,22 @@
 const ModalCloseEvent = require('./modal-close-event')
-const state = require('../state')
-const createElement = require('./util/create-element')
-const createStyleElement = require('./util/create-style-element')
-const syncAttribute = require('./util/sync-attribute')
-const showElement = require('./util/show-element')
-const hideElement = require('./util/hide-element')
-const changeParentElement = require('./util/change-parent-element')
-const allowFocusWithin = require('./util/allow-focus-within')
-const preventFocusWithin = require('./util/prevent-focus-within')
-const getActiveBuiltinElement = require('./util/get-active-builtin-element')
-const invokeOnChangeAttribute = require('./util/invoke-on-change-attribute')
-const css = require('bundle-text:../../styles/components/modal.css')
+const state = require('../../state')
+const createElement = require('../util/create-element')
+const createStyleElement = require('../util/create-style-element')
+const syncAttribute = require('../util/sync-attribute')
+const showElement = require('../util/show-element')
+const hideElement = require('../util/hide-element')
+const changeParentElement = require('../util/change-parent-element')
+const allowFocusWithin = require('../util/allow-focus-within')
+const preventFocusWithin = require('../util/prevent-focus-within')
+const getActiveBuiltinElement = require('../util/get-active-builtin-element')
+const invokeOnChangeAttribute = require('../util/invoke-on-change-attribute')
+const css = require('bundle-text:~/src/styles/components/modal.css')
 
-class ModalInfo extends HTMLElement {
+class ConfirmModal extends HTMLElement {
   constructor () {
     super()
-    this.originalParentNode = this.parentNode
-    this.originalNextElementSibling = this.nextElementSibling
+    this.originalParent = this.parentNode
+    this.originalSibling = this.nextElementSibling
     this.attachShadow({ mode: 'open' })
     this.initializeLayout()
   }
@@ -24,11 +24,13 @@ class ModalInfo extends HTMLElement {
   connectedCallback () {
     window.addEventListener('keydown', this)
     this.closeButton.addEventListener('click', this)
+    this.confirmButton.addEventListener('click', this)
   }
 
   disconnectedCallback () {
     window.removeEventListener('keydown', this)
     this.closeButton.removeEventListener('click', this)
+    this.confirmButton.removeEventListener('click', this)
   }
 
   get show () {
@@ -55,8 +57,16 @@ class ModalInfo extends HTMLElement {
     syncAttribute(this, 'close-label', text)
   }
 
+  get confirmLabel () {
+    return this.getAttribute('confirm-label') || 'OK'
+  }
+
+  set confirmLabel (text) {
+    syncAttribute(this, 'confirm-label', text)
+  }
+
   static get observedAttributes () {
-    return ['show', 'heading', 'close-label']
+    return ['show', 'heading', 'close-label', 'confirm-label']
   }
 
   attributeChangedCallback () {
@@ -90,6 +100,10 @@ class ModalInfo extends HTMLElement {
     this.closeButton.textContent = label || 'Close'
   }
 
+  onChangeConfirmLabel (label) {
+    this.confirmButton.textContent = label || 'OK'
+  }
+
   initializeLayout () {
     this.modalMask = createElement('div', { class: 'modal-mask' })
     this.headingElement = createElement('h2', {
@@ -97,7 +111,6 @@ class ModalInfo extends HTMLElement {
       class: 'hidden',
       'aria-hidden': 'true'
     })
-    this.closeButton = createElement('button', { type: 'button' })
     this.trap = createElement('div', {
       class: 'focus-trap',
       tabindex: '-1',
@@ -115,8 +128,11 @@ class ModalInfo extends HTMLElement {
     content.innerHTML = this.innerHTML
     contentContainer.append(this.headingElement, content)
     const footer = createElement('footer')
+    this.confirmButton = createElement('button', { type: 'button' })
+    this.confirmButton.textContent = this.confirmLabel
+    this.closeButton = createElement('button', { type: 'button' })
     this.closeButton.textContent = this.closeLabel
-    footer.append(this.closeButton)
+    footer.append(this.confirmButton, this.closeButton)
     modalContainer.append(contentContainer, footer)
     this.modalMask.append(modalContainer)
     this.shadowRoot.append(createStyleElement(css), this.modalMask)
@@ -126,13 +142,17 @@ class ModalInfo extends HTMLElement {
     if (event.type === 'keydown') {
       this.handleKeyDown(event)
     } else if (event.type === 'click') {
-      this.hide()
+      if (event.target === this.confirmButton) {
+        this.confirm()
+      } else if (event.target === this.closeButton) {
+        this.close()
+      }
     }
   }
 
   handleKeyDown (event) {
     if (event.code === 'Escape') {
-      this.hide()
+      this.close()
     }
   }
 
@@ -161,7 +181,7 @@ class ModalInfo extends HTMLElement {
     changeParentElement(this.trap, document.body)
     this.trap.remove()
     this.remove()
-    this.originalParentNode.insertBefore(this, this.originalNextElementSibling)
+    this.originalParent.insertBefore(this, this.originalSibling)
     // Restore focus
     this.lastFocusedElement?.focus()
     // Resume other events
@@ -171,8 +191,18 @@ class ModalInfo extends HTMLElement {
   hide () {
     this.show = false
   }
+
+  close () {
+    this.hide()
+    this.dispatchEvent(new ModalCloseEvent('close'))
+  }
+
+  confirm () {
+    this.hide()
+    this.dispatchEvent(new ModalCloseEvent('confirm'))
+  }
 }
 
-customElements.define('modal-info', ModalInfo)
+customElements.define('confirm-modal', ConfirmModal)
 
-module.exports = ModalInfo
+module.exports = ConfirmModal

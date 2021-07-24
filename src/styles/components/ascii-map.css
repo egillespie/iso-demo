@@ -4,9 +4,9 @@
 
 .ascii-map-chars {
   display: inline-block;
-  line-height: 90%;
-  font-family: monospace;
-  font-size: 0.875rem;
+  font-family: Courier, monospace;
+  font-size: var(--ui-font-size-sm);
+  line-height: var(--ui-font-size-sm);
   position: relative;
   left: 50%;
   transform: translateX(-50%);

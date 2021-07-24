@@ -34,17 +34,20 @@
 
 .modal-container > footer > button {
   background-color: var(--ui-button-color);
+  border-color: var(--ui-border-color);
+  font-size: var(--ui-font-size-sm);
+  line-height: var(--ui-font-size-sm);
   padding: 5px 10px;
   margin-left: 8px;
   margin-right: 2px;
   border-width: 1px;
-  border-color: var(--ui-border-color);
   border-style: outset;
+  vertical-align: bottom;
 }
 
 .modal-container > footer > button:active {
-  padding: 6px 9px 4px 11px;
   border-style: inset;
+  padding: 6px 9px 4px 11px;
 }
 
 .focus-trap {

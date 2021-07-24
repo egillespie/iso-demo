@@ -2,18 +2,21 @@
   --ui-bg-color: #a9a9a9;
   --ui-border-color: #d3d3d3;
   --ui-button-color: #efefef;
+  --ui-font-size-sm: 0.875rem;
   --rw-bg-color: #111;
-}
-
-html {
-  box-sizing: border-box;
-  font-size: 16px;
 }
 
 *,
 *::before,
 *::after {
   box-sizing: inherit;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.15;
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -26,6 +29,82 @@ body {
 
 body.scroll-lock {
   overflow: hidden;
+}
+
+main {
+  display: block;
+}
+
+strong {
+  font-weight: bolder;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+button,
+input {
+  overflow: visible;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+  display: block;
+  margin-inline-start: 2px;
+  margin-inline-end: 2px;
+  padding-block-start: 0.35em;
+  padding-inline-start: 0.75em;
+  padding-inline-end: 0.75em;
+  padding-block-end: 0.625em;
+  min-inline-size: min-content;
+  border-width: 2px;
+  border-style: groove;
+  border-color: var(--ui-border-color);
+  border-image: initial;
+}
+
+legend {
+  box-sizing: border-box;
+  color: inherit;
+  display: table;
+  max-width: 100%;
+  padding: 0;
+  white-space: normal;
 }
 
 .app-content {
