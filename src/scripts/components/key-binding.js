@@ -1,7 +1,8 @@
+const KeyDownEventHandler = require('../events/key-down-event-handler')
+const ConfirmModal = require('./modal/confirm-modal')
 const createElement = require('./util/create-element')
 const createStyleElement = require('./util/create-style-element')
 const syncAttribute = require('./util/sync-attribute')
-const KeyDownEventHandler = require('../events/key-down-event-handler')
 const invokeOnChangeAttribute = require('./util/invoke-on-change-attribute')
 const css = require('bundle-text:../../styles/components/key-binding.css')
 
@@ -64,12 +65,20 @@ class KeyBinding extends HTMLElement {
   }
 
   resetKeyBinding () {
-    const reset = confirm(
-      `Reset the key binding for "${this.label}" to its default value?`
-    )
-    if (reset) {
-      KeyDownEventHandler.instance().resetKeyBinding(this.action)
-    }
+    const confirmModal = new ConfirmModal()
+    confirmModal.innerHTML =
+      `<p>Reset the key binding for "${this.label}" to its default value?</p>`
+    confirmModal.heading = 'Confirm'
+    confirmModal.confirmLabel = 'Yes'
+    confirmModal.closeLabel = 'No'
+    confirmModal.show = true
+    confirmModal.addEventListener('modal:action', event => {
+      if (event.action === 'confirm') {
+        KeyDownEventHandler.instance().resetKeyBinding(this.action)
+      }
+      confirmModal.remove()
+    }, { once: true })
+    this.shadowRoot.append(confirmModal)
   }
 
   syncActionKey () {
@@ -86,6 +95,7 @@ class KeyBinding extends HTMLElement {
   }
 
   onChangeAction (action, oldAction) {
+    if (action === oldAction) return
     if (oldAction) {
       window.removeEventListener(
         `statechange:keybinding.${oldAction.toLowerCase()}`, this

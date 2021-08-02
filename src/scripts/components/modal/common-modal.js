@@ -17,8 +17,6 @@ class Modal extends HTMLElement {
   constructor () {
     super()
     this.buttons = new Map()
-    this.originalParent = this.parentNode
-    this.originalSibling = this.nextElementSibling
   }
 
   addButton (name, defaultLabel, onClick) {
@@ -45,6 +43,8 @@ class Modal extends HTMLElement {
   }
 
   connectedCallback () {
+    this.originalParent = this.parentNode
+    this.originalSibling = this.nextElementSibling
     window.addEventListener('keydown', this)
     for (const { element } of this.buttons.values()) {
       element.addEventListener('click', this)
@@ -52,6 +52,8 @@ class Modal extends HTMLElement {
   }
 
   disconnectedCallback () {
+    this.originalParent = null
+    this.originalSibling = null
     window.removeEventListener('keydown', this)
     for (const { element } of this.buttons.values()) {
       element.addEventListener('click', this)
@@ -83,8 +85,10 @@ class Modal extends HTMLElement {
   }
 
   onChangeShow (show, wasShowing) {
-    const actuallyChanged = (show !== null) !== (wasShowing !== null)
-    if (!actuallyChanged) return
+    if ((show !== null) === (wasShowing !== null)) {
+      // Old and new values haven't effectively changed
+      return
+    }
     if (show !== null) {
       this.trapFocus()
       showElement(this.modalMask)
@@ -125,9 +129,8 @@ class Modal extends HTMLElement {
       'aria-describedby': 'content'
     })
     const contentContainer = createElement('section')
-    const content = createElement('div', { id: 'content' })
-    content.innerHTML = this.innerHTML
-    contentContainer.append(this.headingElement, content)
+    this.content = createElement('div', { id: 'content' })
+    contentContainer.append(this.headingElement, this.content)
     const footer = createElement('footer')
     for (const { element } of this.buttons.values()) {
       footer.append(element)
@@ -155,6 +158,9 @@ class Modal extends HTMLElement {
     }
   }
 
+  // Focus traps are hard and these modal's attempt to implememnt the "best"
+  // solution according to the following article on the subject:
+  // https://medium.com/@antonkorzunov/its-a-focus-trap-699a04d66fb5
   trapFocus () {
     // Pause other events
     state.paused = true
@@ -180,7 +186,7 @@ class Modal extends HTMLElement {
     changeParentElement(this.trap, document.body)
     this.trap.remove()
     this.remove()
-    this.originalParent.insertBefore(this, this.originalSibling)
+    this.originalParent?.insertBefore(this, this.originalSibling)
     // Restore focus
     this.lastFocusedElement?.focus()
     // Resume other events
