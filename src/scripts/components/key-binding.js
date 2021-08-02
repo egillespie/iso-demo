@@ -71,7 +71,6 @@ class KeyBinding extends HTMLElement {
     confirmModal.heading = 'Confirm'
     confirmModal.confirmLabel = 'Yes'
     confirmModal.closeLabel = 'No'
-    confirmModal.show = true
     confirmModal.addEventListener('modal:action', event => {
       if (event.action === 'confirm') {
         KeyDownEventHandler.instance().resetKeyBinding(this.action)
@@ -79,6 +78,7 @@ class KeyBinding extends HTMLElement {
       confirmModal.remove()
     }, { once: true })
     this.shadowRoot.append(confirmModal)
+    confirmModal.show = true
   }
 
   syncActionKey () {

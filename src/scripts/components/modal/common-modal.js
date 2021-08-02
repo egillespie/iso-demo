@@ -43,6 +43,7 @@ class Modal extends HTMLElement {
   }
 
   connectedCallback () {
+    this.content.innerHTML = this.innerHTML
     this.originalParent = this.parentNode
     this.originalSibling = this.nextElementSibling
     window.addEventListener('keydown', this)
