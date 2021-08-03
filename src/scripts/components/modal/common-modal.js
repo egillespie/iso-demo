@@ -19,7 +19,7 @@ class Modal extends HTMLElement {
     this.buttons = new Map()
   }
 
-  addButton (name, defaultLabel, onClick) {
+  addButton (name, defaultLabel, onClickFunction) {
     const self = this
     const camelLabel = `${name}Label`
     const kebabLabel = `${name}-label`
@@ -37,6 +37,7 @@ class Modal extends HTMLElement {
     this[`onChange${capitalize(camelLabel)}`] = function (label) {
       element.textContent = label || defaultLabel
     }
+    const onClick = onClickFunction.bind(this)
     this.buttons.set(name, {
       defaultLabel, onClick, element, camelLabel, kebabLabel
     })

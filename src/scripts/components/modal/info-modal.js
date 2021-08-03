@@ -4,7 +4,7 @@ const ModalActionEvent = require('./modal-action-event')
 class InfoModal extends CommonModal {
   constructor () {
     super()
-    this.addButton('close', 'Close', this.close.bind(this))
+    this.addButton('close', 'Close', this.close)
     super.initializeLayout()
   }
 
