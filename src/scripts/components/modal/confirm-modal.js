@@ -4,8 +4,8 @@ const ModalActionEvent = require('./modal-action-event')
 class ConfirmModal extends CommonModal {
   constructor () {
     super()
-    this.addButton('confirm', 'Confirm', this.confirm.bind(this))
-    this.addButton('close', 'Close', this.close.bind(this))
+    this.addButton('confirm', 'Confirm', this.confirm)
+    this.addButton('close', 'Close', this.close)
     super.initializeLayout()
   }
 
