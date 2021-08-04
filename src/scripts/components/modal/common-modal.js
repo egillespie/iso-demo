@@ -10,6 +10,7 @@ const allowFocusWithin = require('../util/allow-focus-within')
 const preventFocusWithin = require('../util/prevent-focus-within')
 const getActiveBuiltinElement = require('../util/get-active-builtin-element')
 const invokeOnChangeAttribute = require('../util/invoke-on-change-attribute')
+const kebabToCamelCase = require('../../util/kebab-to-camel-case')
 
 const html = /* html */`
   <style>
@@ -92,17 +93,16 @@ class Modal extends HTMLElement {
     this.buttons = new Map()
   }
 
-  addButton (name, defaultLabel, onClickFunction) {
+  addButton (labelAttribute, defaultLabel, onClickFunction) {
     const self = this
-    const camelLabel = `${name}Label`
-    const kebabLabel = `${name}-label`
+    const camelLabel = kebabToCamelCase(labelAttribute)
     Object.defineProperty(this, camelLabel, {
       enumerable: true,
       get () {
-        return self.getAttribute(kebabLabel) || defaultLabel
+        return self.getAttribute(labelAttribute) || defaultLabel
       },
       set (text) {
-        syncAttribute(self, kebabLabel, text)
+        syncAttribute(self, labelAttribute, text)
       }
     })
     const element = createElement('button', { type: 'button' })
@@ -111,8 +111,8 @@ class Modal extends HTMLElement {
       element.textContent = label || defaultLabel
     }
     const onClick = onClickFunction.bind(this)
-    this.buttons.set(name, {
-      defaultLabel, onClick, element, camelLabel, kebabLabel
+    this.buttons.set(labelAttribute, {
+      labelAttribute, defaultLabel, onClick, element
     })
   }
 
