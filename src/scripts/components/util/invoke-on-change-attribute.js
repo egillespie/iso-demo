@@ -1,4 +1,4 @@
-const kebabToCamelCase = require('../../util/kebab-to-camel-case')
+const kebabToPascalCase = require('../../util/kebab-to-pascal-case')
 
 // Call this in a web component's `attributeChangedCallback` function:
 //
@@ -13,7 +13,7 @@ const kebabToCamelCase = require('../../util/kebab-to-camel-case')
 // changed. For example, if a `close-label` attribute is changed, this function
 // will call `onChangeCloseLabel` on the instance if it exists.
 module.exports = function (instance, name, oldValue, newValue) {
-  const funcName = `onChange${kebabToCamelCase(name)}`
+  const funcName = `onChange${kebabToPascalCase(name)}`
   const onChangeHandler = instance[funcName]?.bind(instance)
   if (onChangeHandler) {
     onChangeHandler(newValue, oldValue)
