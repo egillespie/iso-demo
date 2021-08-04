@@ -80,7 +80,9 @@ const html = /* html */`
     >
       <section>
         <h2 id="heading" class="hidden" aria-hidden="true"></h2>
-        <div id="content"></div>
+        <div id="content">
+          <slot name="content"></slot>
+        </div>
       </section>
       <footer id="button-container"></footer>
     </aside>
@@ -117,7 +119,6 @@ class Modal extends HTMLElement {
   }
 
   connectedCallback () {
-    this.content.innerHTML = this.innerHTML
     this.originalParent = this.parentNode
     this.originalSibling = this.nextElementSibling
     window.addEventListener('keydown', this)

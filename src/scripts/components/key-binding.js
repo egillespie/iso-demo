@@ -66,8 +66,11 @@ class KeyBinding extends HTMLElement {
 
   resetKeyBinding () {
     const confirmModal = new ConfirmModal()
-    confirmModal.innerHTML =
-      `<p>Reset the key binding for "${this.label}" to its default value?</p>`
+    confirmModal.innerHTML = /* html */`
+      <p slot="content">
+        Reset the key binding for "${this.label}" to its default value?
+      </p>
+    `
     confirmModal.heading = 'Confirm'
     confirmModal.confirmLabel = 'Yes'
     confirmModal.closeLabel = 'No'
