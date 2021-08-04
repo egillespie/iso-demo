@@ -2,7 +2,6 @@ const ModalActionEvent = require('./modal-action-event')
 const state = require('../../state')
 const capitalize = require('../../util/capitalize')
 const createElement = require('../util/create-element')
-const createStyleElement = require('../util/create-style-element')
 const syncAttribute = require('../util/sync-attribute')
 const showElement = require('../util/show-element')
 const hideElement = require('../util/hide-element')
@@ -11,7 +10,81 @@ const allowFocusWithin = require('../util/allow-focus-within')
 const preventFocusWithin = require('../util/prevent-focus-within')
 const getActiveBuiltinElement = require('../util/get-active-builtin-element')
 const invokeOnChangeAttribute = require('../util/invoke-on-change-attribute')
-const css = require('bundle-text:~/src/styles/components/modal.css')
+
+const html = /* html */`
+  <style>
+  .hidden {
+    display: none;
+  }
+
+  .modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-container {
+    max-width: 500px;
+    margin: 60px auto 0;
+    padding: 10px;
+    background-color: var(--ui-bg-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  }
+
+  .modal-container > section {
+    border: 2px groove var(--ui-border-color);
+    padding: 0 1rem;
+  }
+
+  .modal-container > footer {
+    text-align: right;
+    margin-top: 10px;
+  }
+
+  .modal-container > footer > button {
+    background-color: var(--ui-button-color);
+    border-color: var(--ui-border-color);
+    font-size: var(--ui-font-size-sm);
+    line-height: var(--ui-font-size-sm);
+    padding: 5px 10px;
+    margin-left: 8px;
+    margin-right: 2px;
+    border-width: 1px;
+    border-style: outset;
+    vertical-align: bottom;
+  }
+
+  .modal-container > footer > button:active {
+    border-style: inset;
+    padding: 6px 9px 4px 11px;
+  }
+
+  .focus-trap {
+    pointer-events: none;
+    user-select: none;
+  }
+  </style>
+
+  <div id="modal-mask" class="modal-mask">
+    <aside
+      class="modal-container"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="heading"
+      aria-describedby="content"
+    >
+      <section>
+        <h2 id="heading" class="hidden" aria-hidden="true"></h2>
+        <div id="content"></div>
+      </section>
+      <footer id="button-container"></footer>
+    </aside>
+  </div>
+`
 
 class Modal extends HTMLElement {
   constructor () {
@@ -117,29 +190,14 @@ class Modal extends HTMLElement {
       tabindex: '-1',
       'aria-hidden': 'true'
     })
-    this.modalMask = createElement('div', { class: 'modal-mask' })
-    this.headingElement = createElement('h2', {
-      id: 'heading',
-      class: 'hidden',
-      'aria-hidden': 'true'
-    })
-    const modalContainer = createElement('aside', {
-      class: 'modal-container',
-      role: 'dialog',
-      'aria-modal': 'true',
-      'aria-labelledby': 'heading',
-      'aria-describedby': 'content'
-    })
-    const contentContainer = createElement('section')
-    this.content = createElement('div', { id: 'content' })
-    contentContainer.append(this.headingElement, this.content)
-    const footer = createElement('footer')
+    this.shadowRoot.innerHTML = html
+    this.modalMask = this.shadowRoot.getElementById('modal-mask')
+    this.headingElement = this.shadowRoot.getElementById('heading')
+    this.content = this.shadowRoot.getElementById('content')
+    const buttonContainer = this.shadowRoot.getElementById('button-container')
     for (const { element } of this.buttons.values()) {
-      footer.append(element)
+      buttonContainer.append(element)
     }
-    modalContainer.append(contentContainer, footer)
-    this.modalMask.append(modalContainer)
-    this.shadowRoot.append(createStyleElement(css), this.modalMask)
   }
 
   handleEvent (event) {
