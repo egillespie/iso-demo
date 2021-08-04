@@ -1,5 +1,23 @@
 const iconUrl = require('url:../../img/gg-icons.svg')
-const css = require('bundle-text:../../styles/components/gg-icon.css')
+
+const html = /* html */`
+  <style>
+    :host {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+    }
+
+    svg {
+      width: 1em;
+      height: 1em;
+      fill: currentColor;
+    }
+  </style>
+  <svg xmlns="http://www.w3.org/2000/svg">
+    <use id="use" xlink:href=""/>
+  </svg>
+`
 
 class GGIcon extends HTMLElement {
   constructor () {
@@ -7,12 +25,7 @@ class GGIcon extends HTMLElement {
     this.attachShadow({ mode: 'open' })
     // Can't figure out how to use createElementNS and using a string
     // template is much simpler so using that.
-    this.shadowRoot.innerHTML = /* html */`
-      <style>${css}</style>
-      <svg xmlns="http://www.w3.org/2000/svg">
-        <use id="use" xlink:href="${this.iconUrl}"/>
-      </svg>
-    `
+    this.shadowRoot.innerHTML = html
   }
 
   get icon () {
