@@ -1,15 +1,66 @@
 const KeyDownEventHandler = require('../events/key-down-event-handler')
 const ConfirmModal = require('./modal/confirm-modal')
-const createElement = require('./util/create-element')
-const createStyleElement = require('./util/create-style-element')
 const syncAttribute = require('./util/sync-attribute')
 const invokeOnChangeAttribute = require('./util/invoke-on-change-attribute')
-const css = require('bundle-text:../../styles/components/key-binding.css')
+
+const html = /* html */`
+  <style>
+  :host {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 20px;
+  }
+
+  label {
+    text-align: right;
+  }
+
+  form {
+    display: flex;
+    align-items: center;
+  }
+
+  form input {
+    display: inline-block;
+    width: 1.75rem;
+    text-align: center;
+    line-height: 1rem;
+  }
+
+  form button {
+    margin-left: 0.3rem;
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    line-height: 0;
+  }
+
+  form button:hover {
+    transform: scale(1.1) translateY(-1px);
+    transition: transform 0.2s;
+  }
+
+  form button:active {
+    transform: scale(1) translateY(0);
+    transition: transform 0.1s;
+  }
+  </style>
+  <label id="key-label" for="key-input"></label>
+  <form>
+    <input id="key-input" type="text" name="key-input" size="3" readonly />
+    <button id="reset-button" type="button">
+      <gg-icon icon="close" aria-hidden="true"></gg-icon>
+    </button>
+  </form>
+`
 
 class KeyBinding extends HTMLElement {
   constructor () {
     super()
-    this.attachShadow({ mode: 'open' })
     this.initializeLayout()
   }
 
@@ -44,24 +95,11 @@ class KeyBinding extends HTMLElement {
   }
 
   initializeLayout () {
-    const inputId = 'key-input'
-    this.keyLabel = createElement('label', { for: inputId })
-    this.keyInput = createElement('input', {
-      type: 'text',
-      name: inputId,
-      id: inputId,
-      size: 3,
-      readonly: 'readonly',
-      value: ''
-    })
-    this.resetButton = createElement('button', { type: 'button' })
-    this.resetButton.append(createElement('gg-icon', {
-      icon: 'close',
-      'aria-hidden': 'true'
-    }))
-    const keyForm = createElement('form')
-    keyForm.append(this.keyInput, this.resetButton)
-    this.shadowRoot.append(createStyleElement(css), this.keyLabel, keyForm)
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.innerHTML = html
+    this.keyLabel = this.shadowRoot.getElementById('key-label')
+    this.keyInput = this.shadowRoot.getElementById('key-input')
+    this.resetButton = this.shadowRoot.getElementById('reset-button')
   }
 
   resetKeyBinding () {
