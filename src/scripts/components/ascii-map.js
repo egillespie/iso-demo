@@ -1,12 +1,48 @@
 const state = require('../state')
 const createElement = require('./util/create-element')
-const createStyleElement = require('./util/create-style-element')
-const css = require('bundle-text:../../styles/components/ascii-map.css')
+
+const html = /* html */`
+  <style>
+  .ascii-map-container {
+    margin-bottom: 0.625rem;
+  }
+
+  .ascii-map-chars {
+    display: inline-block;
+    font-family: Courier, monospace;
+    font-size: var(--ui-font-size-sm);
+    line-height: var(--ui-font-size-sm);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .ascii-row {
+    white-space: pre;
+  }
+
+  .player {
+    font-weight: bold;
+  }
+
+  .ascii-space[data-orig-char="."]:not(.player) {
+    color: #7c7a7c;
+  }
+
+  .ascii-space[data-orig-char="D"]:not(.player) {
+    color: #a52a2a;
+  }
+
+  .ascii-space[data-orig-char="#"]:not(.player) {
+    color: #064866;
+  }
+  </style>
+  <div id="map-container" class="ascii-map-container"></div>
+`
 
 class AsciiMap extends HTMLElement {
   constructor () {
     super()
-    this.attachShadow({ mode: 'open' })
     this.initializeLayout()
   }
 
@@ -35,9 +71,10 @@ class AsciiMap extends HTMLElement {
   }
 
   initializeLayout () {
-    this.mapContainer = createElement('div', { class: 'ascii-map-container' })
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.innerHTML = html
+    this.mapContainer = this.shadowRoot.getElementById('map-container')
     this.resetMap()
-    this.shadowRoot.append(createStyleElement(css), this.mapContainer)
   }
 
   resetMap () {
