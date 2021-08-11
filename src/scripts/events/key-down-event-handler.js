@@ -53,10 +53,15 @@ class KeyDownEventHandler {
   assignKeyBinding (action, keyboardEvent) {
     const oldCode = this.lookupCodeForAction(action)
     delete this.keyBindings[oldCode]
-    const { code, key } = keyboardEvent
+    const code = keyboardEvent.code
+    const key = this.lookupPrintableKey(keyboardEvent.key)
     this.keyBindings[code] = { action, key }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(this.keyBindings))
     state.keyBinding[action] = { code, key }
+  }
+
+  lookupPrintableKey (key) {
+    return KeyDownEventHandler.KEY_OVERRIDES[key] || key
   }
 
   resetKeyBinding (action) {
@@ -84,6 +89,14 @@ KeyDownEventHandler.DEFAULT_KEY_BINDINGS = Object.freeze({
   KeyD: { key: 'd', action: 'movePlayerEast' },
   KeyO: { key: 'o', action: 'toggleOpacity' },
   KeyP: { key: 'p', action: 'togglePlayerSprite' }
+})
+
+KeyDownEventHandler.KEY_OVERRIDES = Object.freeze({
+  ArrowUp: '↑',
+  ArrowDown: '↓',
+  ArrowLeft: '←',
+  ArrowRight: '→',
+  ' ': '﹍'
 })
 
 module.exports = KeyDownEventHandler

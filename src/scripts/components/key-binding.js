@@ -1,5 +1,6 @@
 const KeyDownEventHandler = require('../events/key-down-event-handler')
 const ConfirmModal = require('./modal/confirm-modal')
+const KeyCaptureModal = require('./modal/key-capture-modal')
 const syncAttribute = require('./util/sync-attribute')
 const invokeOnChangeAttribute = require('./util/invoke-on-change-attribute')
 
@@ -62,20 +63,25 @@ class KeyBinding extends HTMLElement {
   constructor () {
     super()
     this.initializeLayout()
+    this._syncActionKey = this.syncActionKey.bind(this)
+    this._resetKeyBinding = this.resetKeyBinding.bind(this)
+    this._captureKeyBinding = this.captureKeyBinding.bind(this)
   }
 
   connectedCallback () {
     window.addEventListener(
-      `statechange:keybinding.${this.action.toLowerCase()}`, this
+      `statechange:keybinding.${this.action.toLowerCase()}`, this._syncActionKey
     )
-    this.resetButton.addEventListener('click', this)
+    this.resetButton.addEventListener('click', this._resetKeyBinding)
+    this.keyInput.addEventListener('click', this._captureKeyBinding)
   }
 
   disconnectedCallback () {
     window.removeEventListener(
-      `statechange:keybinding.${this.action.toLowerCase()}`, this
+      `statechange:keybinding.${this.action.toLowerCase()}`, this._syncActionKey
     )
-    this.resetButton.removeEventListener('click', this)
+    this.resetButton.removeEventListener('click', this._resetKeyBinding)
+    this.keyInput.removeEventListener('click', this._captureKeyBinding)
   }
 
   get action () {
@@ -100,6 +106,8 @@ class KeyBinding extends HTMLElement {
     this.keyLabel = this.shadowRoot.getElementById('key-label')
     this.keyInput = this.shadowRoot.getElementById('key-input')
     this.resetButton = this.shadowRoot.getElementById('reset-button')
+    this.keyCapture = this.shadowRoot.getElementById('key-capture')
+    this.modalKeyLabel = this.shadowRoot.getElementById('modal-key-label')
   }
 
   resetKeyBinding () {
@@ -117,7 +125,7 @@ class KeyBinding extends HTMLElement {
         KeyDownEventHandler.instance().resetKeyBinding(this.action)
       }
       confirmModal.remove()
-    }, { once: true })
+    })
     this.shadowRoot.append(confirmModal)
     confirmModal.show = true
   }
@@ -125,6 +133,28 @@ class KeyBinding extends HTMLElement {
   syncActionKey () {
     const key = KeyDownEventHandler.instance().lookupKeyForAction(this.action)
     this.keyInput.value = key
+  }
+
+  captureKeyBinding () {
+    const keyCaptureModal = new KeyCaptureModal()
+    keyCaptureModal.innerHTML = /* html */`
+      <p slot="content">
+        Press the key you would like to assign to
+        <strong>${this.label}</strong>.
+      </p>
+      `
+    keyCaptureModal.heading = 'Waiting for key press...'
+    keyCaptureModal.addEventListener('modal:action', event => {
+      if (event.action === 'key-captured') {
+        KeyDownEventHandler.instance().assignKeyBinding(
+          this.action, event.details.event
+        )
+      }
+      keyCaptureModal.remove()
+      this.keyInput.blur()
+    })
+    this.shadowRoot.append(keyCaptureModal)
+    keyCaptureModal.show = true
   }
 
   static get observedAttributes () {
@@ -153,19 +183,12 @@ class KeyBinding extends HTMLElement {
   }
 
   onChangeLabel (label) {
+    this.modalKeyLabel = label
     this.keyLabel.textContent = label
     this.resetButton.setAttribute(
       'aria-label',
       `Reset the key binding for "${label}".`
     )
-  }
-
-  handleEvent (event) {
-    if (event.type === `statechange:keybinding.${this.action.toLowerCase()}`) {
-      this.syncActionKey()
-    } else if (event.type === 'click') {
-      this.resetKeyBinding()
-    }
   }
 }
 
