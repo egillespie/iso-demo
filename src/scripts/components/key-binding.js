@@ -142,7 +142,7 @@ class KeyBinding extends HTMLElement {
         Press the key you would like to assign to
         <strong>${this.label}</strong>.
       </p>
-      `
+    `
     keyCaptureModal.heading = 'Waiting for key press...'
     keyCaptureModal.addEventListener('modal:action', event => {
       if (event.action === 'key-captured') {
