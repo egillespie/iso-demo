@@ -1,5 +1,5 @@
 // Creates a new sprite element
-module.exports = function (id, attrs) {
+export default function (id, attrs) {
   const sprite = document.createElement('div')
   sprite.id = id
   sprite.classList.add('sprite')

@@ -1,6 +1,6 @@
+import createSprite from '../sprites/sprite-create.mjs'
+import insertSprite from '../sprites/sprite-insert.mjs'
 const state = require('../state')
-const createSprite = require('../sprites/sprite-create')
-const insertSprite = require('../sprites/sprite-insert')
 
 export default function (gender) {
   const player = createSprite('player')

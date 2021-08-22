@@ -1,7 +1,7 @@
+import insertSprite from '../../../src/scripts/sprites/sprite-insert.mjs'
+
 test('ignores undefined notes', () => {
   document.body.innerHTML = '<div id="render-window"></div>'
-  const insertSprite = require('../../../src/scripts/sprites/sprite-insert')
-
   insertSprite(undefined)
   const renderWindow = document.getElementById('render-window')
   expect(renderWindow.children.length).toBe(0)
@@ -9,7 +9,6 @@ test('ignores undefined notes', () => {
 
 test('appends single node to render window', () => {
   document.body.innerHTML = '<div id="render-window"></div>'
-  const insertSprite = require('../../../src/scripts/sprites/sprite-insert')
 
   const sprite = document.createElement('div')
   sprite.id = 'i-am-unique'
@@ -20,7 +19,6 @@ test('appends single node to render window', () => {
 
 test('appends array of nodes to render window', () => {
   document.body.innerHTML = '<div id="render-window"></div>'
-  const insertSprite = require('../../../src/scripts/sprites/sprite-insert')
 
   const aSprite = document.createElement('div')
   aSprite.id = 'i-am-a-sprite'
