@@ -6,7 +6,7 @@ const playerTop = require('./player-top')
 const playerZIndex = require('./player-z-index')
 const adjustWallVisibility = require('../walls/walls-adjust-visibility')
 
-module.exports = function (row, col) {
+export default function (row, col) {
   if (canPlayerMoveTo(row, col)) {
     positionSprite(
       state.dom.player,

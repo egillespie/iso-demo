@@ -1,4 +1,4 @@
-const KeyDownEventHandler = require('../events/key-down-event-handler')
+import KeyDownEventHandler from '../events/key-down-event-handler.mjs'
 const ConfirmModal = require('./modal/confirm-modal')
 const KeyCaptureModal = require('./modal/key-capture-modal')
 const syncAttribute = require('./util/sync-attribute')

@@ -1,6 +1,6 @@
 // Toggles the "translucent" style class on all walls and wall caps
 // in the specified positions.
-module.exports = function (positions) {
+export default function (positions) {
   for (const position of positions) {
     const [row, col] = position
     const wall = document.getElementById(`w${row}-${col}`)

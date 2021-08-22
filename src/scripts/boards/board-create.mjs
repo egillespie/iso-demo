@@ -6,7 +6,7 @@ const clearRenderWindow = require('../render-window/render-window-clear')
 
 // Create and render a whole board, make it the active board,
 // and place the player in it.
-module.exports = function () {
+export default function () {
   const asciiMap = [
     '   ##### #######        ',
     '   #...# #.....#  ##### ',

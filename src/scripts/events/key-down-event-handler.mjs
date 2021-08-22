@@ -6,7 +6,7 @@ const ActionRequestEvent = require('./action-request-event')
 
 const STORAGE_KEY = 'keyBindings'
 
-class KeyDownEventHandler {
+export default class KeyDownEventHandler {
   constructor () {
     // Set key bindings to saved/default values
     this.keyBindings = localStorage.getItem(STORAGE_KEY) === null
@@ -98,5 +98,3 @@ KeyDownEventHandler.KEY_OVERRIDES = Object.freeze({
   ArrowRight: '→',
   ' ': '﹍'
 })
-
-module.exports = KeyDownEventHandler

@@ -1,6 +1,7 @@
+import toggleWallOpacity from './wall-opacity-toggle.mjs'
+
 const allArrayDifferences = require('../util/array-all-differences')
 const wallClipPositions = require('./wall-clip-positions')
-const toggleWallOpacity = require('./wall-opacity-toggle')
 
 // Adjusts the wall opacity, turning off opacity on walls in the old position
 // that no longer obstruct a sprite in the current position, and turning on

@@ -1,2 +1,2 @@
 // The width of the player sprite in pixels
-module.exports = 30
+export default 30
