@@ -3,12 +3,10 @@
 // game controllers, and other input events to be mapped to app-specific
 // events instead of the app needing to know about the specifics of what
 // triggered the action.
-class ActionRequestEvent extends CustomEvent {
+export default class ActionRequestEvent extends CustomEvent {
   constructor (action) {
     super('actionrequest')
     this.name = this.constructor.name
     this.action = action
   }
 }
-
-module.exports = ActionRequestEvent

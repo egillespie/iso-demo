@@ -1,8 +1,8 @@
+import ActionRequestEvent from './action-request-event.mjs'
 const state = require('../state')
 const deepCopy = require('../util/deep-copy')
 const defineStateHolder = require('../state/define-state-holder')
 const registerState = require('../state/register-state')
-const ActionRequestEvent = require('./action-request-event')
 
 const STORAGE_KEY = 'keyBindings'
 
