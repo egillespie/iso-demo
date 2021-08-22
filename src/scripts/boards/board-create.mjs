@@ -1,5 +1,5 @@
 import clearRenderWindow from '../render-window/render-window-clear.mjs'
-const state = require('../state')
+import state from '../state/index.mjs'
 const createFloors = require('../floors/floors-create')
 const createWalls = require('../walls/walls-create')
 const generateBoardFromAsciiMap = require('./board-generate-from-ascii-map')

@@ -1,4 +1,4 @@
-const StateChangeEvent = require('./state-change-event')
+import StateChangeEvent from './state-change-event.mjs'
 
 // Defines a new state property that is enumerable and writable. Changing the
 // value of the property will automatically emit a StateChangeEvent containing
@@ -6,7 +6,7 @@ const StateChangeEvent = require('./state-change-event')
 //
 // The `fieldName` is the full dot-separated name to access the field in
 // `./state/index.js`. For example, `seeThroughWalls` or `player.row`.
-module.exports = function (stateHolder, fieldName, initialValue) {
+export default function (stateHolder, fieldName, initialValue) {
   const privateFieldName = `_${fieldName.replace(/[.]/g, '_')}`
   const lastField = fieldName.substring(fieldName.lastIndexOf('.') + 1)
   stateHolder[privateFieldName] = initialValue

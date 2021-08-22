@@ -1,4 +1,4 @@
-const state = require('../state')
+import state from '../state/index.mjs'
 
 class PlayerRow extends HTMLSpanElement {
   constructor () {

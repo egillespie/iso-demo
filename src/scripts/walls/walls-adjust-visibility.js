@@ -1,4 +1,4 @@
-const state = require('../state')
+import state from '../state/index.mjs'
 const moveWallOpacity = require('./wall-opacity-move')
 const moveClippedWallCaps = require('./wall-caps-move-clipped')
 

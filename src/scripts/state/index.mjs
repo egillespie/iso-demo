@@ -1,5 +1,5 @@
-const defineStateHolder = require('./define-state-holder')
-const registerState = require('./register-state')
+import defineStateHolder from './define-state-holder.mjs'
+import registerState from './register-state.mjs'
 
 // Sample game state:
 // ```
@@ -48,4 +48,4 @@ registerState(state.dom, 'dom.asciiMap',
   document.getElementById('ascii-map')
 )
 
-module.exports = state
+export default state

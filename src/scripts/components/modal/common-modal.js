@@ -1,5 +1,5 @@
+import state from '../../state/index.mjs'
 const ModalActionEvent = require('./modal-action-event')
-const state = require('../../state')
 const capitalize = require('../../util/capitalize')
 const createElement = require('../util/create-element')
 const syncAttribute = require('../util/sync-attribute')

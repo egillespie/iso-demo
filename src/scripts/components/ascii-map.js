@@ -1,4 +1,4 @@
-const state = require('../state')
+import state from '../state/index.mjs'
 const createElement = require('./util/create-element')
 
 const html = /* html */`

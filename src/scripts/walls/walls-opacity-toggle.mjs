@@ -1,4 +1,4 @@
-const state = require('../state')
+import state from '../state/index.mjs'
 const adjustWallVisibility = require('./walls-adjust-visibility')
 const makeAllWallsOpaque = require('./walls-make-all-opaque')
 
