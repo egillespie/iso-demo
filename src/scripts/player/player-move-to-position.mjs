@@ -1,9 +1,9 @@
+import playerLeft from './player-left.mjs'
+import canPlayerMoveTo from './player-can-move-to-position.mjs'
+import playerTop from './player-top.mjs'
+import playerZIndex from './player-z-index.mjs'
 const state = require('../state')
-const canPlayerMoveTo = require('./player-can-move-to-position')
 const positionSprite = require('../sprites/sprite-position')
-const playerLeft = require('./player-left')
-const playerTop = require('./player-top')
-const playerZIndex = require('./player-z-index')
 const adjustWallVisibility = require('../walls/walls-adjust-visibility')
 
 export default function (row, col) {
