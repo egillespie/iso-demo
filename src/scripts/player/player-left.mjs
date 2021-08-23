@@ -1,4 +1,4 @@
-import playerAdjustLeft from './const/player-adjust-left.mjs'
+import { playerAdjustLeft } from './player-const.mjs'
 import floorLeft from '../floors/floor-left.mjs'
 
 // Calculate the left position for placing the player at the specified

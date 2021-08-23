@@ -1,4 +1,4 @@
-import playerAdjustTop from './const/player-adjust-top.mjs'
+import { playerAdjustTop } from './player-const.mjs'
 import floorTop from '../floors/floor-top.mjs'
 
 // Calculate the top position for placing the player at the specified
