@@ -1,4 +1,4 @@
-import floorAdjustTop from './const/floor-adjust-top.mjs'
+import { floorAdjustTop } from './floor-const.mjs'
 import wallHeight from '../walls/const/wall-height.mjs'
 
 // Calculate the top location of a floor sprite given a row and column

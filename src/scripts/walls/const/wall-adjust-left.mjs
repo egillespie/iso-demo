@@ -1,4 +1,4 @@
-import floorWidth from '../../floors/const/floor-width.mjs'
+import { floorWidth } from '../../floors/floor-const.mjs'
 import wallWidth from './wall-width.mjs'
 
 // The amount a wall must be moved to the left to appear centered

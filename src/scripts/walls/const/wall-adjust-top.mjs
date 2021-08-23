@@ -1,5 +1,4 @@
-import floorHeight from '../../floors/const/floor-height.mjs'
-import floorLift from '../../floors/const/floor-lift.mjs'
+import { floorHeight, floorLift } from '../../floors/floor-const.mjs'
 import wallHeight from './wall-height.mjs'
 import wallLift from './wall-lift.mjs'
 
