@@ -1,4 +1,4 @@
-const isPositionVisible = require('../boards/board-position-is-visible')
+import isPositionVisible from '../boards/board-position-is-visible.mjs'
 
 // Looks up the wall at the specified position and if found:
 //  - Returns 'swc' if the wall has an exposed south-facing wall cap
@@ -9,11 +9,17 @@ module.exports = function (board, row, col) {
   const wallType = board[row][col]
   const swcExposed = (
     row === board.length - 1 ||
-    (isPositionVisible(board, row + 1, col) && !isPositionVisible(board, row, col))
+    (
+      isPositionVisible(board, row + 1, col) &&
+      !isPositionVisible(board, row, col)
+    )
   )
   const ewcExposed = (
     col === board[row].length - 1 ||
-    (isPositionVisible(board, row, col + 1) && !isPositionVisible(board, row, col))
+    (
+      isPositionVisible(board, row, col + 1) &&
+      !isPositionVisible(board, row, col)
+    )
   )
   switch (wallType) {
     case 'eww':

@@ -35,7 +35,7 @@ function doorAt (asciiMap, row, col) {
   return asciiCharAt(asciiMap, row, col) === 'D'
 }
 
-module.exports = function (asciiMap) {
+export default function (asciiMap) {
   const board = []
   for (let row = 0; row < asciiMap.length; row++) {
     board[row] = []

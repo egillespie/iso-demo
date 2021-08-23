@@ -1,4 +1,4 @@
-const removeUndefinedBoardPositions = require('../boards/board-positions-remove-undefined')
+import removeUndefinedBoardPositions from '../boards/board-positions-remove-undefined.mjs'
 
 // Returns an array of wall positions that may leave exposed wall caps if
 // not connected to a solid/opaque wall.
