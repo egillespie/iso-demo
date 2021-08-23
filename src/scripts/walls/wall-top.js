@@ -1,4 +1,4 @@
-const floorTop = require('../floors/floor-top')
+import floorTop from '../floors/floor-top.mjs'
 const wallAdjustTop = require('./const/wall-adjust-top')
 
 // Calculates the top position of a wall as the top position of a floor at

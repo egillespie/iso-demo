@@ -1,5 +1,5 @@
-const floorWidth = require('./floor-width')
+import floorWidth from './floor-width.mjs'
 
 // The amount to adjust the left of floor sprite so it can be
 // tiled in an isometric grid.
-module.exports = floorWidth / 2
+export default floorWidth / 2

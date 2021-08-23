@@ -1,5 +1,5 @@
 import playerWidth from './player-width.mjs'
-const floorWidth = require('../../floors/const/floor-width')
+import floorWidth from '../../floors/const/floor-width.mjs'
 
 // The horizontal amount to adjust the player sprite to place it at a
 // specific location in an isometric grid.

@@ -1,7 +1,7 @@
 import playerHeight from './player-height.mjs'
 import playerLift from './player-lift.mjs'
-const floorHeight = require('../../floors/const/floor-height')
-const floorLift = require('../../floors/const/floor-lift')
+import floorHeight from '../../floors/const/floor-height.mjs'
+import floorLift from '../../floors/const/floor-lift.mjs'
 
 // The vertical amount to adjust the player sprite to place it at a
 // specific location in an isometric grid.

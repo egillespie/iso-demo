@@ -1,7 +1,7 @@
-const createFloor = require('./floor-create')
+import createFloor from './floor-create.mjs'
 
 // Creates and places all of the floor tiles of a board
-module.exports = function (board) {
+export default function (board) {
   for (let row = 0; row < board.length; row++) {
     for (let col = 0; col < board[row].length; col++) {
       createFloor(board, row, col)

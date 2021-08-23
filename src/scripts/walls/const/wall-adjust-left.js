@@ -1,4 +1,4 @@
-const floorWidth = require('../../floors/const/floor-width')
+import floorWidth from '../../floors/const/floor-width.mjs'
 const wallWidth = require('./wall-width')
 
 // The amount a wall must be moved to the left to appear centered

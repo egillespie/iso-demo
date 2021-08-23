@@ -1,4 +1,4 @@
-const floorLeft = require('../floors/floor-left')
+import floorLeft from '../floors/floor-left.mjs'
 const wallAdjustLeft = require('./const/wall-adjust-left')
 
 // Calculates the left position of a wall to be shown at the specified position.

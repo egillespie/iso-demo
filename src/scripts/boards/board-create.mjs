@@ -1,7 +1,7 @@
 import clearRenderWindow from '../render-window/render-window-clear.mjs'
 import state from '../state/index.mjs'
 import generateBoardFromAsciiMap from './board-generate-from-ascii-map.mjs'
-const createFloors = require('../floors/floors-create')
+import createFloors from '../floors/floors-create.mjs'
 const createWalls = require('../walls/walls-create')
 
 // Create and render a whole board, make it the active board,

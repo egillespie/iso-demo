@@ -1,5 +1,5 @@
 import playerAdjustTop from './const/player-adjust-top.mjs'
-const floorTop = require('../floors/floor-top')
+import floorTop from '../floors/floor-top.mjs'
 
 // Calculate the top position for placing the player at the specified
 // position in an isometric grid.

@@ -1,5 +1,5 @@
-const floorHeight = require('../../floors/const/floor-height')
-const floorLift = require('../../floors/const/floor-lift')
+import floorHeight from '../../floors/const/floor-height.mjs'
+import floorLift from '../../floors/const/floor-lift.mjs'
 const wallHeight = require('./wall-height')
 const wallLift = require('./wall-lift')
 
