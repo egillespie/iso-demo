@@ -1,7 +1,7 @@
-const CommonModal = require('./common-modal')
-const ModalActionEvent = require('./modal-action-event')
+import CommonModal from './common-modal.mjs'
+import ModalActionEvent from './modal-action-event.mjs'
 
-class InfoModal extends CommonModal {
+export default class InfoModal extends CommonModal {
   constructor () {
     super()
     this.addButton('close-label', 'Close', this.close)
@@ -23,5 +23,3 @@ class InfoModal extends CommonModal {
 }
 
 customElements.define('info-modal', InfoModal)
-
-module.exports = InfoModal

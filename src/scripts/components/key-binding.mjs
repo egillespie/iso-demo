@@ -1,8 +1,8 @@
 import KeyDownEventHandler from '../events/key-down-event-handler.mjs'
-const ConfirmModal = require('./modal/confirm-modal')
-const KeyCaptureModal = require('./modal/key-capture-modal')
-const syncAttribute = require('./util/sync-attribute')
-const invokeOnChangeAttribute = require('./util/invoke-on-change-attribute')
+import ConfirmModal from './modal/confirm-modal.mjs'
+import KeyCaptureModal from './modal/key-capture-modal.mjs'
+import syncAttribute from './util/sync-attribute.mjs'
+import invokeOnChangeAttribute from './util/invoke-on-change-attribute.mjs'
 
 const html = /* html */`
   <style>
@@ -59,7 +59,7 @@ const html = /* html */`
   </form>
 `
 
-class KeyBinding extends HTMLElement {
+export default class KeyBinding extends HTMLElement {
   constructor () {
     super()
     this.initializeLayout()
@@ -193,5 +193,3 @@ class KeyBinding extends HTMLElement {
 }
 
 customElements.define('key-binding', KeyBinding)
-
-module.exports = KeyBinding

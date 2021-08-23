@@ -1,4 +1,4 @@
-module.exports = function (tagName, attributes) {
+export default function (tagName, attributes) {
   const e = document.createElement(tagName)
   for (const attributeName in attributes) {
     const attribute = attributes[attributeName]

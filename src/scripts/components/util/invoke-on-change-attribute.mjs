@@ -12,7 +12,7 @@ import kebabToPascalCase from '../../util/kebab-to-pascal-case.mjs'
 // invoke it, where `*` is the camel-case name of the attribute that was
 // changed. For example, if a `close-label` attribute is changed, this function
 // will call `onChangeCloseLabel` on the instance if it exists.
-module.exports = function (instance, name, oldValue, newValue) {
+export default function (instance, name, oldValue, newValue) {
   const funcName = `onChange${kebabToPascalCase(name)}`
   const onChangeHandler = instance[funcName]?.bind(instance)
   if (onChangeHandler) {

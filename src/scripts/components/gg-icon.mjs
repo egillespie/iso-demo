@@ -1,4 +1,4 @@
-const iconUrl = require('url:../../img/gg-icons.svg')
+import iconUrl from 'url:../../img/gg-icons.svg'
 
 const html = /* html */`
   <style>
@@ -19,7 +19,7 @@ const html = /* html */`
   </svg>
 `
 
-class GGIcon extends HTMLElement {
+export default class GGIcon extends HTMLElement {
   constructor () {
     super()
     this.attachShadow({ mode: 'open' })
@@ -51,5 +51,3 @@ class GGIcon extends HTMLElement {
 }
 
 customElements.define('gg-icon', GGIcon)
-
-module.exports = GGIcon

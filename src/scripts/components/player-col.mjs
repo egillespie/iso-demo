@@ -1,6 +1,6 @@
 import state from '../state/index.mjs'
 
-class PlayerCol extends HTMLSpanElement {
+export default class PlayerCol extends HTMLSpanElement {
   constructor () {
     super()
     this._syncContent = this.syncContent.bind(this)
@@ -22,5 +22,3 @@ class PlayerCol extends HTMLSpanElement {
 }
 
 customElements.define('player-col', PlayerCol, { extends: 'span' })
-
-module.exports = PlayerCol

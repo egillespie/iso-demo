@@ -1,6 +1,6 @@
 import state from '../state/index.mjs'
 
-class PlayerRow extends HTMLSpanElement {
+export default class PlayerRow extends HTMLSpanElement {
   constructor () {
     super()
     this._syncContent = this.syncContent.bind(this)
@@ -22,5 +22,3 @@ class PlayerRow extends HTMLSpanElement {
 }
 
 customElements.define('player-row', PlayerRow, { extends: 'span' })
-
-module.exports = PlayerRow

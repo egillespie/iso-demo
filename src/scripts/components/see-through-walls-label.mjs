@@ -1,6 +1,6 @@
 import state from '../state/index.mjs'
 
-class SeeThroughWallsLabel extends HTMLSpanElement {
+export default class SeeThroughWallsLabel extends HTMLSpanElement {
   constructor () {
     super()
     this._syncContent = this.syncContent.bind(this)
@@ -28,5 +28,3 @@ customElements.define(
   SeeThroughWallsLabel,
   { extends: 'span' }
 )
-
-module.exports = SeeThroughWallsLabel

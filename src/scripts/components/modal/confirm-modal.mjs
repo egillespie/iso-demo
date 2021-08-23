@@ -1,7 +1,7 @@
-const CommonModal = require('./common-modal')
-const ModalActionEvent = require('./modal-action-event')
+import CommonModal from './common-modal.mjs'
+import ModalActionEvent from './modal-action-event.mjs'
 
-class ConfirmModal extends CommonModal {
+export default class ConfirmModal extends CommonModal {
   constructor () {
     super()
     this.addButton('confirm-label', 'Confirm', this.confirm)
@@ -29,5 +29,3 @@ class ConfirmModal extends CommonModal {
 }
 
 customElements.define('confirm-modal', ConfirmModal)
-
-module.exports = ConfirmModal

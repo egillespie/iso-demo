@@ -1,4 +1,4 @@
-module.exports = function (element, attribute, value) {
+export default function (element, attribute, value) {
   if (value != null) {
     element.setAttribute(attribute, value)
   } else {

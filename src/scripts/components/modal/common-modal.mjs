@@ -1,16 +1,16 @@
 import state from '../../state/index.mjs'
 import kebabToCamelCase from '../../util/kebab-to-camel-case.mjs'
-const ModalActionEvent = require('./modal-action-event')
-const capitalize = require('../../util/capitalize.mjs')
-const createElement = require('../util/create-element')
-const syncAttribute = require('../util/sync-attribute')
-const showElement = require('../util/show-element')
-const hideElement = require('../util/hide-element')
-const changeParentElement = require('../util/change-parent-element')
-const allowFocusWithin = require('../util/allow-focus-within')
-const preventFocusWithin = require('../util/prevent-focus-within')
-const getActiveBuiltinElement = require('../util/get-active-builtin-element')
-const invokeOnChangeAttribute = require('../util/invoke-on-change-attribute')
+import ModalActionEvent from './modal-action-event.mjs'
+import capitalize from '../../util/capitalize.mjs'
+import createElement from '../util/create-element.mjs'
+import syncAttribute from '../util/sync-attribute.mjs'
+import showElement from '../util/show-element.mjs'
+import hideElement from '../util/hide-element.mjs'
+import changeParentElement from '../util/change-parent-element.mjs'
+import allowFocusWithin from '../util/allow-focus-within.mjs'
+import preventFocusWithin from '../util/prevent-focus-within.mjs'
+import getActiveBuiltinElement from '../util/get-active-builtin-element.mjs'
+import invokeOnChangeAttribute from '../util/invoke-on-change-attribute.mjs'
 
 const html = /* html */`
   <style>
@@ -89,7 +89,7 @@ const html = /* html */`
   </div>
 `
 
-class Modal extends HTMLElement {
+export default class Modal extends HTMLElement {
   constructor () {
     super()
     this.buttons = new Map()
@@ -263,5 +263,3 @@ class Modal extends HTMLElement {
     this.dispatchEvent(new ModalActionEvent('escape'))
   }
 }
-
-module.exports = Modal

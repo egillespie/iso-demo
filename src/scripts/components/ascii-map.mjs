@@ -1,5 +1,5 @@
 import state from '../state/index.mjs'
-const createElement = require('./util/create-element')
+import createElement from './util/create-element.mjs'
 
 const html = /* html */`
   <style>
@@ -40,7 +40,7 @@ const html = /* html */`
   <div id="map-container" class="ascii-map-container"></div>
 `
 
-class AsciiMap extends HTMLElement {
+export default class AsciiMap extends HTMLElement {
   constructor () {
     super()
     this.initializeLayout()
@@ -123,5 +123,3 @@ class AsciiMap extends HTMLElement {
 }
 
 customElements.define('ascii-map', AsciiMap)
-
-module.exports = AsciiMap

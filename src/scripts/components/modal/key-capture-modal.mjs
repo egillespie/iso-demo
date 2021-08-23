@@ -1,6 +1,6 @@
-const CommonModal = require('./common-modal')
-const ModalActionEvent = require('./modal-action-event')
-const createElement = require('../util/create-element')
+import CommonModal from './common-modal.mjs'
+import ModalActionEvent from './modal-action-event.mjs'
+import createElement from '../util/create-element.mjs'
 
 const ALLOWED_KEY_CODES = [
   /^Digit[0-9]$/,
@@ -9,7 +9,7 @@ const ALLOWED_KEY_CODES = [
   /^Space$/
 ]
 
-class KeyCaptureModal extends CommonModal {
+export default class KeyCaptureModal extends CommonModal {
   constructor () {
     super()
     this.addButton('cancel-label', 'Cancel', this.cancel)
@@ -67,5 +67,3 @@ class KeyCaptureModal extends CommonModal {
 }
 
 customElements.define('key-capture-modal', KeyCaptureModal)
-
-module.exports = KeyCaptureModal
