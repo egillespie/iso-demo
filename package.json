@@ -10,7 +10,7 @@
     "dev": "parcel src/index.html --open",
     "lint:html": "htmlhint src/*.html",
     "lint:css": "stylelint src/**/*.css",
-    "lint:js": "standard src/**/*.mjs src/**/*.js tests/**/*.mjs",
+    "lint:js": "standard src/**/*.mjs tests/**/*.mjs",
     "lint": "run-s lint:*",
     "test:unit": "node --experimental-vm-modules node_modules/.bin/jest",
     "test": "run-s lint test:*",
