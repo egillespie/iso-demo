@@ -1,4 +1,4 @@
-const kebabToPascalCase = require('../../util/kebab-to-pascal-case')
+import kebabToPascalCase from '../../util/kebab-to-pascal-case.mjs'
 
 // Call this in a web component's `attributeChangedCallback` function:
 //

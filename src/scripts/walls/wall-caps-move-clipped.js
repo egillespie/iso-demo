@@ -1,4 +1,4 @@
-const allArrayDifferences = require('../util/array-all-differences')
+import allArrayDifferences from '../util/array-all-differences.mjs'
 const wallCapClipPositions = require('./wall-cap-clip-positions')
 const toggleClippedWallCaps = require('./wall-caps-toggle-clipped')
 

@@ -1,4 +1,4 @@
-const capitalize = require('../../../src/scripts/util/capitalize')
+import capitalize from '../../../src/scripts/util/capitalize.mjs'
 
 test('capitalizes first letter of a word', () => {
   expect(capitalize('hello')).toEqual('Hello')

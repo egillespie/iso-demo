@@ -1,6 +1,5 @@
 import toggleWallOpacity from './wall-opacity-toggle.mjs'
-
-const allArrayDifferences = require('../util/array-all-differences')
+import allArrayDifferences from '../util/array-all-differences.mjs'
 const wallClipPositions = require('./wall-clip-positions')
 
 // Adjusts the wall opacity, turning off opacity on walls in the old position

@@ -1,8 +1,13 @@
 // https://jestjs.io/docs/configuration
-module.exports = {
-  testMatch: ['**/tests/unit/**/*.test.js'],
+export default {
+  testEnvironment: 'jsdom',
+  testMatch: ['<rootDir>/tests/unit/**/*.test.mjs'],
   collectCoverage: true,
-  collectCoverageFrom: ['src/scripts/**/*.js'],
+  collectCoverageFrom: [
+    'src/scripts/**/*.js',
+    'src/scripts/**/*.mjs'
+  ],
   coveragePathIgnorePatterns: ['/node_modules/', '/const/'],
-  coverageDirectory: 'reports/unit-coverage'
+  coverageDirectory: 'reports/unit-coverage',
+  moduleFileExtensions: ['js', 'json', 'jsx', 'node', 'mjs']
 }

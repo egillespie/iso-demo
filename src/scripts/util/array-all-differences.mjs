@@ -1,6 +1,6 @@
 // Returns all differences between two arrays. The items in both arrays are
 // first converted to strings with `JSON.stringify` for deep comparison.
-module.exports = function (array1, array2) {
+export default function (array1, array2) {
   const diff1 = array1.filter(item1 => {
     const str1 = JSON.stringify(item1)
     return !array2.map((item2) => JSON.stringify(item2)).includes(str1)

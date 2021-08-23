@@ -1,3 +1,4 @@
 {
-  "css.lint.duplicateProperties": "ignore"
+  "css.lint.duplicateProperties": "ignore",
+  "jest.jestCommandLine": "node --experimental-vm-modules node_modules/.bin/jest"
 }

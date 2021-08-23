@@ -1,14 +1,16 @@
-import insertSprite from '../../../src/scripts/sprites/sprite-insert.mjs'
+const SPRITE_INSERT_MODULE = '../../../src/scripts/sprites/sprite-insert.mjs'
 
-test('ignores undefined notes', () => {
+test('ignores undefined nodes', async () => {
   document.body.innerHTML = '<div id="render-window"></div>'
+  const insertSprite = (await import(SPRITE_INSERT_MODULE)).default
   insertSprite(undefined)
   const renderWindow = document.getElementById('render-window')
   expect(renderWindow.children.length).toBe(0)
 })
 
-test('appends single node to render window', () => {
+test('appends single node to render window', async () => {
   document.body.innerHTML = '<div id="render-window"></div>'
+  const insertSprite = (await import(SPRITE_INSERT_MODULE)).default
 
   const sprite = document.createElement('div')
   sprite.id = 'i-am-unique'
@@ -17,8 +19,9 @@ test('appends single node to render window', () => {
   expect(document.getElementById('i-am-unique')).toBeDefined()
 })
 
-test('appends array of nodes to render window', () => {
+test('appends array of nodes to render window', async () => {
   document.body.innerHTML = '<div id="render-window"></div>'
+  const insertSprite = (await import(SPRITE_INSERT_MODULE)).default
 
   const aSprite = document.createElement('div')
   aSprite.id = 'i-am-a-sprite'

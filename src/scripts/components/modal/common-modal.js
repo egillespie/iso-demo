@@ -1,6 +1,7 @@
 import state from '../../state/index.mjs'
+import kebabToCamelCase from '../../util/kebab-to-camel-case.mjs'
 const ModalActionEvent = require('./modal-action-event')
-const capitalize = require('../../util/capitalize')
+const capitalize = require('../../util/capitalize.mjs')
 const createElement = require('../util/create-element')
 const syncAttribute = require('../util/sync-attribute')
 const showElement = require('../util/show-element')
@@ -10,7 +11,6 @@ const allowFocusWithin = require('../util/allow-focus-within')
 const preventFocusWithin = require('../util/prevent-focus-within')
 const getActiveBuiltinElement = require('../util/get-active-builtin-element')
 const invokeOnChangeAttribute = require('../util/invoke-on-change-attribute')
-const kebabToCamelCase = require('../../util/kebab-to-camel-case')
 
 const html = /* html */`
   <style>
