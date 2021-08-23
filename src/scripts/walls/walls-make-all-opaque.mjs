@@ -1,6 +1,6 @@
 // Makes all walls opaque by removing the 'translucent' style class from
 // all elements and removing all clipped wall caps.
-module.exports = function () {
+export default function () {
   // Remove translucency style
   const sprites = document.getElementsByClassName('translucent')
   while (sprites.length > 0) {

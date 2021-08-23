@@ -5,7 +5,7 @@ import isPositionVisible from '../boards/board-position-is-visible.mjs'
 //  - Returns 'ewc' if the wall has an exposed east-facing wall cap
 //  - Returns 'sec' if the wall has exposed east- and south-facing wall caps
 //  - Returns undefined otherwise
-module.exports = function (board, row, col) {
+export default function (board, row, col) {
   const wallType = board[row][col]
   const swcExposed = (
     row === board.length - 1 ||

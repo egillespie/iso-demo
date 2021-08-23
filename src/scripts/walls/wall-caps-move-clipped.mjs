@@ -1,10 +1,10 @@
 import allArrayDifferences from '../util/array-all-differences.mjs'
-const wallCapClipPositions = require('./wall-cap-clip-positions')
-const toggleClippedWallCaps = require('./wall-caps-toggle-clipped')
+import wallCapClipPositions from './wall-cap-clip-positions.mjs'
+import toggleClippedWallCaps from './wall-caps-toggle-clipped.mjs'
 
 // Removes wall caps that are no longer exposed by translucent walls and
 // adds new wall caps where newly exposed because of wall translucency.
-module.exports = function (board, currentPosition, oldPosition) {
+export default function (board, currentPosition, oldPosition) {
   const [currentRow, currentCol] = currentPosition
   const currentCapPositions = wallCapClipPositions(board, currentRow, currentCol)
   const allCapPositions = []

@@ -1,11 +1,11 @@
 import toggleWallOpacity from './wall-opacity-toggle.mjs'
 import allArrayDifferences from '../util/array-all-differences.mjs'
-const wallClipPositions = require('./wall-clip-positions')
+import wallClipPositions from './wall-clip-positions.mjs'
 
 // Adjusts the wall opacity, turning off opacity on walls in the old position
 // that no longer obstruct a sprite in the current position, and turning on
 // opacity on walls in the clipping area of the new position.
-module.exports = function (board, currentPosition, oldPosition) {
+export default function (board, currentPosition, oldPosition) {
   const [currentRow, currentCol] = currentPosition
   const currentClipPositions = wallClipPositions(board, currentRow, currentCol)
   const allClipPositions = []

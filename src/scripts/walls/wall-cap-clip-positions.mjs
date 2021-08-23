@@ -13,7 +13,7 @@ import removeUndefinedBoardPositions from '../boards/board-positions-remove-unde
 // .C....
 // ..C...
 // ```
-module.exports = function (board, row, col) {
+export default function (board, row, col) {
   const positions = [
     [row + 1, col - 1],
     [row + 2, col],

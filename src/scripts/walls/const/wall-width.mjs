@@ -1,2 +1,2 @@
 // The width of a wall sprite in pixels
-module.exports = 30
+export default 30

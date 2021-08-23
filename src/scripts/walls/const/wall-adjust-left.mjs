@@ -1,6 +1,6 @@
 import floorWidth from '../../floors/const/floor-width.mjs'
-const wallWidth = require('./wall-width')
+import wallWidth from './wall-width.mjs'
 
 // The amount a wall must be moved to the left to appear centered
 // on a floor tile.
-module.exports = (floorWidth - wallWidth) / 2
+export default (floorWidth - wallWidth) / 2

@@ -1,7 +1,7 @@
 import floorLeft from '../floors/floor-left.mjs'
-const wallAdjustLeft = require('./const/wall-adjust-left')
+import wallAdjustLeft from './const/wall-adjust-left.mjs'
 
 // Calculates the left position of a wall to be shown at the specified position.
-module.exports = function (board, row, col) {
+export default function (board, row, col) {
   return floorLeft(board, row, col) + wallAdjustLeft
 }
