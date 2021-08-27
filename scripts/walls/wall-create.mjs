@@ -1,10 +1,10 @@
-import createSprite from '../sprites/sprite-create'
-import insertSprite from '../sprites/sprite-insert'
-import positionSprite from '../sprites/sprite-position'
-import wallTop from './wall-top'
-import wallLeft from './wall-left'
-import wallZIndex from './wall-z-index'
-import createWallCapIfExposed from './wall-cap-create-if-exposed'
+import createSprite from '../sprites/sprite-create.mjs'
+import insertSprite from '../sprites/sprite-insert.mjs'
+import positionSprite from '../sprites/sprite-position.mjs'
+import wallTop from './wall-top.mjs'
+import wallLeft from './wall-left.mjs'
+import wallZIndex from './wall-z-index.mjs'
+import createWallCapIfExposed from './wall-cap-create-if-exposed.mjs'
 
 // Creates and returns a wall sprite positioned in the board. If the wall
 // has an exposed wall cap, the return value will be an array containing

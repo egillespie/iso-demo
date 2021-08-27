@@ -1,5 +1,5 @@
-import { playerAdjustTop } from './player-const'
-import floorTop from '../floors/floor-top'
+import { playerAdjustTop } from './player-const.mjs'
+import floorTop from '../floors/floor-top.mjs'
 
 // Calculate the top position for placing the player at the specified
 // position in an isometric grid.

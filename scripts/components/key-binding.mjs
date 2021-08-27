@@ -1,7 +1,7 @@
-import KeyDownEventHandler from '../events/key-down-event-handler'
-import { ConfirmModal, KeyCaptureModal } from './modals'
-import syncAttribute from './util/sync-attribute'
-import invokeOnChangeAttribute from './util/invoke-on-change-attribute'
+import KeyDownEventHandler from '../events/key-down-event-handler.mjs'
+import { ConfirmModal, KeyCaptureModal } from './modals.mjs'
+import syncAttribute from './util/sync-attribute.mjs'
+import invokeOnChangeAttribute from './util/invoke-on-change-attribute.mjs'
 
 const html = /* html */`
   <style>

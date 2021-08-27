@@ -1,5 +1,5 @@
-import createWallCap from './wall-cap-create'
-import exposedWallCapType from './wall-cap-exposed-type'
+import createWallCap from './wall-cap-create.mjs'
+import exposedWallCapType from './wall-cap-exposed-type.mjs'
 
 // Determines if a wall cap at the specified position is exposed due to
 // empty or translucent walls nearby, then creates and returns a wall cap

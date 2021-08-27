@@ -1,4 +1,4 @@
-import createFloor from './floor-create'
+import createFloor from './floor-create.mjs'
 
 // Creates and places all of the floor tiles of a board
 export default function (board) {

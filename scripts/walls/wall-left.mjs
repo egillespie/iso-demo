@@ -1,5 +1,5 @@
-import floorLeft from '../floors/floor-left'
-import { wallAdjustLeft } from './wall-const'
+import floorLeft from '../floors/floor-left.mjs'
+import { wallAdjustLeft } from './wall-const.mjs'
 
 // Calculates the left position of a wall to be shown at the specified position.
 export default function (board, row, col) {

@@ -1,5 +1,5 @@
-import state from '../state/index'
-import createElement from './util/create-element'
+import state from '../state/index.mjs'
+import createElement from './util/create-element.mjs'
 
 const html = /* html */`
   <style>

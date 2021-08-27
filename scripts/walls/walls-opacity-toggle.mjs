@@ -1,6 +1,6 @@
-import state from '../state/index'
-import adjustWallVisibility from './walls-adjust-visibility'
-import makeAllWallsOpaque from './walls-make-all-opaque'
+import state from '../state/index.mjs'
+import adjustWallVisibility from './walls-adjust-visibility.mjs'
+import makeAllWallsOpaque from './walls-make-all-opaque.mjs'
 
 // Turns opacity of walls obstructing the player on or off.
 export default function () {

@@ -1,4 +1,4 @@
-import state from '../state/index'
+import state from '../state/index.mjs'
 
 // Places nodes (sprites) in the rendering window. The node argument
 // must be either a single node element or an array of elements.

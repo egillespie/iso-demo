@@ -1,4 +1,4 @@
-import focusableElements from './const/focusable-elements-selector'
+import focusableElements from './const/focusable-elements-selector.mjs'
 
 export default function (parentElement) {
   parentElement

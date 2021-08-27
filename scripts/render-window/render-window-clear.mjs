@@ -1,4 +1,4 @@
-import state from '../state/index'
+import state from '../state/index.mjs'
 
 export default function () {
   while (state.dom.renderWindow.firstChild) {

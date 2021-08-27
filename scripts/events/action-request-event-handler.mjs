@@ -1,9 +1,9 @@
-import toggleOpacity from '../walls/walls-opacity-toggle'
-import togglePlayerSprite from '../player/player-sprite-toggle'
-import movePlayerNorth from '../player/player-move-north'
-import movePlayerEast from '../player/player-move-east'
-import movePlayerSouth from '../player/player-move-south'
-import movePlayerWest from '../player/player-move-west'
+import toggleOpacity from '../walls/walls-opacity-toggle.mjs'
+import togglePlayerSprite from '../player/player-sprite-toggle.mjs'
+import movePlayerNorth from '../player/player-move-north.mjs'
+import movePlayerEast from '../player/player-move-east.mjs'
+import movePlayerSouth from '../player/player-move-south.mjs'
+import movePlayerWest from '../player/player-move-west.mjs'
 
 const actionMap = {
   toggleOpacity,

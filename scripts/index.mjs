@@ -1,8 +1,8 @@
-import activateEventManager from './events/index'
-import createBoard from './boards/board-create'
-import createPlayer from './player/player-create'
-import movePlayerTo from './player/player-move-to-position'
-import registerComponents from './components/index'
+import activateEventManager from './events/index.mjs'
+import createBoard from './boards/board-create.mjs'
+import createPlayer from './player/player-create.mjs'
+import movePlayerTo from './player/player-move-to-position.mjs'
+import registerComponents from './components/index.mjs'
 
 registerComponents()
 

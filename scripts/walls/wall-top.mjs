@@ -1,5 +1,5 @@
-import floorTop from '../floors/floor-top'
-import { wallAdjustTop } from './wall-const'
+import floorTop from '../floors/floor-top.mjs'
+import { wallAdjustTop } from './wall-const.mjs'
 
 // Calculates the top position of a wall as the top position of a floor at
 // the same position, adjusted vertically to align with surrounding sprites.

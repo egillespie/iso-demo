@@ -1,4 +1,4 @@
-import createWall from './wall-create'
+import createWall from './wall-create.mjs'
 
 // Creates and renders all of the walls and wall caps in the board
 export default function (board) {
