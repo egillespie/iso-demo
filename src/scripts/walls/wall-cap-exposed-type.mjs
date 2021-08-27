@@ -1,4 +1,4 @@
-import isPositionVisible from '../boards/board-position-is-visible.mjs'
+import isPositionVisible from '../boards/board-position-is-visible'
 
 // Looks up the wall at the specified position and if found:
 //  - Returns 'swc' if the wall has an exposed south-facing wall cap

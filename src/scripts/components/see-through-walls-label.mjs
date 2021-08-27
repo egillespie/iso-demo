@@ -1,4 +1,4 @@
-import state from '../state/index.mjs'
+import state from '../state/index'
 
 export default class SeeThroughWallsLabel extends HTMLSpanElement {
   constructor () {

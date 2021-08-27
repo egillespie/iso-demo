@@ -1,4 +1,4 @@
-import createWallCapIfExposed from './wall-cap-create-if-exposed.mjs'
+import createWallCapIfExposed from './wall-cap-create-if-exposed'
 
 // Removes wall caps that are no longer exposed by translucent walls
 // and adds wall caps where newly exposed.

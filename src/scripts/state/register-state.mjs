@@ -1,4 +1,4 @@
-import StateChangeEvent from './state-change-event.mjs'
+import StateChangeEvent from './state-change-event'
 
 // Defines a new state property that is enumerable and writable. Changing the
 // value of the property will automatically emit a StateChangeEvent containing

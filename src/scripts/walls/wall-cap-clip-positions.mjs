@@ -1,4 +1,4 @@
-import removeUndefinedBoardPositions from '../boards/board-positions-remove-undefined.mjs'
+import removeUndefinedBoardPositions from '../boards/board-positions-remove-undefined'
 
 // Returns an array of wall positions that may leave exposed wall caps if
 // not connected to a solid/opaque wall.

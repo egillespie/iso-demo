@@ -1,5 +1,5 @@
-import moveCardinal from './player-move-cardinal.mjs'
-import { playerCardinalEast } from './player-const.mjs'
+import moveCardinal from './player-move-cardinal'
+import { playerCardinalEast } from './player-const'
 
 // Move the player one space east in the provided board.
 export default function () {

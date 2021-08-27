@@ -1,4 +1,4 @@
-import { floorAdjustLeft } from './floor-const.mjs'
+import { floorAdjustLeft } from './floor-const'
 
 // Calculate the left location of a floor sprite given a row and column
 // to render it in an isometric grid.

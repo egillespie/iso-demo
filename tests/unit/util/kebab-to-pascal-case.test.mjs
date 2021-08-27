@@ -1,4 +1,4 @@
-import kebabToPascalCase from '../../../src/scripts/util/kebab-to-pascal-case.mjs'
+import kebabToPascalCase from '../../../src/scripts/util/kebab-to-pascal-case'
 
 test('converts kebab-case string to PascalCase', () => {
   expect(kebabToPascalCase('kebab')).toEqual('Kebab')

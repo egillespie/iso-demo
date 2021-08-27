@@ -1,5 +1,5 @@
-import { playerAdjustLeft } from './player-const.mjs'
-import floorLeft from '../floors/floor-left.mjs'
+import { playerAdjustLeft } from './player-const'
+import floorLeft from '../floors/floor-left'
 
 // Calculate the left position for placing the player at the specified
 // position in an isometric grid.

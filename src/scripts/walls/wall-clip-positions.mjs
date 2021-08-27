@@ -1,4 +1,4 @@
-import removeUndefinedBoardPositions from '../boards/board-positions-remove-undefined.mjs'
+import removeUndefinedBoardPositions from '../boards/board-positions-remove-undefined'
 
 // Returns an array of wall positions that may clip a sprite appearing
 // at the specified row and column.

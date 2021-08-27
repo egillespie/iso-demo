@@ -1,6 +1,6 @@
-import toggleWallOpacity from './wall-opacity-toggle.mjs'
-import allArrayDifferences from '../util/array-all-differences.mjs'
-import wallClipPositions from './wall-clip-positions.mjs'
+import toggleWallOpacity from './wall-opacity-toggle'
+import allArrayDifferences from '../util/array-all-differences'
+import wallClipPositions from './wall-clip-positions'
 
 // Adjusts the wall opacity, turning off opacity on walls in the old position
 // that no longer obstruct a sprite in the current position, and turning on
