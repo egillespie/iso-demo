@@ -7,26 +7,23 @@
   "author": "Erik Gillespie <erik.gillespie@gmail.com>",
   "scripts": {
     "postinstall": "husky install",
-    "dev": "parcel src/index.html --open",
-    "lint:html": "htmlhint src/*.html",
-    "lint:css": "stylelint src/**/*.css",
-    "lint:js": "standard src/**/*.mjs tests/**/*.mjs",
+    "dev": "live-server",
+    "lint:html": "htmlhint *.html",
+    "lint:css": "stylelint styles/**/*.css",
+    "lint:js": "standard scripts/**/*.mjs tests/**/*.mjs",
     "lint": "run-s lint:*",
     "test:unit": "node --experimental-vm-modules node_modules/.bin/jest",
     "test": "run-s lint test:*",
-    "build:dist": "parcel build src/index.html",
-    "build": "run-s test build:dist"
+    "build": "run-s test"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.15.0",
-    "@parcel/transformer-image": "^2.0.0-nightly.2393",
-    "@parcel/transformer-inline-string": "^2.0.0-nightly.771",
     "htmlhint": "^0.15.1",
     "husky": "^6.0.0",
     "jest": "^27.0.6",
+    "live-server": "^1.2.1",
     "npm-run-all": "^4.1.5",
-    "parcel": "^2.0.0-nightly.769",
-    "postcss": "^8.3.5",
+    "postcss": "^8.3.6",
     "standard": "^16.0.3",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0"
@@ -36,5 +33,6 @@
       "browser",
       "jest"
     ]
-  }
+  },
+  "dependencies": {}
 }

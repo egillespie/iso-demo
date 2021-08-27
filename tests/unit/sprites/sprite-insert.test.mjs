@@ -1,4 +1,4 @@
-const SPRITE_INSERT_MODULE = '../../../src/scripts/sprites/sprite-insert'
+const SPRITE_INSERT_MODULE = '../../../scripts/sprites/sprite-insert'
 
 test('ignores undefined nodes', async () => {
   document.body.innerHTML = '<div id="render-window"></div>'
