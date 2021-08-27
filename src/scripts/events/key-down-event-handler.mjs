@@ -28,6 +28,30 @@ export default class KeyDownEventHandler {
     return KeyDownEventHandler._instance
   }
 
+  // Sources:
+  // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/KeyboardEvent
+  // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code/code_values
+  static get defaultKeyBindings () {
+    return Object.freeze({
+      KeyW: { key: 'w', action: 'movePlayerNorth' },
+      KeyA: { key: 'a', action: 'movePlayerWest' },
+      KeyS: { key: 's', action: 'movePlayerSouth' },
+      KeyD: { key: 'd', action: 'movePlayerEast' },
+      KeyO: { key: 'o', action: 'toggleOpacity' },
+      KeyP: { key: 'p', action: 'togglePlayerSprite' }
+    })
+  }
+
+  static get keyOverrides () {
+    return Object.freeze({
+      ArrowUp: '↑',
+      ArrowDown: '↓',
+      ArrowLeft: '←',
+      ArrowRight: '→',
+      ' ': '﹍'
+    })
+  }
+
   handleEvent (event) {
     if (state.paused) return
     if (document.activeElement === document.body) {
@@ -61,40 +85,20 @@ export default class KeyDownEventHandler {
   }
 
   lookupPrintableKey (key) {
-    return KeyDownEventHandler.KEY_OVERRIDES[key] || key
+    return KeyDownEventHandler.keyOverrides[key] || key
   }
 
   resetKeyBinding (action) {
     const code = this.lookupCodeForAction(
-      action, KeyDownEventHandler.DEFAULT_KEY_BINDINGS
+      action, KeyDownEventHandler.defaultKeyBindings
     )
-    const key = KeyDownEventHandler.DEFAULT_KEY_BINDINGS[code].key
+    const key = KeyDownEventHandler.defaultKeyBindings[code].key
     this.assignKeyBinding(action, { key, code })
   }
 
   resetKeyBindings () {
     // Reset each key separately to trigger state changes for all key bindings
-    Object.values(KeyDownEventHandler.DEFAULT_KEY_BINDINGS)
+    Object.values(KeyDownEventHandler.defaultKeyBindings)
       .forEach(keyBinding => this.resetKeyBinding(keyBinding.action))
   }
 }
-
-// Sources:
-// https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/KeyboardEvent
-// https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code/code_values
-KeyDownEventHandler.DEFAULT_KEY_BINDINGS = Object.freeze({
-  KeyW: { key: 'w', action: 'movePlayerNorth' },
-  KeyA: { key: 'a', action: 'movePlayerWest' },
-  KeyS: { key: 's', action: 'movePlayerSouth' },
-  KeyD: { key: 'd', action: 'movePlayerEast' },
-  KeyO: { key: 'o', action: 'toggleOpacity' },
-  KeyP: { key: 'p', action: 'togglePlayerSprite' }
-})
-
-KeyDownEventHandler.KEY_OVERRIDES = Object.freeze({
-  ArrowUp: '↑',
-  ArrowDown: '↓',
-  ArrowLeft: '←',
-  ArrowRight: '→',
-  ' ': '﹍'
-})

@@ -1,18 +1,28 @@
-import state from '../../state/index.mjs'
-import kebabToCamelCase from '../../util/kebab-to-camel-case.mjs'
-import ModalActionEvent from './modal-action-event.mjs'
-import capitalize from '../../util/capitalize.mjs'
-import createElement from '../util/create-element.mjs'
-import syncAttribute from '../util/sync-attribute.mjs'
-import showElement from '../util/show-element.mjs'
-import hideElement from '../util/hide-element.mjs'
-import changeParentElement from '../util/change-parent-element.mjs'
-import allowFocusWithin from '../util/allow-focus-within.mjs'
-import preventFocusWithin from '../util/prevent-focus-within.mjs'
-import getActiveBuiltinElement from '../util/get-active-builtin-element.mjs'
-import invokeOnChangeAttribute from '../util/invoke-on-change-attribute.mjs'
+import state from '../state/index.mjs'
+import kebabToCamelCase from '../util/kebab-to-camel-case.mjs'
+import capitalize from '../util/capitalize.mjs'
+import createElement from './util/create-element.mjs'
+import syncAttribute from './util/sync-attribute.mjs'
+import showElement from './util/show-element.mjs'
+import hideElement from './util/hide-element.mjs'
+import changeParentElement from './util/change-parent-element.mjs'
+import allowFocusWithin from './util/allow-focus-within.mjs'
+import preventFocusWithin from './util/prevent-focus-within.mjs'
+import getActiveBuiltinElement from './util/get-active-builtin-element.mjs'
+import invokeOnChangeAttribute from './util/invoke-on-change-attribute.mjs'
 
-const html = /* html */`
+// A custom event emitted when a modal popup produces an action (such as
+// closing). The event may also include details about the triggering action.
+export class ModalActionEvent extends CustomEvent {
+  constructor (action, details) {
+    super('modal:action')
+    this.name = this.constructor.name
+    this.action = action
+    this.details = details
+  }
+}
+
+const modalHtml = /* html */`
   <style>
   .hidden {
     display: none;
@@ -89,7 +99,7 @@ const html = /* html */`
   </div>
 `
 
-export default class Modal extends HTMLElement {
+export class Modal extends HTMLElement {
   constructor () {
     super()
     this.buttons = new Map()
@@ -191,7 +201,7 @@ export default class Modal extends HTMLElement {
       tabindex: '-1',
       'aria-hidden': 'true'
     })
-    this.shadowRoot.innerHTML = html
+    this.shadowRoot.innerHTML = modalHtml
     this.modalMask = this.shadowRoot.getElementById('modal-mask')
     this.headingElement = this.shadowRoot.getElementById('heading')
     this.content = this.shadowRoot.getElementById('content')
@@ -263,3 +273,121 @@ export default class Modal extends HTMLElement {
     this.dispatchEvent(new ModalActionEvent('escape'))
   }
 }
+
+export class InfoModal extends Modal {
+  constructor () {
+    super()
+    this.addButton('close-label', 'Close', this.close)
+    super.initializeLayout()
+  }
+
+  static get observedAttributes () {
+    return ['close-label', ...Modal.observedAttributes]
+  }
+
+  escape () {
+    this.close()
+  }
+
+  close () {
+    this.hide()
+    this.dispatchEvent(new ModalActionEvent('close'))
+  }
+}
+
+export class ConfirmModal extends Modal {
+  constructor () {
+    super()
+    this.addButton('confirm-label', 'Confirm', this.confirm)
+    this.addButton('close-label', 'Close', this.close)
+    super.initializeLayout()
+  }
+
+  static get observedAttributes () {
+    return ['confirm-label', 'close-label', ...Modal.observedAttributes]
+  }
+
+  escape () {
+    this.close()
+  }
+
+  close () {
+    this.hide()
+    this.dispatchEvent(new ModalActionEvent('close'))
+  }
+
+  confirm () {
+    this.hide()
+    this.dispatchEvent(new ModalActionEvent('confirm'))
+  }
+}
+
+export class KeyCaptureModal extends Modal {
+  constructor () {
+    super()
+    this.addButton('cancel-label', 'Cancel', this.cancel)
+    this.initializeLayout()
+    this._captureKey = this.captureKey.bind(this)
+  }
+
+  connectedCallback () {
+    super.connectedCallback()
+    window.addEventListener('keydown', this._captureKey)
+  }
+
+  disconnectedCallback () {
+    window.removeEventListener('keydown', this._captureKey)
+    super.disconnectedCallback()
+  }
+
+  static get observedAttributes () {
+    return ['cancel-label', ...Modal.observedAttributes]
+  }
+
+  static get allowedKeyCodes () {
+    return [
+      /^Digit[0-9]$/,
+      /^Key[A-Z]$/,
+      /^Arrow(Left|Right|Up|Down)$/,
+      /^Space$/
+    ]
+  }
+
+  initializeLayout () {
+    super.initializeLayout()
+    const style = createElement('style')
+    style.textContent = /* css */`
+      .key-capture-note {
+        display: inline-block;
+        margin: 0 0 1rem;
+        font-style: italic;
+      }
+    `
+    this.shadowRoot.prepend(style)
+    const notes = createElement('small', { class: 'key-capture-note' })
+    notes.textContent = 'Only arrow keys, space bar, and keys that produce ' +
+      'printable characters can be used.'
+    this.content.append(notes)
+  }
+
+  captureKey (event) {
+    if (KeyCaptureModal.allowedKeyCodes.some(regex => regex.test(event.code))) {
+      event.preventDefault()
+      this.hide()
+      this.dispatchEvent(new ModalActionEvent('key-captured', { event }))
+    }
+  }
+
+  escape () {
+    this.cancel()
+  }
+
+  cancel () {
+    this.hide()
+    this.dispatchEvent(new ModalActionEvent('cancel'))
+  }
+}
+
+customElements.define('info-modal', InfoModal)
+customElements.define('confirm-modal', ConfirmModal)
+customElements.define('key-capture-modal', KeyCaptureModal)
