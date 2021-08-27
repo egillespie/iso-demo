@@ -165,18 +165,18 @@ legend {
 }
 
 .boy {
-  background-image: url(../img/sprite/boy.png);
+  background-image: url(/img/sprite/boy.png);
 }
 
 .girl {
-  background-image: url(../img/sprite/girl.png);
+  background-image: url(/img/sprite/girl.png);
 }
 
 .floor {
   width: 40px;
   height: 30px;
   background-size: 40px 30px;
-  background-image: url(../img/floor/floor.png);
+  background-image: url(/img/floor/floor.png);
 }
 
 .wall {
@@ -192,61 +192,61 @@ legend {
 }
 
 .nsw {
-  background-image: url(../img/wall/nsw.png);
+  background-image: url(/img/wall/nsw.png);
 }
 
 .eww {
-  background-image: url(../img/wall/eww.png);
+  background-image: url(/img/wall/eww.png);
 }
 
 .new {
-  background-image: url(../img/wall/new.png);
+  background-image: url(/img/wall/new.png);
 }
 
 .nww {
-  background-image: url(../img/wall/nww.png);
+  background-image: url(/img/wall/nww.png);
 }
 
 .sew {
-  background-image: url(../img/wall/sew.png);
+  background-image: url(/img/wall/sew.png);
 }
 
 .sww {
-  background-image: url(../img/wall/sww.png);
+  background-image: url(/img/wall/sww.png);
 }
 
 .net {
-  background-image: url(../img/wall/net.png);
+  background-image: url(/img/wall/net.png);
 }
 
 .nwt {
-  background-image: url(../img/wall/nwt.png);
+  background-image: url(/img/wall/nwt.png);
 }
 
 .set {
-  background-image: url(../img/wall/set.png);
+  background-image: url(/img/wall/set.png);
 }
 
 .swt {
-  background-image: url(../img/wall/swt.png);
+  background-image: url(/img/wall/swt.png);
 }
 
 .crt {
-  background-image: url(../img/wall/crt.png);
+  background-image: url(/img/wall/crt.png);
 }
 
 .csp {
-  background-image: url(../img/wall/csp.png);
+  background-image: url(/img/wall/csp.png);
 }
 
 .swc {
-  background-image: url(../img/wall/swc.png);
+  background-image: url(/img/wall/swc.png);
 }
 
 .ewc {
-  background-image: url(../img/wall/ewc.png);
+  background-image: url(/img/wall/ewc.png);
 }
 
 .sec {
-  background-image: url(../img/wall/sec.png);
+  background-image: url(/img/wall/sec.png);
 }
