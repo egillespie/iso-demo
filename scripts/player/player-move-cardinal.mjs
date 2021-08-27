@@ -1,5 +1,5 @@
-import movePlayerTo from './player-move-to-position.mjs'
-import state from '../state/index.mjs'
+import movePlayerTo from './player-move-to-position'
+import state from '../state/index'
 
 // Moves the player one tile in the specified direction. Use the cardinal
 // direction constants in `player/player-const.mjs` (north, south, east, weat)

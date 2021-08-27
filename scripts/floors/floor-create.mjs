@@ -1,9 +1,9 @@
-import createSprite from '../sprites/sprite-create.mjs'
-import insertSprite from '../sprites/sprite-insert.mjs'
-import positionSprite from '../sprites/sprite-position.mjs'
-import floorTop from './floor-top.mjs'
-import floorLeft from './floor-left.mjs'
-import floorZIndex from './floor-z-index.mjs'
+import createSprite from '../sprites/sprite-create'
+import insertSprite from '../sprites/sprite-insert'
+import positionSprite from '../sprites/sprite-position'
+import floorTop from './floor-top'
+import floorLeft from './floor-left'
+import floorZIndex from './floor-z-index'
 
 // Creates and places a floor sprite at the provided row and column in a board
 export default function (board, row, col) {

@@ -1,10 +1,10 @@
-import playerLeft from './player-left.mjs'
-import canPlayerMoveTo from './player-can-move-to-position.mjs'
-import playerTop from './player-top.mjs'
-import playerZIndex from './player-z-index.mjs'
-import positionSprite from '../sprites/sprite-position.mjs'
-import state from '../state/index.mjs'
-import adjustWallVisibility from '../walls/walls-adjust-visibility.mjs'
+import playerLeft from './player-left'
+import canPlayerMoveTo from './player-can-move-to-position'
+import playerTop from './player-top'
+import playerZIndex from './player-z-index'
+import positionSprite from '../sprites/sprite-position'
+import state from '../state/index'
+import adjustWallVisibility from '../walls/walls-adjust-visibility'
 
 export default function (row, col) {
   if (canPlayerMoveTo(row, col)) {

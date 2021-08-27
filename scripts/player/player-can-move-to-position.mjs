@@ -1,4 +1,4 @@
-import state from '../state/index.mjs'
+import state from '../state/index'
 
 // Returns true if no walls exist in the specified position, allowing
 // the player to move there. Returns false otherwise.

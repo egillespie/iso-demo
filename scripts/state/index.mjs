@@ -1,5 +1,5 @@
-import defineStateHolder from './define-state-holder.mjs'
-import registerState from './register-state.mjs'
+import defineStateHolder from './define-state-holder'
+import registerState from './register-state'
 
 // Sample game state:
 // ```

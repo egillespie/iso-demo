@@ -1,4 +1,4 @@
-import floorZIndex from '../floors/floor-z-index.mjs'
+import floorZIndex from '../floors/floor-z-index'
 
 // Calculate the z-index for placing the player at the specified
 // position in an isometric grid.

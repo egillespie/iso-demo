@@ -1,4 +1,4 @@
-import { floorHeight, floorWidth, floorLift } from '../floors/floor-const.mjs'
+import { floorHeight, floorWidth, floorLift } from '../floors/floor-const'
 
 // The width of a wall sprite in pixels
 export const wallWidth = 30

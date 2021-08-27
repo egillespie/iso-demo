@@ -1,4 +1,4 @@
-import state from '../state/index.mjs'
+import state from '../state/index'
 
 // Cycle between different player sprites
 export default function () {

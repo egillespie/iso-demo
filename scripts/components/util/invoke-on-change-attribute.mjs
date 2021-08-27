@@ -1,4 +1,4 @@
-import kebabToPascalCase from '../../util/kebab-to-pascal-case.mjs'
+import kebabToPascalCase from '../../util/kebab-to-pascal-case'
 
 // Call this in a web component's `attributeChangedCallback` function:
 //
