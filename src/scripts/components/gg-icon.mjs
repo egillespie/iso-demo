@@ -1,5 +1,3 @@
-import iconUrl from 'url:../../img/gg-icons.svg'
-
 const html = /* html */`
   <style>
     :host {
@@ -37,7 +35,7 @@ export default class GGIcon extends HTMLElement {
   }
 
   get iconUrl () {
-    return `${iconUrl}#icon-${this.icon}`
+    return `./img/gg-icons.svg#icon-${this.icon}`
   }
 
   static get observedAttributes () {

@@ -124,6 +124,7 @@ export default class KeyBinding extends HTMLElement {
         KeyDownEventHandler.instance().resetKeyBinding(this.action)
       }
       confirmModal.remove()
+      this.resetButton.blur()
     })
     this.shadowRoot.append(confirmModal)
     confirmModal.show = true

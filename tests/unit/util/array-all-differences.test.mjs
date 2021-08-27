@@ -1,4 +1,4 @@
-import allArrayDifferences from '../../../src/scripts/util/array-all-differences.mjs'
+import allArrayDifferences from '../../../src/scripts/util/array-all-differences'
 
 test('includes all differences in first argument', () => {
   const array1 = [1, 2, 3, 4, 5]

@@ -10,7 +10,7 @@ export default class KeyDownEventHandler {
   constructor () {
     // Set key bindings to saved/default values
     this.keyBindings = localStorage.getItem(STORAGE_KEY) === null
-      ? deepCopy(KeyDownEventHandler.DEFAULT_KEY_BINDINGS)
+      ? deepCopy(KeyDownEventHandler.defaultKeyBindings)
       : JSON.parse(localStorage.getItem(STORAGE_KEY))
 
     // Allow others to watch for changes to key bindings
