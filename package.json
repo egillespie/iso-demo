@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.15.0",
-    "htmlhint": "^0.15.1",
+    "htmlhint": "^1.1.4",
     "husky": "^6.0.0",
     "jest": "^27.0.6",
     "live-server": "^1.2.1",
